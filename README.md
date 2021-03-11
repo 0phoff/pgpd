@@ -71,7 +71,8 @@ ymin   0.0  10.0
 xmax  14.0   4.0
 ymax  10.0  14.0
 
->>> # For every PyGEOS function that has a 1-to-1 relation, the DataFrame variant allows inplace modification
+>>> # For every PyGEOS function that has a 1-to-1 relation,
+>>> # the DataFrame variant allows inplace modification
 >>> df.geos.apply(lambda coord: coord*2, inplace=True)
 >>> df
    a                                     poly            pt
@@ -137,9 +138,8 @@ array([[400., 360., 320., 280., 240.],
 The main use case for this library is not to depend on GeoPandas and all of its dependencies.
 However, if you want to, this library provides methods to transform from and to GeoPandas.
 
+_DataFrame_
 ```python
->>> # DataFrame
-
 >>> gdf = df.geos.to_geopandas(geometry='poly', crs='WGS84')
 >>> gdf
    a                                               poly            pt
@@ -169,9 +169,8 @@ pt        geos
 dtype: object
 ```
 
+_Series_
 ```python
->>> # Series
-
 >>> gs = df.pt.geos.to_geopandas(crs='WGS84')
 >>> gs
 0    POINT (0.00000 20.00000)
