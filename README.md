@@ -136,7 +136,7 @@ array([[400., 360., 320., 280., 240.],
 
 # GeoPandas
 The main use case for this library is not to depend on GeoPandas and all of its dependencies.
-However, if you want to, this library provides methods to transform from and to GeoPandas.
+However -if you need to- this library provides methods to convert from and to GeoPandas.
 
 _DataFrame_
 ```python
@@ -187,5 +187,5 @@ Name: pt, dtype: geometry
 2    POINT (4 24)
 3    POINT (6 26)
 4    POINT (8 28)
-dtype: geos
+Name: pt, dtype: geos
 ```

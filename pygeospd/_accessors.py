@@ -18,7 +18,7 @@ __all__ = ['GeosSeriesAccessor', 'GeosDataFrameAccessor']
 class GeosSeriesAccessor:
     def __init__(self, obj):
         if gpd is not None and isinstance(obj, gpd.GeoSeries):
-            obj = pd.Series(GeosArray(obj.array.data))
+            obj = pd.Series(GeosArray(obj.array.data), name=obj.name)
         elif (pd.api.types.pandas_dtype('geos') != obj.dtype):
             raise AttributeError(f'Cannot use "geos" accessor on objects of dtype "{obj.dtype}"')
         self._obj = obj
