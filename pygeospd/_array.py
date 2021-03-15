@@ -64,11 +64,15 @@ class GeosArray(ExtensionArray):
         elif data is None or isinstance(data, self._dtype.type):
             self.data = np.array((data,))
         elif isinstance(data, Iterable) and (data[0] is None or isinstance(data[0], self._dtype.type)):
-            self.data = np.array(data)
+            self.data = np.asarray(data)
         else:
             raise ValueError(f'Data should be an iterable of {self._dtype.type}')
 
         self.data[pd.isnull(self.data)] = None
+
+    @classmethod
+    def __quickinit__(cls, data):
+        pass
 
     @classmethod
     def from_shapely(cls, data, **kwargs):
@@ -203,3 +207,200 @@ class GeosArray(ExtensionArray):
 
     def __array__(self, dtype=None):
         return self.data
+
+    # -------------------------------------------------------------------------
+    # Custom Methods
+    # -------------------------------------------------------------------------
+    def affine(self, matrix):
+        """
+        Performs a 2D or 3D affine transformation on all the coordinates.
+
+        2D
+            [x']   / a  b xoff \ [x]
+            [y'] = | d  e yoff | [y]
+            [1 ]   \ 0  0   1  / [1]
+
+        3D
+            [x']   / a  b  c xoff \ [x]
+            [y'] = | d  e  f yoff | [y]
+            [z']   | g  h  i zoff | [z]
+            [1 ]   \ 0  0  0   1  / [1]
+
+        Args:
+            matrix (np.ndarray or list-like): Affine transformation matrix.
+
+        Returns:
+            pygeospd.GeosArray: Transformed geometries
+
+        Note:
+            The transformation matrix can be one of the following types:
+
+            - np.ndarray <3x3 or 2x3>:
+              Performs a 2D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
+            - list-like <6>:
+              Performs a 2D affine transformation, where the `matrix` represents **(a, b, d, e, xoff, yoff)**.
+            - np.ndarray <4x4 or 3x4>:
+              Performs a 3D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
+            - list-like <12>:
+              Performs a 3D affine transformation, where the `matrix` represents **(a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)**.
+        """
+        # Get Correct Affine transformation matrix
+        if isinstance(matrix, np.ndarray):
+            r, c = matrix.shape
+            zdim = c == 4
+            if r == 2:
+                matrix = np.append(matrix, [[0, 0, 1]], axis=0)
+            elif c == 4 and r == 3:
+                matrix = np.append(matrix, [[0, 0, 0, 1]], axis=0)
+        elif len(matrix) == 6:
+            zdim = False
+            matrix = np.ndarray([
+                [matrix[0], matrix[1], matrix[4]],
+                [matrix[2], matrix[3], matrix[5]],
+                [0,         0,         1],
+            ])
+        elif len(matrix) == 12:
+            zdim = True
+            matrix = np.ndarray([
+                [matrix[0], matrix[1], matrix[2], matrix[9]],
+                [matrix[3], matrix[4], matrix[5], matrix[10]],
+                [matrix[6], matrix[7], matrix[8], matrix[11]],
+                [0,         0,         0,         1],
+            ])
+
+        matrix = matrix[None, ...]
+
+        # Coordinate Function
+        def _affine(points):
+            points = np.c_[points, np.ones(points.shape[0])][..., None]
+            return (matrix @ points)[:, :-1, 0]
+
+        return self.__class__(pygeos.coordinates.apply(self.data, _affine, zdim))
+
+    def __add__(self, other):
+        """
+        Performs an addition between the coordinates array and other.
+
+        Args:
+            other (array-like): Item to add to the coordinates.
+
+        Note:
+            When adding the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we decide whether to use the Z-dimension,
+            depending on the shape of `other`:
+
+            - `other.shape[-1] == 2`: Do not use Z-dimension.
+            - `other.shape[-1] == 3`: Do use Z-dimension.
+            - `else`: Use Z-dimension if there are any.
+        """
+        other = np.asarray(other)
+        shape = other.ndim and other.shape[-1]
+
+        if shape == 2:
+            zdim = False
+        elif shape == 3:
+            zdim = True
+        else:
+            zdim = pygeos.predicates.has_z(self.data).any()
+
+        return self.__class__(pygeos.coordinates.apply(
+            self.data,
+            lambda pt: pt + other,
+            zdim,
+        ))
+
+    def __radd__(self, other):
+        """
+        Performs an right-addition between the coordinates array and other.
+
+        Args:
+            other (array-like): Item to add to the coordinates.
+
+        Note:
+            When adding the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we decide whether to use the Z-dimension,
+            depending on the shape of `other`:
+
+            - `other.shape[-1] == 2`: Do not use Z-dimension.
+            - `other.shape[-1] == 3`: Do use Z-dimension.
+            - `else`: Use Z-dimension if there are any.
+        """
+        other = np.asarray(other)
+        shape = other.ndim and other.shape[-1]
+
+        if shape == 2:
+            zdim = False
+        elif shape == 3:
+            zdim = True
+        else:
+            zdim = pygeos.predicates.has_z(self.data).any()
+
+        return self.__class__(pygeos.coordinates.apply(
+            self.data,
+            lambda pt: other + pt,
+            zdim,
+        ))
+
+    def __mul__(self, other):
+        """
+        Performs a multiplication between the coordinates array and other.
+
+        Args:
+            other (array-like): Item to add to the coordinates.
+
+        Note:
+            When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we decide whether to use the Z-dimension,
+            depending on the shape of `other`:
+
+            - `other.shape[-1] == 2`: Do not use Z-dimension.
+            - `other.shape[-1] == 3`: Do use Z-dimension.
+            - `else`: Use Z-dimension if there are any.
+        """
+        other = np.asarray(other)
+        shape = other.ndim and other.shape[-1]
+
+        if shape == 2:
+            zdim = False
+        elif shape == 3:
+            zdim = True
+        else:
+            zdim = pygeos.predicates.has_z(self.data).any()
+
+        return self.__class__(pygeos.coordinates.apply(
+            self.data,
+            lambda pt: pt * other,
+            zdim,
+        ))
+
+    def __rmul__(self, other):
+        """
+        Performs a right-multiplication between the coordinates array and other.
+
+        Args:
+            other (array-like): Item to add to the coordinates.
+
+        Note:
+            When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we decide whether to use the Z-dimension,
+            depending on the shape of `other`:
+
+            - `other.shape[-1] == 2`: Do not use Z-dimension.
+            - `other.shape[-1] == 3`: Do use Z-dimension.
+            - `else`: Use Z-dimension if there are any.
+        """
+        other = np.asarray(other)
+        shape = other.ndim and other.shape[-1]
+
+        if shape == 2:
+            zdim = False
+        elif shape == 3:
+            zdim = True
+        else:
+            zdim = pygeos.predicates.has_z(self.data).any()
+
+        return self.__class__(pygeos.coordinates.apply(
+            self.data,
+            lambda pt: other * pt,
+            zdim,
+        ))
