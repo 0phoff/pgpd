@@ -1,6 +1,7 @@
 #
 # Geo Accessor for a DataFrame
 #
+from math import sin, cos, tan
 import pandas as pd
 from ._array import GeosArray
 from ._delegated import *
@@ -170,6 +171,138 @@ class GeosSeriesAccessor:
     # STRTree
     # -------------------------------------------------------------------------
     STRTree = get_ReturnMethodUnary('strtree.STRtree')
+
+    # -------------------------------------------------------------------------
+    # Custom Methods
+    # -------------------------------------------------------------------------
+
+    @enableDataFrameExpand
+    def affine(self, matrix):
+        """ TODO """
+        result = self._obj.array.affine(matrix)
+        return pd.Series(result, index=self._obj.index, name='affine')
+
+    @enableDataFrameExpand
+    def translate(self, x, y, z=None):
+        """ TODO """
+        if z is None:
+            result = self._obj.array.affine((0, 0, 0, 0, x, y))
+        else:
+            result = self._obj.array.affine((0, 0, 0, 0, 0, 0, 0, 0, 0, x, y, z))
+
+        return pd.Series(result, index=self._obj.index, name='translate')
+
+    @enableDataFrameExpand
+    def scale(self, x, y, z=None, origin=None):
+        """ TODO """
+        if origin is None:
+            origin = (0, 0, 0)
+        elif isinstance(origin, pygeos.lib.Geometry):
+            if pygeos.get_type_id(origin) != 0:
+                raise TypeError('Origin should be a single point geometry')
+            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+
+        if z is None:
+            x0, y0 = origin[:2]
+            result = self._obj.array.affine((
+                x, 0,
+                0, y,
+                x0 - x * x0,
+                y0 - y * y0,
+            ))
+        else:
+            x0, y0, z0 = origin[:3]
+            result = self._obj.array.affine((
+                x, 0, 0,
+                0, y, 0,
+                0, 0, z,
+                x0 - x * x0,
+                y0 - y * y0,
+                z0 - z * z0,
+            ))
+
+        return pd.Series(result, index=self._obj.index, name='scale')
+
+    @enableDataFrameExpand
+    def skew(self, *angles, origin=None):
+        """ TODO """
+        if origin is None:
+            origin = (0, 0, 0)
+        elif isinstance(origin, pygeos.lib.Geometry):
+            if pygeos.get_type_id(origin) != 0:
+                raise TypeError('Origin should be a single point geometry')
+            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+
+        if len(angles) == 2:
+            x0, y0 = origin[:2]
+            x, y = (tan(a) for a in angles)
+            result = self._obj.array.affine((
+                1, x,
+                y, 1,
+                -(y0*x),
+                -(x0*y),
+            ))
+        elif len(angles) == 6:
+            x0, y0, z0 = origin[:3]
+            xy, xz, yx, yz, zx, zy = (tan(a) for a in angles)
+            result = self._obj.array.affine((
+                1, xy, xz,
+                yx, 1, yz,
+                zx, zy, 1,
+                -(y0*xy + z0*xz),
+                -(x0*yx + z0*yz),
+                -(x0*zx + y0*zy),
+            ))
+        else:
+            raise ValueError('The skew transformation requires 2 or 6 angles')
+
+        return pd.Series(result, index=self._obj.index, name='skew')
+
+    @enableDataFrameExpand
+    def rotate(self, *angles, origin):
+        """ TODO """
+        if origin is None:
+            origin = (0, 0, 0)
+        elif isinstance(origin, pygeos.lib.Geometry):
+            if pygeos.get_type_id(origin) != 0:
+                raise TypeError('Origin should be a single point geometry')
+            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+
+        if len(angles) == 1:
+            x0, y0 = origin[:2]
+            ca = cos(angles[0])
+            sa = sin(angles[0])
+            result = self._obj.array.affine((
+                ca, -sa,
+                sa, ca,
+                x0 - x0*ca + y0*sa,
+                y0 - x0*sa - y0*ca,
+            ))
+        elif len(angles) == 3:
+            x0, y0, z0 = origin[:3]
+            cx, cy, cz = (cos(a) for a in angles)
+            sx, sy, sz = (sin(a) for a in angles)
+            a = cz*cy
+            b = cz*sy*sx - sz*cx
+            c = cz*sy*cx + sz*sx
+            d = sz*cy
+            e = sz*sy*sx + cz*cx
+            f = sz*sy*cx - cz*sx
+            g = -sy
+            h = cy*sx
+            i = cy*cx
+            result = self._obj.array.affine((
+                a, b, c,
+                d, e, f,
+                g, h, i,
+                x0 - a*x0 - b*y0 - c*z0,
+                y0 - d*x0 - e*y0 - f*z0,
+                z0 - g*x0 - h*y0 - i*z0,
+            ))
+        else:
+            raise ValueError('The rotate transformation requires 1 or 3 angles')
+
+        return pd.Series(result, index=self._obj.index, name='rotate')
 
 
 @pd.api.extensions.register_dataframe_accessor("geos")

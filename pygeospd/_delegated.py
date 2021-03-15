@@ -20,6 +20,7 @@ __all__ = [
     'get_MethodBinary',
     'get_DataFrameExpandedProperty',
     'get_DataFrameExpandedMethodUnary',
+    'enableDataFrameExpand',
 ]
 
 
@@ -413,7 +414,7 @@ def get_DataFrameExpandedProperty(name, expansion):
         name (str): Name of the propery in the :class:`pygeospd.GeosSeriesAccessor`.
         expansion (int): Type of dataframe expansion
     """
-    func_summary = getattr(pygeos, name).__doc__.strip().splitlines()[0]
+    func_summary = rgetattr(pygeos, f'{name}.__doc__', '').strip().splitlines()[0]
 
     def delegated1(self, inplace=False):
         """ 
@@ -476,7 +477,7 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
         name (str): Name of the method in the :class:`pygeospd.GeosSeriesAccessor`.
         expansion (int): Type of dataframe expansion
     """
-    func_summary = getattr(pygeos, name).__doc__.strip().splitlines()[0]
+    func_summary = rgetattr(pygeos, f'{name}.__doc__', '').strip().splitlines()[0]
 
     def delegated1(self, *args, inplace=False, **kwargs):
         """ 
@@ -535,3 +536,16 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
     else:
         delegated2.__doc__ = delegated2.__doc__.format(func=name, summary=func_summary)
         return delegated2
+
+
+def enableDataFrameExpand(expansion=1):
+    def decorator(func):
+        func.__DataFrameExpand__ = expansion
+        return func
+
+    # Allow to use decorator without calling
+    if callable(expansion):
+        expansion.__DataFrameExpand__ = 1
+        return expansion
+    else:
+        return decorator
