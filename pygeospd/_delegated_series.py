@@ -1,12 +1,12 @@
 #
-# Delegated Accessor Attributes
+# Delegated Accessor Attributes for Series
 #
-from functools import reduce
 from collections.abc import Iterable
 from warnings import warn
 import numpy as np
 import pandas as pd
 import pygeos
+from ._util import rgetattr, get_summary
 from ._array import GeosArray
 
 __all__ = [
@@ -18,16 +18,8 @@ __all__ = [
     'get_IndexedSeriesMethodUnary',
     'get_IndexedDataFrameMethodUnary',
     'get_MethodBinary',
-    'get_DataFrameExpandedProperty',
-    'get_DataFrameExpandedMethodUnary',
     'enableDataFrameExpand',
 ]
-
-
-def rgetattr(obj, attr, *args):
-    def _getattr(obj, attr):
-        return getattr(obj, attr, *args)
-    return reduce(_getattr, [obj] + attr.split('.'))
 
 
 def get_SeriesProperty(name, index=None, geos=False):
@@ -41,7 +33,7 @@ def get_SeriesProperty(name, index=None, geos=False):
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -49,7 +41,7 @@ def get_SeriesProperty(name, index=None, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
             pd.Series: Series with the results of the function.
@@ -76,7 +68,7 @@ def get_IndexedSeriesProperty(name, geos=False):
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -84,7 +76,7 @@ def get_IndexedSeriesProperty(name, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`pygeos:pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
             pd.Series: Series with the result of the function and the same index.
@@ -114,7 +106,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
         If the returned data has different dtypes, you can pass a list of booleans for the ``geos`` argument.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -125,7 +117,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a DataFrame with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
 
         Returns:
             pd.DataFrame: Dataframe with the results of the function and the same index.
@@ -147,7 +139,7 @@ def get_ReturnMethodUnary(name):
         name (str): Name of the method within the ``pygeos`` module.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -155,11 +147,11 @@ def get_ReturnMethodUnary(name):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns result unmodified.
+        Applies :py:obj:`pygeos.{func}` to the data and returns result unmodified.
 
         Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
         """
         return func(self._obj.array.data, *args, **kwargs)
 
@@ -178,7 +170,7 @@ def get_SeriesMethodUnary(name, index=None, geos=False):
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -186,11 +178,11 @@ def get_SeriesMethodUnary(name, index=None, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
             pd.Series: Series with the results of the function.
@@ -217,7 +209,7 @@ def get_IndexedSeriesMethodUnary(name, geos=False):
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -225,11 +217,11 @@ def get_IndexedSeriesMethodUnary(name, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
             pd.Series: Series with the result of the function and the same index.
@@ -259,7 +251,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
         If the returned data has different dtypes, you can pass a list of booleans for the ``geos`` argument.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -270,11 +262,11 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to the data and returns a DataFrame with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
 
         Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
             pd.DataFrame: Dataframe with the results of the function and the same index.
@@ -291,15 +283,14 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
 
 def get_MethodBinary(name, geos=False):
     """
-    Create a unary method that returns a DataFrame with values and the same index as the original data.
-    This function is used for methods that have a 1-to-many relation with the original data.
+    Create a binary method that runs a PyGEOS function on the original data and some other.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
     func = rgetattr(pygeos, name, None)
-    func_summary = func.__doc__.strip().splitlines()[0]
+    func_summary = get_summary(func.__doc__)
     if func is None:
         raise AttributeError(f'Could not find function "pygeos.{name}"')
 
@@ -307,42 +298,42 @@ def get_MethodBinary(name, geos=False):
         """
         {summary}
 
-        Applies :func:`pygeos.{func}` to ``(self, other)`` and returns the result.
+        Applies :py:obj:`pygeos.{func}` to ``(self, other)`` and returns the result.
         If no ``other`` data is given, the function gets applied to all possible combinations of the ``self`` data, by expanding the array.
 
         Args:
-            other (pd.Series or np.ndarray or pygeos.Geometry, optional): Second argument to :func:`pygeos.{func}`; Default **self**
-            manner ('keep' or 'align' or 'expand', optional): How to apply the :func:`pygeos.{func}` to the data; Default **None** 
-            kwargs: Extra arguments, check :func:`pygeos.{func}` for more details.
+            other (pd.Series or np.ndarray or pygeos.Geometry, optional): Second argument to :py:obj:`~pygeos.{func}`; Default **self**.
+            manner ('keep' or 'align' or 'expand', optional): How to apply the :py:obj:`~pygeos.{func}` to the data; Default **None** .
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
-            pd.Series: Series with the result of the function applied to self and other, with the same index as self.
-            np.ndarray: 2-Dimensional array with the results of the function applied to each combination of geometries between self and other.
+            pandas.Series: Series with the result of the function applied to self and other, with the same index as self.
+            numpy.ndarray: 2-Dimensional array with the results of the function applied to each combination of geometries between self and other.
 
         Raises:
             ValueError: ``other`` argument is not a geos Series or PyGEOS NumPy Array
 
         Note:
-            The ``manner`` argument dictates how the data gets transformed before applying :func:`pygeos.{func}`:
+            The ``manner`` argument dictates how the data gets transformed before applying :py:obj:`~pygeos.{func}`:
             
-            - __'keep'__:
+            - **keep**:
                 Keep the original data as is and simply run the function.
                 This returns a Series where the index is the same as the ``self`` data.
-            - __'align'__:
+            - **align**:
                 Align both Series according to their index, before running the function (we align the data according the ``self`` data).
                 This returns a Series where the index is the same as the ``self`` data.
-            - __'expand'__:
+            - **expand**:
                 Expand the data with a new index, before running the function.
                 This means that the result will be an array of dimensions ``<len(a), len(b)>`` containing the result of all possible combinations of geometries.
                 
             Of course, not every method is applicable for each type of ``other`` input.
             Here are the allowed manners for each type of input, as well as the default value:
 
-            - __Series__: 'keep', 'align', 'expand' (default: 'align')
-            - __1D ndarray__: 'keep', 'expand' (default: 'keep')
-            - __nD ndarray__: 'keep' (default: 'keep')
-            - __Geometry__: 'keep' (default: 'keep')
-            - __None__ (aka. use self): 'expand' (default: 'expand')
+            - *Series*: keep, align, expand (default: align)
+            - *1D ndarray*: keep, expand (default: keep)
+            - *nD ndarray*: keep (default: keep)
+            - *Geometry*: keep (default: keep)
+            - *None* (aka. use self): expand (default: expand)
         """
         if manner is not None:
             manner = manner[0].lower()
@@ -403,139 +394,6 @@ def get_MethodBinary(name, geos=False):
 
     delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
     return delegated
-
-
-def get_DataFrameExpandedProperty(name, expansion):
-    """
-    Create a property that calls the :class:`pygeospd.GeosSeriesAccessor` property
-    on each geos column and groups the result.
-
-    Args:
-        name (str): Name of the propery in the :class:`pygeospd.GeosSeriesAccessor`.
-        expansion (int): Type of dataframe expansion
-    """
-    func_summary = rgetattr(pygeos, f'{name}.__doc__', '').strip().splitlines()[0]
-
-    def delegated1(self, inplace=False):
-        """ 
-        {summary}
-
-        Applies :attr:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
-        and aggregates the results in a DataFrame.
-        This means that for each geos column, we call :func:`pygeos.{func}`.
-
-        Args:
-            inplace (bool, optional): Whether to perform the modifications inplace; Default **False**.
-
-        Returns:
-            pd.DataFrame or None:
-                DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
-        """
-        result = {}
-        for column, dtype in self._obj.dtypes.iteritems():
-            if pd.api.types.pandas_dtype('geos') == dtype:
-                result[column] = getattr(self._obj[column].geos, name)
-
-        if not inplace:
-            return pd.DataFrame.from_dict(result)
-        else:
-            for column, values in result.items():
-                self._obj[column] = values
-
-    def delegated2(self):
-        """ 
-        {summary}
-
-        Applies :attr:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
-        and aggregates the results in a DataFrame.
-        This means that for each geos column, we call :func:`pygeos.{func}`.
-
-        Returns:
-            pd.DataFrame: DataFrame where each "geos" column from the original is transformed.
-        """
-        result = {}
-        for column, dtype in self._obj.dtypes.iteritems():
-            if pd.api.types.pandas_dtype('geos') == dtype:
-                result[column] = getattr(self._obj[column].geos, name)
-
-        return pd.DataFrame.from_dict(result)
-
-    if expansion == 1:
-        delegated1.__doc__ = delegated1.__doc__.format(func=name, summary=func_summary)
-        return delegated1
-    else:
-        delegated2.__doc__ = delegated2.__doc__.format(func=name, summary=func_summary)
-        return property(delegated2)
-
-
-def get_DataFrameExpandedMethodUnary(name, expansion):
-    """
-    Create a unary method that calls the :class:`pygeospd.GeosSeriesAccessor` method
-    on each geos column and aggregates the result.
-
-    Args:
-        name (str): Name of the method in the :class:`pygeospd.GeosSeriesAccessor`.
-        expansion (int): Type of dataframe expansion
-    """
-    func_summary = rgetattr(pygeos, f'{name}.__doc__', '').strip().splitlines()[0]
-
-    def delegated1(self, *args, inplace=False, **kwargs):
-        """ 
-        {summary}
-
-        Applies :func:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
-        and aggregates the results in a DataFrame.
-        This means that for each geos column, we call :func:`pygeos.{func}`.
-
-        Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            inplace (bool, optional): Whether to perform the modifications inplace; Default **False**.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
-
-        Returns:
-            pd.DataFrame or None:
-                DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
-        """
-        result = {}
-        for column, dtype in self._obj.dtypes.iteritems():
-            if pd.api.types.pandas_dtype('geos') == dtype:
-                result[column] = getattr(self._obj[column].geos, name)(*args, **kwargs)
-
-        if not inplace:
-            return pd.DataFrame.from_dict(result)
-        else:
-            for column, values in result.items():
-                self._obj[column] = values
-
-    def delegated2(self, *args, **kwargs):
-        """ 
-        {summary}
-
-        Applies :func:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
-        and aggregates the results in a DataFrame.
-        This means that for each geos column, we call :func:`pygeos.{func}`.
-
-        Args:
-            args: Arguments passed to :func:`pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`pygeos.{func}`.
-
-        Returns:
-            pd.DataFrame or None:
-                DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
-        """
-        result = {}
-        for column, dtype in self._obj.dtypes.iteritems():
-            if pd.api.types.pandas_dtype('geos') == dtype:
-                result[column] = getattr(self._obj[column].geos, name)(*args, **kwargs)
-
-        return pd.DataFrame.from_dict(result)
-
-    if expansion == 1:
-        delegated1.__doc__ = delegated1.__doc__.format(func=name, summary=func_summary)
-        return delegated1
-    else:
-        delegated2.__doc__ = delegated2.__doc__.format(func=name, summary=func_summary)
-        return delegated2
 
 
 def enableDataFrameExpand(expansion=1):

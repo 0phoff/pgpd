@@ -12,7 +12,7 @@ setup.setup(
     name='pygeospd',
     version='0.1.0',
     author='0phoff',
-    description='PyGEOS ExtensionArray for Pandas',
+    description='PyGEOS ExtensionArray for pandas',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     packages=find_packages(),

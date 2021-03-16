@@ -1,3 +1,7 @@
+# Documentation specific
+docs/**/generated
+docs/build
+
 # Python specific
 __pycache__/
 *.py[cod]

@@ -13,12 +13,24 @@ __all__ = ['GeosDtype', 'GeosArray']
 
 
 class GeosDtype(ExtensionDtype):
-    type = pygeos.lib.Geometry
-    name = 'geos'
-    na_value = pd.NA
+    type = pygeos.lib.Geometry      #: Underlying type of the individual Array elements
+    name = 'geos'                   #: Dtype string name
+    na_value = pd.NA                #: NA Value that is used on the user-facing side
 
     @classmethod
     def construct_from_string(cls, string):
+        """
+        Construct this type from a string (ic. :attr:`~GeosDtype.name`).
+
+        Args:
+            string (str): The name of the type.
+
+        Returns:
+            GeosDtype: instance of the dtype.
+
+        Raises:
+            TypeError: string is not equal to "geos".
+        """
         if string == cls.name:
             return cls()
         else:
@@ -28,6 +40,12 @@ class GeosDtype(ExtensionDtype):
 
     @classmethod
     def construct_array_type(cls):
+        """
+        Return the array type associated with this dtype.
+
+        Return:
+            GeosArray: Associated ExtensionArray.
+        """
         return GeosArray
 
 
@@ -51,14 +69,35 @@ def _pygeos_to_shapely(geom):
 
 
 class GeosArray(ExtensionArray):
-    _dtype = GeosDtype()
-    ndim = 1
+    _dtype = GeosDtype()        #: Dtype for this ExtensionArray
+    ndim = 1                    #: Number of dimensions of this ExtensionArray
 
     # -------------------------------------------------------------------------
     # (De-)Serialization
     # -------------------------------------------------------------------------
-
     def __init__(self, data):
+        """
+        Create a GeosArray.
+
+        Args:
+            data (Iterable): Data for the GeosArray (see Note)
+
+        Returns:
+            pygeospd.GeosArray: Data wrapped in a GeosArray.
+
+        Raises:
+            ValueError: data is not of correct type
+
+        Note:
+            The ``data`` argument can be one of different types:
+
+            - *GeosArray* |br|
+                Shallow copy of the internal data.
+            - *None or pygeos.lib.Geometry* |br|
+                Wrap data in an array.
+            - *Iterable of pygeos.lib.Geometry* |br|
+                use ``np.asarray(data)``.
+        """
         if isinstance(data, self.__class__):
             self.data = data.data
         elif data is None or isinstance(data, self._dtype.type):
@@ -71,40 +110,94 @@ class GeosArray(ExtensionArray):
         self.data[pd.isnull(self.data)] = None
 
     @classmethod
-    def __quickinit__(cls, data):
-        pass
-
-    @classmethod
     def from_shapely(cls, data, **kwargs):
+        """
+        Create a GeosArray from shapely data. |br|
+        This function is a simple wrapper around :func:`pygeos.io.from_shapely`.
+
+        Args:
+            data: Shapely data or list of shapely data.
+            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_shapely`.
+
+        Returns:
+            pygeospd.GeosArray: Data wrapped in a GeosArray.
+        """
         data = pygeos.io.from_shapely(data, **kwargs)
         return cls(data)
 
     @classmethod
     def from_wkb(cls, data, **kwargs):
+        """
+        Create a GeosArray from WKB data. |br|
+        This function is a simple wrapper around :func:`pygeos.io.from_wkb`.
+
+        Args:
+            data: WKB data or list of WKB data.
+            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkb`.
+
+        Returns:
+            pygeospd.GeosArray: Data wrapped in a GeosArray.
+        """
         data = pygeos.io.from_wkb(data, **kwargs)
         return cls(data)
 
     @classmethod
     def from_wkt(cls, data, **kwargs):
+        """
+        Create a GeosArray from WKT data. |br|
+        This function is a simple wrapper around :func:`pygeos.io.from_wkt`.
+
+        Args:
+            data: WKT data or list of WKT data.
+            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkt`.
+
+        Returns:
+            pygeospd.GeosArray: Data wrapped in a GeosArray.
+        """
         data = pygeos.io.from_wkt(data, **kwargs)
         return cls(data)
 
     def to_shapely(self):
+        """
+        Transform the GeosArray to a NumPy array of shapely objects.
+
+        Returns:
+            numpy.ndarray: Array with the shapely data.
+        """
         out = np.empty(len(self.data), dtype=object)
         with IGNORE_SHAPELY2_WARNINGS():
             out[:] = [_pygeos_to_shapely(g) for g in self.data]
         return out
 
     def to_wkb(self, **kwargs):
+        """
+        Transform the GeosArray to a NumPy array of WKB bytes. |br|
+        This function is a simple wrapper around :func:`pygeos.io.to_wkb`.
+
+        Args:
+            kwargs: Keyword arguments passed to :func:`~pygeos.io.to_wkb`.
+
+        Returns:
+            numpy.ndarray: Array with the WKB data.
+        """
         return pygeos.io.to_wkb(self.data, **kwargs)
 
     def to_wkt(self, **kwargs):
+        """
+        Transform the GeosArray to a NumPy array of WKT strings. |br|
+        This function is a simple wrapper around :func:`pygeos.io.to_wkt`.
+
+        Args:
+            kwargs: Keyword arguments passed to :func:`~pygeos.io.to_wkt`.
+
+        Returns:
+            numpy.ndarray: Array with the WKT data.
+        """
         return pygeos.io.to_wkt(self.data, **kwargs)
 
     # -------------------------------------------------------------------------
     # ExtensionArray Specific
     # -------------------------------------------------------------------------
-
     @classmethod
     def _from_sequence(cls, scalars, dtype=None, copy=False):
         if isinstance(scalars, (str, bytes)) or not isinstance(scalars, Iterable):
@@ -143,6 +236,18 @@ class GeosArray(ExtensionArray):
     def __setitem__(self, key, value):
         key = pd.api.indexers.check_array_indexer(self, key)
 
+        if isinstance(key, (slice, list, np.ndarray)):
+            if isinstance(value, self._dtype.type) or value is None:
+                value = np.array((value,))
+            elif isinstance(value, self.__class__):
+                value = value.data
+
+            value[pd.isna(value)] = None
+            self.data[key] = value
+        else:
+            if isinstance(value, Iterable):
+                raise ValueError("cannot set a single element with an array")
+            self.data[key] = value
 
     def __len__(self):
         return self.data.shape[0]
@@ -191,12 +296,17 @@ class GeosArray(ExtensionArray):
         return self.__class__(data)
 
     def _values_for_argsort(self):
-        raise TypeError("geometries are not orderable")
+        """
+        Return values for sorting.
+    
+        Raises:
+            TypeError: Geometries are not sortable.
+        """
+        raise TypeError("geometries are not sortable")
 
     # -------------------------------------------------------------------------
     # NumPy Specific
     # -------------------------------------------------------------------------
-
     @property
     def size(self):
         return self.data.size
@@ -206,25 +316,48 @@ class GeosArray(ExtensionArray):
         return self.data.shape
 
     def __array__(self, dtype=None):
+        """ Return internal NumPy array. """
         return self.data
 
     # -------------------------------------------------------------------------
     # Custom Methods
     # -------------------------------------------------------------------------
     def affine(self, matrix):
-        """
+        r"""
         Performs a 2D or 3D affine transformation on all the coordinates.
 
         2D
-            [x']   / a  b xoff \ [x]
-            [y'] = | d  e yoff | [y]
-            [1 ]   \ 0  0   1  / [1]
+            .. math::
+
+                \begin{bmatrix}
+                    x' \\ y' \\ 1
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    a & b & x_{off} \\
+                    d & e & y_{off} \\
+                    0 & 0 & 1 \\
+                \end{bmatrix}
+                \begin{bmatrix}
+                    x \\ y \\ 1
+                \end{bmatrix}
 
         3D
-            [x']   / a  b  c xoff \ [x]
-            [y'] = | d  e  f yoff | [y]
-            [z']   | g  h  i zoff | [z]
-            [1 ]   \ 0  0  0   1  / [1]
+            .. math::
+
+                \begin{bmatrix}
+                    x' \\ y' \\ z' \\ 1
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    a & b & c & x_{off} \\
+                    d & e & f & y_{off} \\
+                    g & h & i & z_{off} \\
+                    0 & 0 & 0 & 1 \\
+                \end{bmatrix}
+                \begin{bmatrix}
+                    x \\ y \\ z \\ 1
+                \end{bmatrix}
 
         Args:
             matrix (np.ndarray or list-like): Affine transformation matrix.
@@ -235,13 +368,13 @@ class GeosArray(ExtensionArray):
         Note:
             The transformation matrix can be one of the following types:
 
-            - np.ndarray <3x3 or 2x3>:
+            - np.ndarray <3x3 or 2x3> |br|
               Performs a 2D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
-            - list-like <6>:
+            - list-like <6> |br|
               Performs a 2D affine transformation, where the `matrix` represents **(a, b, d, e, xoff, yoff)**.
-            - np.ndarray <4x4 or 3x4>:
+            - np.ndarray <4x4 or 3x4> |br|
               Performs a 3D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
-            - list-like <12>:
+            - list-like <12> |br|
               Performs a 3D affine transformation, where the `matrix` represents **(a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)**.
         """
         # Get Correct Affine transformation matrix

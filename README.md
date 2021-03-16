@@ -1,4 +1,5 @@
-# Pygeos Pandas
+<img src="https://github.com/0phoff/pygeos-pd/blob/master/docs/source/_static/pgpd-logo.svg?raw=true" alt="Logo" width="100%">  
+
 Small wrapper to use pygeos functions from pandas.
 
 The main use case is if you want to have geometries in your dataframe,
