@@ -2,7 +2,7 @@
 
 /* Colors */
 h1 {
-    color: #87341F;
+    color: #682719;
 }
 
 h2 {
@@ -10,12 +10,12 @@ h2 {
 }
 
 .nav li.active>a, .navbar-nav>.active>.nav-link {
-    color: #87341F!important;
+    color: #682719!important;
 }
 
 .toc-entry>.nav-link.active {
-    border-left-color: #87341F;
-    color: #87341F!important;
+    border-left-color: #682719;
+    color: #682719!important;
 }
 
 .nav li>a:hover {
@@ -24,6 +24,23 @@ h2 {
 
 dt:target {
   background: none !important;
+}
+
+a.headerlink {
+    color: #B04021;
+}
+
+a.headerlink:hover {
+    color: white;
+    background-color: #B04021;
+}
+
+a {
+  color: #130754;
+}
+
+a:hover, a:active {
+  color: #e70488;
 }
 
 /* Buttons */
@@ -41,7 +58,7 @@ dt:target {
     border: 1px solid #bbbbbb;
     display: block;
     cursor: pointer;
-    color: #87341F;
+    color: #682719;
     text-align: center;
     text-decoration: none;
     font-size: 140%;
@@ -53,8 +70,8 @@ dt:target {
 }
 
 .button>p>a:hover {
-    border-color: #87341F;
-    color: #B04224;
+    border-color: #682719;
+    color: #B04021;
 }
 
 .button>p>a:active {
