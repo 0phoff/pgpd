@@ -65,7 +65,7 @@ class GeosSeriesAccessor:
             copy (bool, optional): Whether to copy the data or return a wrapper around the same data; Default **False**
 
         Returns:
-            pd.Series: Series with a geos dtype.
+            pandas.Series: Series with a geos dtype.
         """
         if copy:
             return self._obj.copy()
@@ -247,19 +247,19 @@ class GeosSeriesAccessor:
                 \end{bmatrix}
 
         Args:
-            matrix (np.ndarray or list-like): Affine transformation matrix.
+            matrix (numpy.ndarray or list-like): Affine transformation matrix.
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
 
         Note:
             The transformation matrix can be one of the following types:
 
-            - np.ndarray <3x3 or 2x3> |br|
+            - numpy.ndarray <3x3 or 2x3> |br|
               Performs a 2D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
             - list-like <6> |br|
               Performs a 2D affine transformation, where the `matrix` represents **(a, b, d, e, xoff, yoff)**.
-            - np.ndarray <4x4 or 3x4> |br|
+            - numpy.ndarray <4x4 or 3x4> |br|
               Performs a 3D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
             - list-like <12> |br|
               Performs a 3D affine transformation, where the `matrix` represents **(a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)**.
@@ -326,7 +326,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -423,7 +423,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -503,7 +503,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -581,7 +581,7 @@ class GeosSeriesAccessor:
             z (float, optional): Translation value in the Z direction; Default **None**.
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
         """
         if z is None:
             result = self._obj.array.affine((1, 0, 0, 1, x, y))
@@ -599,7 +599,7 @@ class GeosSeriesAccessor:
             func (callable): Function that gets a shapely geometry and should return a shapely geometry or None
 
         Returns:
-            pd.Series: Transformed geometries.
+            pandas.Series: Transformed geometries.
 
         Note:
             This function is supposed to be used when some functionality from is missing from PyGEOS,

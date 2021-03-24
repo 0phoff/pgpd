@@ -45,7 +45,7 @@ def get_SeriesProperty(name, index=None, geos=False):
         Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
-            pd.Series: Series with the results of the function.
+            pandas.Series: Series with the results of the function.
         """
         result = func(self._obj.array.data)
         if geos:
@@ -81,7 +81,7 @@ def get_IndexedSeriesProperty(name, geos=False):
         Applies :py:obj:`pygeos:pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
-            pd.Series: Series with the result of the function and the same index.
+            pandas.Series: Series with the result of the function and the same index.
         """
         result = func(self._obj.array.data)
         if geos:
@@ -123,7 +123,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
         Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
 
         Returns:
-            pd.DataFrame: Dataframe with the results of the function and the same index.
+            pandas.DataFrame: Dataframe with the results of the function and the same index.
         """
         result = func(self._obj.array.data)
         if any(geos):
@@ -190,7 +190,7 @@ def get_SeriesMethodUnary(name, index=None, geos=False):
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
-            pd.Series: Series with the results of the function.
+            pandas.Series: Series with the results of the function.
         """
         result = func(self._obj.array.data, *args, **kwargs)
         if geos:
@@ -230,7 +230,7 @@ def get_IndexedSeriesMethodUnary(name, geos=False):
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
-            pd.Series: Series with the result of the function and the same index.
+            pandas.Series: Series with the result of the function and the same index.
         """
         result = func(self._obj.array.data, *args, **kwargs)
         if geos:
@@ -276,7 +276,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
-            pd.DataFrame: Dataframe with the results of the function and the same index.
+            pandas.DataFrame: Dataframe with the results of the function and the same index.
         """
         result = func(self._obj.array.data, *args, **kwargs)
         if any(geos):
@@ -310,7 +310,7 @@ def get_MethodBinary(name, geos=False):
         If no ``other`` data is given, the function gets applied to all possible combinations of the ``self`` data, by expanding the array.
 
         Args:
-            other (pd.Series or np.ndarray or pygeos.Geometry, optional): Second argument to :py:obj:`~pygeos.{func}`; Default **self**.
+            other (pandas.Series or numpy.ndarray or pygeos.Geometry, optional): Second argument to :py:obj:`~pygeos.{func}`; Default **self**.
             manner ('keep' or 'align' or 'expand', optional): How to apply the :py:obj:`~pygeos.{func}` to the data; Default **None** .
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 

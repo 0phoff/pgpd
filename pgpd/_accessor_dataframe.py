@@ -55,7 +55,7 @@ class GeosDataFrameAccessor:
         Transform a :class:`geopandas.GeoDataFrame` into a regular DataFrame with a geos column.
 
         Returns:
-            pd.DataFrame: DataFrame where the geometry column is transformed into a geos dtype.
+            pandas.DataFrame: DataFrame where the geometry column is transformed into a geos dtype.
 
         Note:
             This function always returns a copy of the original data.

@@ -33,7 +33,7 @@ def get_DataFrameExpandedProperty(name, expansion):
             inplace (bool, optional): Whether to perform the modifications inplace; Default **False**.
 
         Returns:
-            pd.DataFrame or None:
+            pandas.DataFrame or None:
                 DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
         """
         result = {}
@@ -55,7 +55,7 @@ def get_DataFrameExpandedProperty(name, expansion):
         and aggregates the results in a DataFrame.
 
         Returns:
-            pd.DataFrame: DataFrame where each "geos" column from the original is transformed.
+            pandas.DataFrame: DataFrame where each "geos" column from the original is transformed.
         """
         result = {}
         for column, dtype in self._obj.dtypes.iteritems():
@@ -96,7 +96,7 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
             kwargs: Keyword arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}`.
 
         Returns:
-            pd.DataFrame or None:
+            pandas.DataFrame or None:
                 DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
         """
         result = {}
@@ -122,7 +122,7 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
             kwargs: Keyword arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}`.
 
         Returns:
-            pd.DataFrame or None:
+            pandas.DataFrame or None:
                 DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
         """
         result = {}

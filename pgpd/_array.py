@@ -374,7 +374,7 @@ class GeosArray(ExtensionArray):
                 \end{bmatrix}
 
         Args:
-            matrix (np.ndarray or list-like): Affine transformation matrix.
+            matrix (numpy.ndarray or list-like): Affine transformation matrix.
 
         Returns:
             pgpd.GeosArray: Transformed geometries
@@ -382,11 +382,11 @@ class GeosArray(ExtensionArray):
         Note:
             The transformation matrix can be one of the following types:
 
-            - np.ndarray <3x3 or 2x3> |br|
+            - numpy.ndarray <3x3 or 2x3> |br|
               Performs a 2D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
             - list-like <6> |br|
               Performs a 2D affine transformation, where the `matrix` represents **(a, b, d, e, xoff, yoff)**.
-            - np.ndarray <4x4 or 3x4> |br|
+            - numpy.ndarray <4x4 or 3x4> |br|
               Performs a 3D affine transformation, where the last row of homogeneous coordinates can optionally be discarded.
             - list-like <12> |br|
               Performs a 3D affine transformation, where the `matrix` represents **(a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)**.
