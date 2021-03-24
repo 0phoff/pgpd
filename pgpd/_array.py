@@ -83,7 +83,7 @@ class GeosArray(ExtensionArray):
             data (Iterable): Data for the GeosArray (see Note)
 
         Returns:
-            pygeospd.GeosArray: Data wrapped in a GeosArray.
+            pgpd.GeosArray: Data wrapped in a GeosArray.
 
         Raises:
             ValueError: data is not of correct type
@@ -102,12 +102,16 @@ class GeosArray(ExtensionArray):
             self.data = data.data
         elif data is None or isinstance(data, self._dtype.type):
             self.data = np.array((data,))
-        elif isinstance(data, Iterable) and (data[0] is None or isinstance(data[0], self._dtype.type)):
-            self.data = np.asarray(data)
+        elif isinstance(data, Iterable):
+            val = next((d for d in data if d is not None), None)
+            if val is None or isinstance(val, self._dtype.type):
+                self.data = np.asarray(data)
+            else:
+                raise TypeError(f'Data should be an iterable of {self._dtype.type}')
         else:
             raise ValueError(f'Data should be an iterable of {self._dtype.type}')
 
-        self.data[pd.isnull(self.data)] = None
+        self.data[pd.isna(self.data)] = None
 
     @classmethod
     def from_shapely(cls, data, **kwargs):
@@ -120,7 +124,7 @@ class GeosArray(ExtensionArray):
             kwargs: Keyword arguments passed to :func:`~pygeos.io.from_shapely`.
 
         Returns:
-            pygeospd.GeosArray: Data wrapped in a GeosArray.
+            pgpd.GeosArray: Data wrapped in a GeosArray.
         """
         data = pygeos.io.from_shapely(data, **kwargs)
         return cls(data)
@@ -136,7 +140,7 @@ class GeosArray(ExtensionArray):
             kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkb`.
 
         Returns:
-            pygeospd.GeosArray: Data wrapped in a GeosArray.
+            pgpd.GeosArray: Data wrapped in a GeosArray.
         """
         data = pygeos.io.from_wkb(data, **kwargs)
         return cls(data)
@@ -152,7 +156,7 @@ class GeosArray(ExtensionArray):
             kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkt`.
 
         Returns:
-            pygeospd.GeosArray: Data wrapped in a GeosArray.
+            pgpd.GeosArray: Data wrapped in a GeosArray.
         """
         data = pygeos.io.from_wkt(data, **kwargs)
         return cls(data)
@@ -206,12 +210,13 @@ class GeosArray(ExtensionArray):
         values = np.array(scalars)
         if copy:
             values = values.copy()
+        val = next((v for v in values if v is not None), None)
 
-        if isinstance(values[0], str):
+        if isinstance(val, str):
             return cls.from_wkt(values)
-        elif isinstance(values[0], bytes):
+        elif isinstance(val, bytes):
             return cls.from_wkb(values)
-        elif ShapelyGeometry is not None and isinstance(values[0], ShapelyGeometry):
+        elif ShapelyGeometry is not None and isinstance(val, ShapelyGeometry):
             return cls.from_shapely(values)
 
         return cls(values)
@@ -237,17 +242,26 @@ class GeosArray(ExtensionArray):
         key = pd.api.indexers.check_array_indexer(self, key)
 
         if isinstance(key, (slice, list, np.ndarray)):
-            if isinstance(value, self._dtype.type) or value is None:
-                value = np.array((value,))
-            elif isinstance(value, self.__class__):
+            if isinstance(value, self.__class__):
                 value = value.data
+            else:
+                value = self._from_sequence(value)
 
-            value[pd.isna(value)] = None
             self.data[key] = value
         else:
             if isinstance(value, Iterable):
                 raise ValueError("cannot set a single element with an array")
-            self.data[key] = value
+
+            if pd.isna(value):
+                self.data[key] = None
+            elif isinstance(value, str):
+                self.data[key] = pygeos.io.from_wkt(value)
+            elif isinstance(value, bytes):
+                self.data[key] = pygeos.io.from_wkb(value)
+            elif ShapelyGeometry is not None and isinstance(value, ShapelyGeometry):
+                self.data[key] = pygeos.io.from_shapely(value)
+            else:
+                self.data[key] = value
 
     def __len__(self):
         return self.data.shape[0]
@@ -363,7 +377,7 @@ class GeosArray(ExtensionArray):
             matrix (np.ndarray or list-like): Affine transformation matrix.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries
+            pgpd.GeosArray: Transformed geometries
 
         Note:
             The transformation matrix can be one of the following types:

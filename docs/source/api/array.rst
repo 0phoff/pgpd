@@ -1,7 +1,7 @@
 Geos ExtensionArray
 ===================
 
-.. currentmodule:: pygeospd
+.. currentmodule:: pgpd
 
 .. autoclass:: GeosArray
    :members: _dtype, ndim

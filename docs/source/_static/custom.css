@@ -1,8 +1,13 @@
-/* Adapted from GeoPandas */
+/* Adapted from Pandas & GeoPandas */
 
 /* Colors */
+:root {
+  /* Use softer blue from bootstrap's default info color */
+  --pst-color-info: 23, 162, 184;
+}
+
 h1 {
-    color: #682719;
+    color: #130754;
 }
 
 h2 {
@@ -10,16 +15,16 @@ h2 {
 }
 
 .nav li.active>a, .navbar-nav>.active>.nav-link {
-    color: #682719!important;
+    color: #E70488 !important;
 }
 
 .toc-entry>.nav-link.active {
-    border-left-color: #682719;
-    color: #682719!important;
+    border-left-color: #130754;
+    color: #E70488 !important;
 }
 
 .nav li>a:hover {
-    color: #333333!important;
+    color: #333333 !important;
 }
 
 dt:target {
@@ -27,12 +32,12 @@ dt:target {
 }
 
 a.headerlink {
-    color: #B04021;
+    color: #FFCA00;
 }
 
 a.headerlink:hover {
     color: white;
-    background-color: #B04021;
+    background-color: #E70488;
 }
 
 a {
@@ -40,7 +45,7 @@ a {
 }
 
 a:hover, a:active {
-  color: #e70488;
+  color: #E70488;
 }
 
 /* Buttons */
@@ -58,7 +63,7 @@ a:hover, a:active {
     border: 1px solid #bbbbbb;
     display: block;
     cursor: pointer;
-    color: #682719;
+    color: #130754;
     text-align: center;
     text-decoration: none;
     font-size: 140%;
@@ -70,8 +75,8 @@ a:hover, a:active {
 }
 
 .button>p>a:hover {
-    border-color: #682719;
-    color: #B04021;
+    border-color: #130754;
+    color: #E70488;
 }
 
 .button>p>a:active {

@@ -16,7 +16,7 @@ except ImportError:
 class GeosDataFrameAccessor:
     """
     Access PyGEOS functionality through the "geos" dataframe accessor keyword.
-    The functions defined here simply call the appropriate functions from :class:`~pygeospd.GeosSeriesAccessor`
+    The functions defined here simply call the appropriate functions from :class:`~pgpd.GeosSeriesAccessor`
     and group the results.
 
     Example:
@@ -107,6 +107,8 @@ for name in dir(GeosSeriesAccessor):
         continue
 
     item = getattr(GeosSeriesAccessor, name)
+    if item is None:
+        delattr(GeosSeriesAccessor, name)
     if isinstance(item, property) and hasattr(item.fget, '__DataFrameExpand__'):
         setattr(GeosDataFrameAccessor, name, get_DataFrameExpandedProperty(name, item.fget.__DataFrameExpand__))
     elif callable(item) and hasattr(item, '__DataFrameExpand__'):

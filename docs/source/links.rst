@@ -13,4 +13,4 @@
 
 .. |pgpdlogo| raw:: html
    
-   <img src="/_static/pgpd-logo.svg" alt="pgpd" class="logo" />
+   <img src="_static/logo.svg" alt="pgpd" class="logo" />

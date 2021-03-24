@@ -1,7 +1,7 @@
 import setuptools as setup
 
 def find_packages():
-    return ['pygeospd'] + ['pygeospd.'+p for p in setup.find_packages('pygeospd')]
+    return ['pgpd'] + ['pgpd.'+p for p in setup.find_packages('pgpd')]
 
 requirements = [
     'pandas >= 1.1',
@@ -9,7 +9,7 @@ requirements = [
 ]
 
 setup.setup(
-    name='pygeospd',
+    name='pgpd',
     version='0.1.0',
     author='0phoff',
     description='PyGEOS ExtensionArray for pandas',

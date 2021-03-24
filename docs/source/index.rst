@@ -6,7 +6,7 @@
 
 |pgpdlogo|
 
-PyGEOS-pandas is a simple wrapper around `PyGEOS`_, in order to allow using it's functionality in `pandas`_. |br|
+pygeospandas is a simple wrapper around `PyGEOS`_, in order to allow using it's functionality in `pandas`_. |br|
 It contains the following pieces:
 
 - *GeosArray & GeosDtype* |br|

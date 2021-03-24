@@ -13,7 +13,7 @@ Note that we need to explicitly set the type of the PyGEOS columns to __"geos"__
 ```python
 >>> import pandas as pd
 >>> import pygeos
->>> import pygeospd
+>>> import pgpd
 
 >>> # Create a DataFrame
 >>> df = pd.DataFrame({

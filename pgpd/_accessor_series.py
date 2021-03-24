@@ -250,7 +250,7 @@ class GeosSeriesAccessor:
             matrix (np.ndarray or list-like): Affine transformation matrix.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries.
+            pd.Series: Transformed geometries.
 
         Note:
             The transformation matrix can be one of the following types:
@@ -326,7 +326,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries.
+            pd.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -423,7 +423,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries.
+            pd.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -503,7 +503,7 @@ class GeosSeriesAccessor:
             origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries.
+            pd.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
@@ -581,7 +581,7 @@ class GeosSeriesAccessor:
             z (float, optional): Translation value in the Z direction; Default **None**.
 
         Returns:
-            pygeospd.GeosArray: Transformed geometries.
+            pd.Series: Transformed geometries.
         """
         if z is None:
             result = self._obj.array.affine((1, 0, 0, 1, x, y))
@@ -589,3 +589,27 @@ class GeosSeriesAccessor:
             result = self._obj.array.affine((1, 0, 0, 0, 1, 0, 0, 0, 1, x, y, z))
 
         return pd.Series(result, index=self._obj.index, name='translate')
+
+    @enableDataFrameExpand
+    def apply_shapely(self, func):
+        """
+        Applies a function to each geometry as a shapely object.
+
+        Args:
+            func (callable): Function that gets a shapely geometry and should return a shapely geometry or None
+
+        Returns:
+            pd.Series: Transformed geometries.
+
+        Note:
+            This function is supposed to be used when some functionality from is missing from PyGEOS,
+            but is available in shapely.
+            However, do note that it is very inneficient.
+
+            1. Transform array to shapely.
+            2. Loop over list and apply function.
+            3. Transform list of shapely to GeosArray.
+            4. Return Series.
+        """
+        result = GeosArray.from_shapely([func(geom) for geom in self._obj.array.to_shapely()])
+        return pd.Series(result, index=self._obj.index, name='shapely')

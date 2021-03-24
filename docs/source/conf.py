@@ -13,12 +13,12 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
-import pygeospd
+import pgpd
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyGEOS-pandas'
+project = 'pygeospandas'
 copyright = '2021, 0phoff'
 author = '0phoff'
 
@@ -48,7 +48,7 @@ intersphinx_mapping = {
 }
 
 def setup(app):
-    app.add_stylesheet("custom.css")
+    app.add_css_file("custom.css")
 
 # Add any paths that contain templates here, relative to this directory.
 autosummary_generate = True
@@ -65,7 +65,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/pgpd-logo.svg"
+html_logo = "_static/logo.svg"
 html_favicon = '_static/favicon.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {

@@ -13,11 +13,11 @@ __all__ = [
 
 def get_DataFrameExpandedProperty(name, expansion):
     """
-    Create a property that calls the :class:`pygeospd.GeosSeriesAccessor` property
+    Create a property that calls the :class:`pgpd.GeosSeriesAccessor` property
     on each geos column and groups the result.
 
     Args:
-        name (str): Name of the propery in the :class:`pygeospd.GeosSeriesAccessor`.
+        name (str): Name of the propery in the :class:`pgpd.GeosSeriesAccessor`.
         expansion (int): Type of dataframe expansion
     """
     func_summary = get_summary(rgetattr(GeosSeriesAccessor, f'{name}.__doc__', None))
@@ -26,7 +26,7 @@ def get_DataFrameExpandedProperty(name, expansion):
         """ 
         {summary}
 
-        Applies :attr:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
+        Applies :attr:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
         and aggregates the results in a DataFrame.
 
         Args:
@@ -51,7 +51,7 @@ def get_DataFrameExpandedProperty(name, expansion):
         """ 
         {summary}
 
-        Applies :attr:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
+        Applies :attr:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
         and aggregates the results in a DataFrame.
 
         Returns:
@@ -74,11 +74,11 @@ def get_DataFrameExpandedProperty(name, expansion):
 
 def get_DataFrameExpandedMethodUnary(name, expansion):
     """
-    Create a unary method that calls the :class:`pygeospd.GeosSeriesAccessor` method
+    Create a unary method that calls the :class:`pgpd.GeosSeriesAccessor` method
     on each geos column and aggregates the result.
 
     Args:
-        name (str): Name of the method in the :class:`pygeospd.GeosSeriesAccessor`.
+        name (str): Name of the method in the :class:`pgpd.GeosSeriesAccessor`.
         expansion (int): Type of dataframe expansion
     """
     func_summary = get_summary(rgetattr(GeosSeriesAccessor, f'{name}.__doc__', None))
@@ -87,13 +87,13 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
         """ 
         {summary}
 
-        Applies :func:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
+        Applies :func:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
         and aggregates the results in a DataFrame.
 
         Args:
-            args: Arguments passed to :func:`~pygeospd.GeosSeriesAccessor.{func}` after the first argument.
+            args: Arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}` after the first argument.
             inplace (bool, optional): Whether to perform the modifications inplace; Default **False**.
-            kwargs: Keyword arguments passed to :func:`~pygeospd.GeosSeriesAccessor.{func}`.
+            kwargs: Keyword arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}`.
 
         Returns:
             pd.DataFrame or None:
@@ -114,12 +114,12 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
         """ 
         {summary}
 
-        Applies :func:`pygeospd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
+        Applies :func:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
         and aggregates the results in a DataFrame.
 
         Args:
-            args: Arguments passed to :func:`~pygeospd.GeosSeriesAccessor.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :func:`~pygeospd.GeosSeriesAccessor.{func}`.
+            args: Arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}`.
 
         Returns:
             pd.DataFrame or None:

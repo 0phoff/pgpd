@@ -35,7 +35,8 @@ def get_SeriesProperty(name, index=None, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self):
         """
@@ -70,7 +71,8 @@ def get_IndexedSeriesProperty(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self):
         """
@@ -108,7 +110,8 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     if isinstance(geos, bool):
         geos = [geos] * len(columns)
@@ -141,7 +144,8 @@ def get_ReturnMethodUnary(name):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self, *args, **kwargs):
         """
@@ -172,7 +176,8 @@ def get_SeriesMethodUnary(name, index=None, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self, *args, **kwargs):
         """
@@ -211,7 +216,8 @@ def get_IndexedSeriesMethodUnary(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self, *args, **kwargs):
         """
@@ -253,7 +259,8 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     if isinstance(geos, bool):
         geos = [geos] * len(columns)
@@ -292,7 +299,8 @@ def get_MethodBinary(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        raise AttributeError(f'Could not find function "pygeos.{name}"')
+        warn(f'Could not find function "pygeos.{name}"')
+        return None
 
     def delegated(self, other=None, manner=None, **kwargs):
         """

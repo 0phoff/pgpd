@@ -1,7 +1,7 @@
 Geos DataFrame Accessor
 =======================
 
-.. currentmodule:: pygeospd
+.. currentmodule:: pgpd
 
 .. autoclass:: GeosDataFrameAccessor
 
@@ -126,6 +126,7 @@ Custom methods to add more functionality.
    GeosDataFrameAccessor.scale
    GeosDataFrameAccessor.skew
    GeosDataFrameAccessor.translate
+   GeosDataFrameAccessor.apply_shapely
 
 
 .. include:: /links.rst

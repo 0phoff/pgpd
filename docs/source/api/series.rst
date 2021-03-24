@@ -1,7 +1,7 @@
 Geos Series Accessor
 ====================
 
-.. currentmodule:: pygeospd
+.. currentmodule:: pgpd
 
 .. autoclass:: GeosSeriesAccessor
 
@@ -194,6 +194,7 @@ Custom methods to add more functionality.
    GeosSeriesAccessor.scale
    GeosSeriesAccessor.skew
    GeosSeriesAccessor.translate
+   GeosSeriesAccessor.apply_shapely
 
 
 .. include:: /links.rst

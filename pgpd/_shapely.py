@@ -9,6 +9,7 @@ import pygeos
 
 try:
     import shapely
+    import shapely.wkb
     from shapely.geometry.base import BaseGeometry as ShapelyGeometry
 except ImportError:
     shapely = None

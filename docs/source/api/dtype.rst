@@ -1,7 +1,7 @@
 Geos ExtensionDtype
 ===================
 
-.. currentmodule:: pygeospd
+.. currentmodule:: pgpd
 
 .. autoclass:: GeosDtype
    :members: type, name, na_value
