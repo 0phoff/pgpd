@@ -92,12 +92,12 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
 
 Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.  
 These functions are also made available on Series, but work slightly differently.
-We added a `manner` argument, which can be one of 3 different values: _keep_, _align_, _expand_.
+We added a `manner` argument, which can be one of 3 different values: *keep*, *align*, *expand*.
 This argument dictates how the 2 sets of geometries are transformed before running the binary function:
 
-- _keep_: Function is run on the input as is.
-- _align_: Align both sets with each other, according to their index (only works when `other` is a Series).
-- _expand_: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension _<len(A), len(B)>_).
+- *keep*: Function is run on the input as is.
+- *align*: Align both sets with each other, according to their index (only works when `other` is a Series).
+- *expand*: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension *<len(A), len(B)>*).
 
 .. code-block:: python
 
@@ -128,7 +128,7 @@ This argument dictates how the 2 sets of geometries are transformed before runni
           [6.32455532, 5.65685425, 6.32455532]])
 
 One last difference is that you can omit the `other` set of geometries.
-The method will then automatically choose the _expand_ mode and use the `self` data twice.
+The method will then automatically choose the *expand* mode and use the `self` data twice.
 
 .. code-block:: python
 
