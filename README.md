@@ -1,7 +1,10 @@
 <img src="https://github.com/0phoff/pygeos-pd/blob/master/docs/source/_static/logo.svg?raw=true" alt="Logo" width="100%">  
 
-Small wrapper to use pygeos functions from pandas.
+[![Version][version-badge]][release-url]
+[![Documentation][doc-badge]][documentation-url]
+<a href="https://ko-fi.com/D1D31LPHE"><img alt="Ko-Fi" src="https://www.ko-fi.com/img/githubbutton_sm.svg" height="20"></a>  
 
+Small wrapper to use pygeos functions from pandas.  
 The main use case is if you want to have geometries in your dataframe,
 but you do not care about CRS at all and thus do not need all the extra features from GeoPandas.
 
@@ -190,3 +193,8 @@ Name: pt, dtype: geometry
 4    POINT (8 28)
 Name: pt, dtype: geos
 ```
+
+[version-badge]: https://img.shields.io/badge/version-0.1.0--alpha-blue
+[doc-badge]: https://img.shields.io/badge/-Documentation-9B59B6.svg
+[release-url]: https://github.com/0phoff/pygeos-pandas/releases
+[documentation-url]: https://0phoff.github.io/pygeos-pandas
