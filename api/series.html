@@ -1,0 +1,705 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geos Series Accessor &#8212; pygeospandas  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/toggleprompt.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="from_geopandas" href="generated/pgpd.GeosSeriesAccessor.from_geopandas.html" />
+    <link rel="prev" title="construct_array_type" href="generated/pgpd.GeosDtype.construct_array_type.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.svg" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../notes/01-start.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../notes/02-benchmark.html">
+  Benchmark
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="array.html">
+   GeosArray
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="dtype.html">
+   GeosDtype
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="current reference internal" href="#">
+   Series Accessor
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="dataframe.html">
+   DataFrame Accessor
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#serialization">
+   Serialization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#geometry">
+   Geometry
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#geometry-creation">
+   Geometry Creation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measurement">
+   Measurement
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predicates">
+   Predicates
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-operations">
+   Set Operations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#constructive-operations">
+   Constructive Operations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linestring-operations">
+   Linestring Operations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coordinate-operations">
+   Coordinate Operations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#strtree">
+   STRTree
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom">
+   Custom
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="geos-series-accessor">
+<h1>Geos Series Accessor<a class="headerlink" href="#geos-series-accessor" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pgpd.GeosSeriesAccessor">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pgpd.</span></code><code class="sig-name descname"><span class="pre">GeosSeriesAccessor</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosSeriesAccessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access PyGEOS functionality through the “geos” series accessor keyword.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;geos&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">0    POINT (0 0)</span>
+<span class="go">1    POINT (1 0)</span>
+<span class="go">2    POINT (2 0)</span>
+<span class="go">3    POINT (3 0)</span>
+<span class="go">4    POINT (4 0)</span>
+<span class="go">5    POINT (5 0)</span>
+<span class="go">6    POINT (6 0)</span>
+<span class="go">7    POINT (7 0)</span>
+<span class="go">8    POINT (8 0)</span>
+<span class="go">9    POINT (9 0)</span>
+<span class="go">dtype: geos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">has_z</span>
+<span class="go">0    False</span>
+<span class="go">1    False</span>
+<span class="go">2    False</span>
+<span class="go">3    False</span>
+<span class="go">4    False</span>
+<span class="go">5    False</span>
+<span class="go">6    False</span>
+<span class="go">7    False</span>
+<span class="go">8    False</span>
+<span class="go">9    False</span>
+<span class="go">Name: has_z, dtype: bool</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="serialization">
+<h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
+<p>Serialization &amp; Deserialization functionality.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.from_geopandas.html#pgpd.GeosSeriesAccessor.from_geopandas" title="pgpd.GeosSeriesAccessor.from_geopandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.from_geopandas</span></code></a></p></td>
+<td><p>Transform a <a class="reference external" href="https://geopandas.org/docs/reference/api/geopandas.GeoSeries.html#geopandas.GeoSeries" title="(in GeoPandas v0.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoSeries</span></code></a> into a regular Series with a geos dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_geopandas.html#pgpd.GeosSeriesAccessor.to_geopandas" title="pgpd.GeosSeriesAccessor.to_geopandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.to_geopandas</span></code></a></p></td>
+<td><p>Convert a geos Series into a <a class="reference external" href="https://geopandas.org/docs/reference/api/geopandas.GeoSeries.html#geopandas.GeoSeries" title="(in GeoPandas v0.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoSeries</span></code></a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="geometry">
+<h2>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/geometry.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Geometry</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_coordinate_dimension.html#pgpd.GeosSeriesAccessor.get_coordinate_dimension" title="pgpd.GeosSeriesAccessor.get_coordinate_dimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_coordinate_dimension</span></code></a></p></td>
+<td><p>Returns the dimensionality of the coordinates in a geometry (2 or 3).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_dimensions.html#pgpd.GeosSeriesAccessor.get_dimensions" title="pgpd.GeosSeriesAccessor.get_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_dimensions</span></code></a></p></td>
+<td><p>Returns the inherent dimensionality of a geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_exterior_ring.html#pgpd.GeosSeriesAccessor.get_exterior_ring" title="pgpd.GeosSeriesAccessor.get_exterior_ring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_exterior_ring</span></code></a></p></td>
+<td><p>Returns the exterior ring of a polygon.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_interior_ring.html#pgpd.GeosSeriesAccessor.get_interior_ring" title="pgpd.GeosSeriesAccessor.get_interior_ring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_interior_ring</span></code></a></p></td>
+<td><p>Returns the nth interior ring of a polygon.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_num_coordinates.html#pgpd.GeosSeriesAccessor.get_num_coordinates" title="pgpd.GeosSeriesAccessor.get_num_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_num_coordinates</span></code></a></p></td>
+<td><p>Returns the total number of coordinates in a geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_num_geometries.html#pgpd.GeosSeriesAccessor.get_num_geometries" title="pgpd.GeosSeriesAccessor.get_num_geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_num_geometries</span></code></a></p></td>
+<td><p>Returns number of geometries in a collection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_num_interior_rings.html#pgpd.GeosSeriesAccessor.get_num_interior_rings" title="pgpd.GeosSeriesAccessor.get_num_interior_rings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_num_interior_rings</span></code></a></p></td>
+<td><p>Returns number of internal rings in a polygon</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_num_points.html#pgpd.GeosSeriesAccessor.get_num_points" title="pgpd.GeosSeriesAccessor.get_num_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_num_points</span></code></a></p></td>
+<td><p>Returns number of points in a linestring or linearring.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_precision.html#pgpd.GeosSeriesAccessor.get_precision" title="pgpd.GeosSeriesAccessor.get_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_precision</span></code></a></p></td>
+<td><p>Get the precision of a geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_srid.html#pgpd.GeosSeriesAccessor.get_srid" title="pgpd.GeosSeriesAccessor.get_srid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_srid</span></code></a></p></td>
+<td><p>Returns the SRID of a geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_type_id.html#pgpd.GeosSeriesAccessor.get_type_id" title="pgpd.GeosSeriesAccessor.get_type_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_type_id</span></code></a></p></td>
+<td><p>Returns the type ID of a geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_x.html#pgpd.GeosSeriesAccessor.get_x" title="pgpd.GeosSeriesAccessor.get_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_x</span></code></a></p></td>
+<td><p>Returns the x-coordinate of a point</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_y.html#pgpd.GeosSeriesAccessor.get_y" title="pgpd.GeosSeriesAccessor.get_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_y</span></code></a></p></td>
+<td><p>Returns the y-coordinate of a point</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_z.html#pgpd.GeosSeriesAccessor.get_z" title="pgpd.GeosSeriesAccessor.get_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_z</span></code></a></p></td>
+<td><p>Returns the z-coordinate of a point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.set_precision.html#pgpd.GeosSeriesAccessor.set_precision" title="pgpd.GeosSeriesAccessor.set_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.set_precision</span></code></a></p></td>
+<td><p>Returns geometry with the precision set to a precision grid size.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.set_srid.html#pgpd.GeosSeriesAccessor.set_srid" title="pgpd.GeosSeriesAccessor.set_srid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.set_srid</span></code></a></p></td>
+<td><p>Returns a geometry with its SRID set.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="geometry-creation">
+<h2>Geometry Creation<a class="headerlink" href="#geometry-creation" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/creation.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Geometry Creation</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.destroy_prepared.html#pgpd.GeosSeriesAccessor.destroy_prepared" title="pgpd.GeosSeriesAccessor.destroy_prepared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.destroy_prepared</span></code></a></p></td>
+<td><p>Destroy the prepared part of a geometry, freeing up memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.prepare.html#pgpd.GeosSeriesAccessor.prepare" title="pgpd.GeosSeriesAccessor.prepare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.prepare</span></code></a></p></td>
+<td><p>Prepare a geometry, improving performance of other operations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="measurement">
+<h2>Measurement<a class="headerlink" href="#measurement" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/measurement.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Measurement</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.area.html#pgpd.GeosSeriesAccessor.area" title="pgpd.GeosSeriesAccessor.area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.area</span></code></a></p></td>
+<td><p>Computes the area of a (multi)polygon.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.bounds.html#pgpd.GeosSeriesAccessor.bounds" title="pgpd.GeosSeriesAccessor.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.bounds</span></code></a></p></td>
+<td><p>Computes the bounds (extent) of a geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.distance.html#pgpd.GeosSeriesAccessor.distance" title="pgpd.GeosSeriesAccessor.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.distance</span></code></a></p></td>
+<td><p>Computes the Cartesian distance between two geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.frechet_distance.html#pgpd.GeosSeriesAccessor.frechet_distance" title="pgpd.GeosSeriesAccessor.frechet_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.frechet_distance</span></code></a></p></td>
+<td><p>Compute the discrete Fréchet distance between two geometries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.hausdorff_distance.html#pgpd.GeosSeriesAccessor.hausdorff_distance" title="pgpd.GeosSeriesAccessor.hausdorff_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.hausdorff_distance</span></code></a></p></td>
+<td><p>Compute the discrete Hausdorff distance between two geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.length.html#pgpd.GeosSeriesAccessor.length" title="pgpd.GeosSeriesAccessor.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.length</span></code></a></p></td>
+<td><p>Computes the length of a (multi)linestring or polygon perimeter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.minimum_clearance.html#pgpd.GeosSeriesAccessor.minimum_clearance" title="pgpd.GeosSeriesAccessor.minimum_clearance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.minimum_clearance</span></code></a></p></td>
+<td><p>Computes the Minimum Clearance distance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.total_bounds.html#pgpd.GeosSeriesAccessor.total_bounds" title="pgpd.GeosSeriesAccessor.total_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.total_bounds</span></code></a></p></td>
+<td><p>Computes the total bounds (extent) of the geometry.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="predicates">
+<h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Predicates</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.contains.html#pgpd.GeosSeriesAccessor.contains" title="pgpd.GeosSeriesAccessor.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.contains</span></code></a></p></td>
+<td><p>Returns True if geometry B is completely inside geometry A.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.covered_by.html#pgpd.GeosSeriesAccessor.covered_by" title="pgpd.GeosSeriesAccessor.covered_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.covered_by</span></code></a></p></td>
+<td><p>Returns True if no point in geometry A is outside geometry B.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.covers.html#pgpd.GeosSeriesAccessor.covers" title="pgpd.GeosSeriesAccessor.covers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.covers</span></code></a></p></td>
+<td><p>Returns True if no point in geometry B is outside geometry A.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.crosses.html#pgpd.GeosSeriesAccessor.crosses" title="pgpd.GeosSeriesAccessor.crosses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.crosses</span></code></a></p></td>
+<td><p>Returns True if the intersection of two geometries spatially crosses.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.disjoint.html#pgpd.GeosSeriesAccessor.disjoint" title="pgpd.GeosSeriesAccessor.disjoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.disjoint</span></code></a></p></td>
+<td><p>Returns True if A and B do not share any point in space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.equals.html#pgpd.GeosSeriesAccessor.equals" title="pgpd.GeosSeriesAccessor.equals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.equals</span></code></a></p></td>
+<td><p>Returns True if A and B are spatially equal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.equals_exact.html#pgpd.GeosSeriesAccessor.equals_exact" title="pgpd.GeosSeriesAccessor.equals_exact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.equals_exact</span></code></a></p></td>
+<td><p>Returns True if A and B are structurally equal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.has_z.html#pgpd.GeosSeriesAccessor.has_z" title="pgpd.GeosSeriesAccessor.has_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.has_z</span></code></a></p></td>
+<td><p>Returns True if a geometry has a Z coordinate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.intersects.html#pgpd.GeosSeriesAccessor.intersects" title="pgpd.GeosSeriesAccessor.intersects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.intersects</span></code></a></p></td>
+<td><p>Returns True if A and B share any portion of space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_ccw.html#pgpd.GeosSeriesAccessor.is_ccw" title="pgpd.GeosSeriesAccessor.is_ccw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_ccw</span></code></a></p></td>
+<td><p>Returns True if a linestring or linearring is counterclockwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_closed.html#pgpd.GeosSeriesAccessor.is_closed" title="pgpd.GeosSeriesAccessor.is_closed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_closed</span></code></a></p></td>
+<td><p>Returns True if a linestring’s first and last points are equal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_empty.html#pgpd.GeosSeriesAccessor.is_empty" title="pgpd.GeosSeriesAccessor.is_empty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_empty</span></code></a></p></td>
+<td><p>Returns True if a geometry is an empty point, polygon, etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_geometry.html#pgpd.GeosSeriesAccessor.is_geometry" title="pgpd.GeosSeriesAccessor.is_geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_geometry</span></code></a></p></td>
+<td><p>Returns True if the object is a geometry</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_missing.html#pgpd.GeosSeriesAccessor.is_missing" title="pgpd.GeosSeriesAccessor.is_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_missing</span></code></a></p></td>
+<td><p>Returns True if the object is not a geometry (None)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_prepared.html#pgpd.GeosSeriesAccessor.is_prepared" title="pgpd.GeosSeriesAccessor.is_prepared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_prepared</span></code></a></p></td>
+<td><p>Returns True if a Geometry is prepared.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_ring.html#pgpd.GeosSeriesAccessor.is_ring" title="pgpd.GeosSeriesAccessor.is_ring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_ring</span></code></a></p></td>
+<td><p>Returns True if a linestring is closed and simple.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_simple.html#pgpd.GeosSeriesAccessor.is_simple" title="pgpd.GeosSeriesAccessor.is_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_simple</span></code></a></p></td>
+<td><p>Returns True if a Geometry has no anomalous geometric points, such as self-intersections or self tangency.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_valid.html#pgpd.GeosSeriesAccessor.is_valid" title="pgpd.GeosSeriesAccessor.is_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_valid</span></code></a></p></td>
+<td><p>Returns True if a geometry is well formed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_valid_input.html#pgpd.GeosSeriesAccessor.is_valid_input" title="pgpd.GeosSeriesAccessor.is_valid_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_valid_input</span></code></a></p></td>
+<td><p>Returns True if the object is a geometry or None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.is_valid_reason.html#pgpd.GeosSeriesAccessor.is_valid_reason" title="pgpd.GeosSeriesAccessor.is_valid_reason"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.is_valid_reason</span></code></a></p></td>
+<td><p>Returns a string stating if a geometry is valid and if not, why.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.overlaps.html#pgpd.GeosSeriesAccessor.overlaps" title="pgpd.GeosSeriesAccessor.overlaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.overlaps</span></code></a></p></td>
+<td><p>Returns True if A and B intersect, but one does not completely contain the other.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.relate.html#pgpd.GeosSeriesAccessor.relate" title="pgpd.GeosSeriesAccessor.relate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.relate</span></code></a></p></td>
+<td><p>Returns a string representation of the DE-9IM intersection matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.relate_pattern.html#pgpd.GeosSeriesAccessor.relate_pattern" title="pgpd.GeosSeriesAccessor.relate_pattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.relate_pattern</span></code></a></p></td>
+<td><p>Returns True if the DE-9IM string code for the relationship between the geometries satisfies the pattern, else False.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.touches.html#pgpd.GeosSeriesAccessor.touches" title="pgpd.GeosSeriesAccessor.touches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.touches</span></code></a></p></td>
+<td><p>Returns True if the only points shared between A and B are on the boundary of A and B.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.within.html#pgpd.GeosSeriesAccessor.within" title="pgpd.GeosSeriesAccessor.within"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.within</span></code></a></p></td>
+<td><p>Returns True if geometry A is completely inside geometry B.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="set-operations">
+<h2>Set Operations<a class="headerlink" href="#set-operations" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/set_operations.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Set Operations</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.coverage_union.html#pgpd.GeosSeriesAccessor.coverage_union" title="pgpd.GeosSeriesAccessor.coverage_union"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.coverage_union</span></code></a></p></td>
+<td><p>Merges multiple polygons into one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.coverage_union_all.html#pgpd.GeosSeriesAccessor.coverage_union_all" title="pgpd.GeosSeriesAccessor.coverage_union_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.coverage_union_all</span></code></a></p></td>
+<td><p>Returns the union of multiple polygons of a geometry collection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.difference.html#pgpd.GeosSeriesAccessor.difference" title="pgpd.GeosSeriesAccessor.difference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.difference</span></code></a></p></td>
+<td><p>Returns the part of geometry A that does not intersect with geometry B.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.intersection.html#pgpd.GeosSeriesAccessor.intersection" title="pgpd.GeosSeriesAccessor.intersection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.intersection</span></code></a></p></td>
+<td><p>Returns the geometry that is shared between input geometries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.intersection_all.html#pgpd.GeosSeriesAccessor.intersection_all" title="pgpd.GeosSeriesAccessor.intersection_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.intersection_all</span></code></a></p></td>
+<td><p>Returns the intersection of multiple geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.symmetric_difference.html#pgpd.GeosSeriesAccessor.symmetric_difference" title="pgpd.GeosSeriesAccessor.symmetric_difference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.symmetric_difference</span></code></a></p></td>
+<td><p>Returns the geometry that represents the portions of input geometries that do not intersect.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.symmetric_difference_all.html#pgpd.GeosSeriesAccessor.symmetric_difference_all" title="pgpd.GeosSeriesAccessor.symmetric_difference_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.symmetric_difference_all</span></code></a></p></td>
+<td><p>Returns the symmetric difference of multiple geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.union.html#pgpd.GeosSeriesAccessor.union" title="pgpd.GeosSeriesAccessor.union"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.union</span></code></a></p></td>
+<td><p>Merges geometries into one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.union_all.html#pgpd.GeosSeriesAccessor.union_all" title="pgpd.GeosSeriesAccessor.union_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.union_all</span></code></a></p></td>
+<td><p>Returns the union of multiple geometries.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="constructive-operations">
+<h2>Constructive Operations<a class="headerlink" href="#constructive-operations" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/constructive.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Constructive Operations</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.boundary.html#pgpd.GeosSeriesAccessor.boundary" title="pgpd.GeosSeriesAccessor.boundary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.boundary</span></code></a></p></td>
+<td><p>Returns the topological boundary of a geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.buffer.html#pgpd.GeosSeriesAccessor.buffer" title="pgpd.GeosSeriesAccessor.buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.buffer</span></code></a></p></td>
+<td><p>Computes the buffer of a geometry for positive and negative buffer radius.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.centroid.html#pgpd.GeosSeriesAccessor.centroid" title="pgpd.GeosSeriesAccessor.centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.centroid</span></code></a></p></td>
+<td><p>Computes the geometric center (center-of-mass) of a geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.clip_by_rect.html#pgpd.GeosSeriesAccessor.clip_by_rect" title="pgpd.GeosSeriesAccessor.clip_by_rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.clip_by_rect</span></code></a></p></td>
+<td><p>Returns the portion of a geometry within a rectangle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.convex_hull.html#pgpd.GeosSeriesAccessor.convex_hull" title="pgpd.GeosSeriesAccessor.convex_hull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.convex_hull</span></code></a></p></td>
+<td><p>Computes the minimum convex geometry that encloses an input geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.delaunay_triangles.html#pgpd.GeosSeriesAccessor.delaunay_triangles" title="pgpd.GeosSeriesAccessor.delaunay_triangles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.delaunay_triangles</span></code></a></p></td>
+<td><p>Computes a Delaunay triangulation around the vertices of an input geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.envelope.html#pgpd.GeosSeriesAccessor.envelope" title="pgpd.GeosSeriesAccessor.envelope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.envelope</span></code></a></p></td>
+<td><p>Computes the minimum bounding box that encloses an input geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.extract_unique_points.html#pgpd.GeosSeriesAccessor.extract_unique_points" title="pgpd.GeosSeriesAccessor.extract_unique_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.extract_unique_points</span></code></a></p></td>
+<td><p>Returns all distinct vertices of an input geometry as a multipoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.make_valid.html#pgpd.GeosSeriesAccessor.make_valid" title="pgpd.GeosSeriesAccessor.make_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.make_valid</span></code></a></p></td>
+<td><p>Repairs invalid geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.normalize.html#pgpd.GeosSeriesAccessor.normalize" title="pgpd.GeosSeriesAccessor.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.normalize</span></code></a></p></td>
+<td><p>Converts Geometry to normal form (or canonical form).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.offset_curve.html#pgpd.GeosSeriesAccessor.offset_curve" title="pgpd.GeosSeriesAccessor.offset_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.offset_curve</span></code></a></p></td>
+<td><p>Returns a (Multi)LineString at a distance from the object on its right or its left side.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.point_on_surface.html#pgpd.GeosSeriesAccessor.point_on_surface" title="pgpd.GeosSeriesAccessor.point_on_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.point_on_surface</span></code></a></p></td>
+<td><p>Returns a point that intersects an input geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.reverse.html#pgpd.GeosSeriesAccessor.reverse" title="pgpd.GeosSeriesAccessor.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.reverse</span></code></a></p></td>
+<td><p>Returns a copy of a Geometry with the order of coordinates reversed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.simplify.html#pgpd.GeosSeriesAccessor.simplify" title="pgpd.GeosSeriesAccessor.simplify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.simplify</span></code></a></p></td>
+<td><p>Returns a simplified version of an input geometry using the Douglas-Peucker algorithm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.snap.html#pgpd.GeosSeriesAccessor.snap" title="pgpd.GeosSeriesAccessor.snap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.snap</span></code></a></p></td>
+<td><p>Snaps an input geometry to reference geometry’s vertices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.voronoi_polygons.html#pgpd.GeosSeriesAccessor.voronoi_polygons" title="pgpd.GeosSeriesAccessor.voronoi_polygons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.voronoi_polygons</span></code></a></p></td>
+<td><p>Computes a Voronoi diagram from the vertices of an input geometry.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="linestring-operations">
+<h2>Linestring Operations<a class="headerlink" href="#linestring-operations" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Linestring Operations</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.line_interpolate_point.html#pgpd.GeosSeriesAccessor.line_interpolate_point" title="pgpd.GeosSeriesAccessor.line_interpolate_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.line_interpolate_point</span></code></a></p></td>
+<td><p>Returns a point interpolated at given distance on a line.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.line_locate_point.html#pgpd.GeosSeriesAccessor.line_locate_point" title="pgpd.GeosSeriesAccessor.line_locate_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.line_locate_point</span></code></a></p></td>
+<td><p>Returns the distance to the line origin of given point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.line_merge.html#pgpd.GeosSeriesAccessor.line_merge" title="pgpd.GeosSeriesAccessor.line_merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.line_merge</span></code></a></p></td>
+<td><p>Returns (multi)linestrings formed by combining the lines in a multilinestrings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.shared_paths.html#pgpd.GeosSeriesAccessor.shared_paths" title="pgpd.GeosSeriesAccessor.shared_paths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.shared_paths</span></code></a></p></td>
+<td><p>Returns the shared paths between geom1 and geom2.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="coordinate-operations">
+<h2>Coordinate Operations<a class="headerlink" href="#coordinate-operations" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/coordinates.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Coordinate Operations</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.apply.html#pgpd.GeosSeriesAccessor.apply" title="pgpd.GeosSeriesAccessor.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.apply</span></code></a></p></td>
+<td><p>Returns a copy of a geometry array with a function applied to its coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.count_coordinates.html#pgpd.GeosSeriesAccessor.count_coordinates" title="pgpd.GeosSeriesAccessor.count_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.count_coordinates</span></code></a></p></td>
+<td><p>Counts the number of coordinate pairs in a geometry array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.get_coordinates.html#pgpd.GeosSeriesAccessor.get_coordinates" title="pgpd.GeosSeriesAccessor.get_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.get_coordinates</span></code></a></p></td>
+<td><p>Gets coordinates from a geometry array as an array of floats.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.set_coordinates.html#pgpd.GeosSeriesAccessor.set_coordinates" title="pgpd.GeosSeriesAccessor.set_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.set_coordinates</span></code></a></p></td>
+<td><p>Returns a copy of a geometry array with different coordinates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="strtree">
+<h2>STRTree<a class="headerlink" href="#strtree" title="Permalink to this headline">¶</a></h2>
+<p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/strtree.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS STRTree</span></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.STRTree.html#pgpd.GeosSeriesAccessor.STRTree" title="pgpd.GeosSeriesAccessor.STRTree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.STRTree</span></code></a></p></td>
+<td><p>A query-only R-tree created using the Sort-Tile-Recursive (STR) algorithm.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="custom">
+<h2>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h2>
+<p>Custom methods to add more functionality.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.affine.html#pgpd.GeosSeriesAccessor.affine" title="pgpd.GeosSeriesAccessor.affine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.affine</span></code></a></p></td>
+<td><p>Performs a 2D or 3D affine transformation on all the coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.rotate.html#pgpd.GeosSeriesAccessor.rotate" title="pgpd.GeosSeriesAccessor.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.rotate</span></code></a></p></td>
+<td><p>Performs a 2D or 3D rotation on all the coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.scale.html#pgpd.GeosSeriesAccessor.scale" title="pgpd.GeosSeriesAccessor.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.scale</span></code></a></p></td>
+<td><p>Performs a 2D or 3D scaling on all the coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.skew.html#pgpd.GeosSeriesAccessor.skew" title="pgpd.GeosSeriesAccessor.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.skew</span></code></a></p></td>
+<td><p>Performs a 2D or 3D skew/shear transformation on all the coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.translate.html#pgpd.GeosSeriesAccessor.translate" title="pgpd.GeosSeriesAccessor.translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.translate</span></code></a></p></td>
+<td><p>Performs a 2D or 3D translation on all the coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.apply_shapely.html#pgpd.GeosSeriesAccessor.apply_shapely" title="pgpd.GeosSeriesAccessor.apply_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.apply_shapely</span></code></a></p></td>
+<td><p>Applies a function to each geometry as a shapely object.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="generated/pgpd.GeosDtype.construct_array_type.html" title="previous page">construct_array_type</a>
+    <a class='right-next' id="next-link" href="generated/pgpd.GeosSeriesAccessor.from_geopandas.html" title="next page">from_geopandas</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, 0phoff.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

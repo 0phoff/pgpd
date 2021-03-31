@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started &#8212; pygeospandas  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/toggleprompt.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Documentation" href="../api/index.html" />
+    <link rel="prev" title="GeoPandas" href="../index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.svg" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="02-benchmark.html">
+  Benchmark
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example">
+   Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#geopandas">
+   GeoPandas
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>pygeospandas is available as a python wheel on the Python Package Index (PyPi).
+Install as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pygeospandas
+</pre></div>
+</div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Let’s get started by first creating a dataframe with PyGEOS data.
+Note that we need to explicitly set the type of the PyGEOS columns to <strong>“geos”</strong>!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pygeos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pgpd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create a DataFrame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+<span class="gp">... </span>  <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">),</span>
+<span class="gp">... </span>  <span class="s1">&#39;poly&#39;</span><span class="p">:</span> <span class="n">pygeos</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span>  <span class="s1">&#39;pt&#39;</span><span class="p">:</span> <span class="n">pygeos</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;poly&#39;</span><span class="p">:</span><span class="s1">&#39;geos&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">:</span><span class="s1">&#39;geos&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">   a                                     poly            pt</span>
+<span class="go">0  a  POLYGON ((0 0, 0 10, 10 10, 10 0, 0 0))  POINT (0 10)</span>
+<span class="go">1  b  POLYGON ((1 0, 1 10, 11 10, 11 0, 1 0))  POINT (1 11)</span>
+<span class="go">2  c  POLYGON ((2 0, 2 10, 12 10, 12 0, 2 0))  POINT (2 12)</span>
+<span class="go">3  d  POLYGON ((3 0, 3 10, 13 10, 13 0, 3 0))  POINT (3 13)</span>
+<span class="go">4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)</span>
+</pre></div>
+</div>
+<p>We can access pygeos functionality through the “geos” accessor namespace.
+PyGEOS functions that don’t require any arguments besides the geometries are accessed as properties on the Series,
+others are accessed as methods.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">length</span>
+<span class="go">0    40.0</span>
+<span class="go">1    40.0</span>
+<span class="go">2    40.0</span>
+<span class="go">3    40.0</span>
+<span class="go">4    40.0</span>
+<span class="go">Name: length, dtype: float64</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="go">xmin     0.0</span>
+<span class="go">ymin    10.0</span>
+<span class="go">xmax     4.0</span>
+<span class="go">ymax    14.0</span>
+<span class="go">Name: total_bounds, dtype: float64</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">clip_by_rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">0    POLYGON ((0 0, 0 10, 5 10, 5 0, 0 0))</span>
+<span class="go">1    POLYGON ((1 0, 1 10, 5 10, 5 0, 1 0))</span>
+<span class="go">2    POLYGON ((2 0, 2 10, 5 10, 5 0, 2 0))</span>
+<span class="go">3    POLYGON ((3 0, 3 10, 5 10, 5 0, 3 0))</span>
+<span class="go">4    POLYGON ((4 0, 4 10, 5 10, 5 0, 4 0))</span>
+<span class="go">Name: clip_by_rect, dtype: geos</span>
+</pre></div>
+</div>
+<p>While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.
+The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fixed number of outputs (ic. xmin,ymin,xmax,ymax)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="go">      poly    pt</span>
+<span class="go">xmin   0.0   0.0</span>
+<span class="go">ymin   0.0  10.0</span>
+<span class="go">xmax  14.0   4.0</span>
+<span class="go">ymax  10.0  14.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For every PyGEOS function that has a 1-to-1 relation,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># the DataFrame variant allows inplace modification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">coord</span><span class="p">:</span> <span class="n">coord</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">   a                                     poly            pt</span>
+<span class="go">0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)</span>
+</pre></div>
+</div>
+<p>Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.
+These functions are also made available on Series, but work slightly differently.
+We added a <cite>manner</cite> argument, which can be one of 3 different values: _keep_, _align_, _expand_.
+This argument dictates how the 2 sets of geometries are transformed before running the binary function:</p>
+<ul class="simple">
+<li><p>_keep_: Function is run on the input as is.</p></li>
+<li><p>_align_: Align both sets with each other, according to their index (only works when <cite>other</cite> is a Series).</p></li>
+<li><p>_expand_: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension _&lt;len(A), len(B)&gt;_).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># KEEP: Just runs the `contains` function on the &quot;poly&quot; column data and the given Point</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="s2">&quot;Point (23 10)&quot;</span><span class="p">),</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;keep&#39;</span><span class="p">)</span>
+<span class="go">0    False</span>
+<span class="go">1    False</span>
+<span class="go">2     True</span>
+<span class="go">3     True</span>
+<span class="go">4     True</span>
+<span class="go">Name: contains, dtype: bool</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ALIGN: We only pass 3 points, but tell the function to align the data according to the index</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;align&#39;</span><span class="p">)</span>
+<span class="go">0    NaN</span>
+<span class="go">1    2.0</span>
+<span class="go">2    4.0</span>
+<span class="go">3    6.0</span>
+<span class="go">4    NaN</span>
+<span class="go">Name: distance, dtype: float64</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># EXPAND: Compare each polygon with each point (returns numpy.ndarray &lt;5,3&gt; in this case)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;expand&#39;</span><span class="p">)</span>
+<span class="go">array([[2.        , 4.        , 6.        ],</span>
+<span class="go">       [2.        , 4.        , 6.        ],</span>
+<span class="go">       [2.82842712, 4.        , 6.        ],</span>
+<span class="go">       [4.47213595, 4.47213595, 6.        ],</span>
+<span class="go">       [6.32455532, 5.65685425, 6.32455532]])</span>
+</pre></div>
+</div>
+<p>One last difference is that you can omit the <cite>other</cite> set of geometries.
+The method will then automatically choose the _expand_ mode and use the <cite>self</cite> data twice.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute all possible intersection areas of the geometries in the &quot;poly&quot; column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pygeos</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">intersection</span><span class="p">())</span>
+<span class="go">array([[400., 360., 320., 280., 240.],</span>
+<span class="go">       [360., 400., 360., 320., 280.],</span>
+<span class="go">       [320., 360., 400., 360., 320.],</span>
+<span class="go">       [280., 320., 360., 400., 360.],</span>
+<span class="go">       [240., 280., 320., 360., 400.]])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geopandas">
+<h2>GeoPandas<a class="headerlink" href="#geopandas" title="Permalink to this headline">¶</a></h2>
+<p>The main use case for this library is not to depend on GeoPandas and all of its dependencies.
+However -if you need to- this library provides methods to convert from and to GeoPandas.</p>
+<p class="rubric">DataFrame</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span>
+<span class="go">   a                                               poly            pt</span>
+<span class="go">0  a  POLYGON ((0.00000 0.00000, 0.00000 20.00000, 2...  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((2.00000 0.00000, 2.00000 20.00000, 2...  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((4.00000 0.00000, 4.00000 20.00000, 2...  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((6.00000 0.00000, 6.00000 20.00000, 2...  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((8.00000 0.00000, 8.00000 20.00000, 2...  POINT (8 28)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="go">a         object</span>
+<span class="go">poly    geometry</span>
+<span class="go">pt          geos</span>
+<span class="go">dtype: object</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span>
+<span class="go">   a                                     poly            pt</span>
+<span class="go">0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="go">a       object</span>
+<span class="go">poly      geos</span>
+<span class="go">pt        geos</span>
+<span class="go">dtype: object</span>
+</pre></div>
+</div>
+<p class="rubric">Series</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span>
+<span class="go">0    POINT (0.00000 20.00000)</span>
+<span class="go">1    POINT (2.00000 22.00000)</span>
+<span class="go">2    POINT (4.00000 24.00000)</span>
+<span class="go">3    POINT (6.00000 26.00000)</span>
+<span class="go">4    POINT (8.00000 28.00000)</span>
+<span class="go">Name: pt, dtype: geometry</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span>
+<span class="go">0    POINT (0 20)</span>
+<span class="go">1    POINT (2 22)</span>
+<span class="go">2    POINT (4 24)</span>
+<span class="go">3    POINT (6 26)</span>
+<span class="go">4    POINT (8 28)</span>
+<span class="go">Name: pt, dtype: geos</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">GeoPandas</a>
+    <a class='right-next' id="next-link" href="../api/index.html" title="next page">Documentation</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, 0phoff.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

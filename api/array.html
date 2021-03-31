@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geos ExtensionArray &#8212; pygeospandas  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/toggleprompt.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="__init__" href="generated/pgpd.GeosArray.__init__.html" />
+    <link rel="prev" title="Documentation" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.svg" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../notes/01-start.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../notes/02-benchmark.html">
+  Benchmark
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2 current active">
+  <a class="current reference internal" href="#">
+   GeosArray
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="dtype.html">
+   GeosDtype
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="series.html">
+   Series Accessor
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="dataframe.html">
+   DataFrame Accessor
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#serialization">
+   Serialization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extensionarray-specific">
+   ExtensionArray Specific
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numpy-specific">
+   NumPy Specific
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom">
+   Custom
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="geos-extensionarray">
+<h1>Geos ExtensionArray<a class="headerlink" href="#geos-extensionarray" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pgpd.GeosArray">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pgpd.</span></code><code class="sig-name descname"><span class="pre">GeosArray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosArray" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="pgpd.GeosArray.ndim">
+<code class="sig-name descname"><span class="pre">ndim</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pgpd.GeosArray.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of dimensions of this ExtensionArray</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="serialization">
+<h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
+<p>Serialization &amp; Deserialization functionality.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__init__.html#pgpd.GeosArray.__init__" title="pgpd.GeosArray.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__init__</span></code></a></p></td>
+<td><p>Create a GeosArray.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.from_shapely.html#pgpd.GeosArray.from_shapely" title="pgpd.GeosArray.from_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.from_shapely</span></code></a></p></td>
+<td><p>Create a GeosArray from shapely data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.from_wkb.html#pgpd.GeosArray.from_wkb" title="pgpd.GeosArray.from_wkb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.from_wkb</span></code></a></p></td>
+<td><p>Create a GeosArray from WKB data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.from_wkt.html#pgpd.GeosArray.from_wkt" title="pgpd.GeosArray.from_wkt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.from_wkt</span></code></a></p></td>
+<td><p>Create a GeosArray from WKT data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.to_shapely.html#pgpd.GeosArray.to_shapely" title="pgpd.GeosArray.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.to_shapely</span></code></a></p></td>
+<td><p>Transform the GeosArray to a NumPy array of shapely objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.to_wkb.html#pgpd.GeosArray.to_wkb" title="pgpd.GeosArray.to_wkb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.to_wkb</span></code></a></p></td>
+<td><p>Transform the GeosArray to a NumPy array of WKB bytes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.to_wkt.html#pgpd.GeosArray.to_wkt" title="pgpd.GeosArray.to_wkt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.to_wkt</span></code></a></p></td>
+<td><p>Transform the GeosArray to a NumPy array of WKT strings.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="extensionarray-specific">
+<h2>ExtensionArray Specific<a class="headerlink" href="#extensionarray-specific" title="Permalink to this headline">¶</a></h2>
+<p>Necessary methods for the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.api.extensions.ExtensionArray.html#pandas.api.extensions.ExtensionArray" title="(in pandas v1.2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionArray</span></code></a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray._from_sequence.html#pgpd.GeosArray._from_sequence" title="pgpd.GeosArray._from_sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray._from_sequence</span></code></a></p></td>
+<td><p>Construct a new ExtensionArray from a sequence of scalars.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray._values_for_factorize.html#pgpd.GeosArray._values_for_factorize" title="pgpd.GeosArray._values_for_factorize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray._values_for_factorize</span></code></a></p></td>
+<td><p>Return an array and missing value suitable for factorization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray._from_factorized.html#pgpd.GeosArray._from_factorized" title="pgpd.GeosArray._from_factorized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray._from_factorized</span></code></a></p></td>
+<td><p>Reconstruct an ExtensionArray after factorization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__getitem__.html#pgpd.GeosArray.__getitem__" title="pgpd.GeosArray.__getitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__getitem__</span></code></a></p></td>
+<td><p>Select a subset of self.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__setitem__.html#pgpd.GeosArray.__setitem__" title="pgpd.GeosArray.__setitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__setitem__</span></code></a></p></td>
+<td><p>Set one or more values inplace.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__len__.html#pgpd.GeosArray.__len__" title="pgpd.GeosArray.__len__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__len__</span></code></a></p></td>
+<td><p>Length of this array</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__eq__.html#pgpd.GeosArray.__eq__" title="pgpd.GeosArray.__eq__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__eq__</span></code></a></p></td>
+<td><p>Return for <cite>self == other</cite> (element-wise equality).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.dtype.html#pgpd.GeosArray.dtype" title="pgpd.GeosArray.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.dtype</span></code></a></p></td>
+<td><p>Dtype for this ExtensionArray</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.nbytes.html#pgpd.GeosArray.nbytes" title="pgpd.GeosArray.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.nbytes</span></code></a></p></td>
+<td><p>The number of bytes needed to store this object in memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.isna.html#pgpd.GeosArray.isna" title="pgpd.GeosArray.isna"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.isna</span></code></a></p></td>
+<td><p>A 1-D array indicating if each value is missing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.take.html#pgpd.GeosArray.take" title="pgpd.GeosArray.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.take</span></code></a></p></td>
+<td><p>Take elements from an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.copy.html#pgpd.GeosArray.copy" title="pgpd.GeosArray.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.copy</span></code></a></p></td>
+<td><p>Return a copy of the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray._concat_same_type.html#pgpd.GeosArray._concat_same_type" title="pgpd.GeosArray._concat_same_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray._concat_same_type</span></code></a></p></td>
+<td><p>Concatenate multiple array of this dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray._values_for_argsort.html#pgpd.GeosArray._values_for_argsort" title="pgpd.GeosArray._values_for_argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray._values_for_argsort</span></code></a></p></td>
+<td><p>Return values for sorting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="numpy-specific">
+<h2>NumPy Specific<a class="headerlink" href="#numpy-specific" title="Permalink to this headline">¶</a></h2>
+<p>Methods to make the GeosArray a
+<a class="reference external" href="https://numpy.org/doc/stable/user/basics.dispatch.html#writing-custom-array-containers">NumPy Array Container</a>.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.size.html#pgpd.GeosArray.size" title="pgpd.GeosArray.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.size</span></code></a></p></td>
+<td><p>The number of elements in the array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.shape.html#pgpd.GeosArray.shape" title="pgpd.GeosArray.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.shape</span></code></a></p></td>
+<td><p>Return a tuple of the array dimensions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__array__.html#pgpd.GeosArray.__array__" title="pgpd.GeosArray.__array__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__array__</span></code></a></p></td>
+<td><p>Return internal NumPy array.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="custom">
+<h2>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h2>
+<p>Custom methods to add more functionality.</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.affine.html#pgpd.GeosArray.affine" title="pgpd.GeosArray.affine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.affine</span></code></a></p></td>
+<td><p>Performs a 2D or 3D affine transformation on all the coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__add__.html#pgpd.GeosArray.__add__" title="pgpd.GeosArray.__add__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__add__</span></code></a></p></td>
+<td><p>Performs an addition between the coordinates array and other.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__radd__.html#pgpd.GeosArray.__radd__" title="pgpd.GeosArray.__radd__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__radd__</span></code></a></p></td>
+<td><p>Performs an right-addition between the coordinates array and other.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__mul__.html#pgpd.GeosArray.__mul__" title="pgpd.GeosArray.__mul__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__mul__</span></code></a></p></td>
+<td><p>Performs a multiplication between the coordinates array and other.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__rmul__.html#pgpd.GeosArray.__rmul__" title="pgpd.GeosArray.__rmul__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__rmul__</span></code></a></p></td>
+<td><p>Performs a right-multiplication between the coordinates array and other.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Documentation</a>
+    <a class='right-next' id="next-link" href="generated/pgpd.GeosArray.__init__.html" title="next page">__init__</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, 0phoff.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
