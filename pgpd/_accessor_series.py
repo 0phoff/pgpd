@@ -48,7 +48,7 @@ class GeosSeriesAccessor:
         Name: has_z, dtype: bool
     """
     def __init__(self, obj):
-        if gpd is not None and isinstance(obj, gpd.GeoSeries):
+        if gpd is not None and pd.api.types.pandas_dtype('geometry') == obj.dtype:
             obj = pd.Series(GeosArray(obj.array.data), name=obj.name)
         elif (pd.api.types.pandas_dtype('geos') != obj.dtype):
             raise AttributeError(f'Cannot use "geos" accessor on objects of dtype "{obj.dtype}"')
@@ -101,10 +101,30 @@ class GeosSeriesAccessor:
             return s
 
     # -------------------------------------------------------------------------
+    # Geometry
+    # -------------------------------------------------------------------------
+    get_coordinate_dimension = get_IndexedSeriesProperty('geometry.get_coordinate_dimension')
+    get_dimensions = get_IndexedSeriesProperty('geometry.get_dimensions')
+    get_exterior_ring = get_IndexedSeriesProperty('geometry.get_exterior_ring', geos=True)
+    get_interior_ring = get_IndexedSeriesProperty('geometry.get_interior_ring', geos=True)
+    get_num_coordinates = get_IndexedSeriesProperty('geometry.get_num_coordinates')
+    get_num_geometries = get_IndexedSeriesProperty('geometry.get_num_geometries')
+    get_num_interior_rings = get_IndexedSeriesProperty('geometry.get_num_interior_rings')
+    get_num_points = get_IndexedSeriesProperty('geometry.get_num_points')
+    get_precision = get_IndexedSeriesProperty('geometry.get_precision')
+    get_srid = get_IndexedSeriesProperty('geometry.get_srid')
+    get_type_id = get_IndexedSeriesProperty('geometry.get_type_id')
+    get_x = get_IndexedSeriesProperty('geometry.get_x')
+    get_y = get_IndexedSeriesProperty('geometry.get_y')
+    get_z = get_IndexedSeriesProperty('geometry.get_z')
+    set_precision = get_NoneMethodUnary('geometry.set_precision')
+    set_srid = get_NoneMethodUnary('geometry.set_srid')
+
+    # -------------------------------------------------------------------------
     # Geometry Creation
     # -------------------------------------------------------------------------
-    destroy_prepared = get_ReturnMethodUnary('creation.destroy_prepared')
-    prepare = get_ReturnMethodUnary('creation.prepare')
+    destroy_prepared = get_NoneMethodUnary('creation.destroy_prepared')
+    prepare = get_NoneMethodUnary('creation.prepare')
 
     # -------------------------------------------------------------------------
     # Measurement
@@ -179,7 +199,7 @@ class GeosSeriesAccessor:
     point_on_surface = get_IndexedSeriesProperty('constructive.point_on_surface', geos=True)
     polygonize = get_ReturnMethodUnary('constructive.polygonize')
     reverse = get_IndexedSeriesProperty('constructive.reverse', geos=True)
-    segmentize = None # TODO
+    segmentize = get_ReturnMethodUnary('constructive.segmentize')
     simplify = get_IndexedSeriesProperty('constructive.simplify', geos=True)
     snap = get_IndexedSeriesMethodUnary('constructive.snap', geos=True)
     voronoi_polygons = get_IndexedSeriesMethodUnary('constructive.voronoi_polygons', geos=True)
@@ -197,7 +217,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     apply = get_IndexedSeriesMethodUnary('coordinates.apply', geos=True)
     count_coordinates = get_IndexedSeriesProperty('coordinates.count_coordinates')
-    get_coordinates = get_SeriesMethodUnary('coordinates.get_coordinates')
+    get_coordinates = get_ReturnMethodUnary('coordinates.get_coordinates')
     set_coordinates = get_IndexedSeriesMethodUnary('coordinates.set_coordinates', geos=True)
 
     # -------------------------------------------------------------------------

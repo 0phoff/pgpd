@@ -18,6 +18,32 @@ Serialization & Deserialization functionality.
    GeosSeriesAccessor.from_geopandas
    GeosSeriesAccessor.to_geopandas
 
+Geometry
+--------
+Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
+
+.. autosummary::
+   :toctree: generated
+   :nosignatures:
+   :template: base.rst
+
+   GeosSeriesAccessor.get_coordinate_dimension
+   GeosSeriesAccessor.get_dimensions
+   GeosSeriesAccessor.get_exterior_ring
+   GeosSeriesAccessor.get_interior_ring
+   GeosSeriesAccessor.get_num_coordinates
+   GeosSeriesAccessor.get_num_geometries
+   GeosSeriesAccessor.get_num_interior_rings
+   GeosSeriesAccessor.get_num_points
+   GeosSeriesAccessor.get_precision
+   GeosSeriesAccessor.get_srid
+   GeosSeriesAccessor.get_type_id
+   GeosSeriesAccessor.get_x
+   GeosSeriesAccessor.get_y
+   GeosSeriesAccessor.get_z
+   GeosSeriesAccessor.set_precision
+   GeosSeriesAccessor.set_srid
+
 
 Geometry Creation
 -----------------

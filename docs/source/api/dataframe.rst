@@ -18,6 +18,45 @@ Serialization & Deserialization functionality.
    GeosDataFrameAccessor.from_geopandas
    GeosDataFrameAccessor.to_geopandas
 
+Geometry
+--------
+Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
+
+.. autosummary::
+   :toctree: generated
+   :nosignatures:
+   :template: base.rst
+
+   GeosDataFrameAccessor.get_coordinate_dimension
+   GeosDataFrameAccessor.get_dimensions
+   GeosDataFrameAccessor.get_exterior_ring
+   GeosDataFrameAccessor.get_interior_ring
+   GeosDataFrameAccessor.get_num_coordinates
+   GeosDataFrameAccessor.get_num_geometries
+   GeosDataFrameAccessor.get_num_interior_rings
+   GeosDataFrameAccessor.get_num_points
+   GeosDataFrameAccessor.get_precision
+   GeosDataFrameAccessor.get_srid
+   GeosDataFrameAccessor.get_type_id
+   GeosDataFrameAccessor.get_x
+   GeosDataFrameAccessor.get_y
+   GeosDataFrameAccessor.get_z
+   GeosDataFrameAccessor.set_precision
+   GeosDataFrameAccessor.set_srid
+
+
+Geometry Creation
+-----------------
+Methods from :doc:`PyGEOS Geometry Creation <pygeos:creation>`.
+
+.. autosummary::
+   :toctree: generated
+   :nosignatures:
+   :template: base.rst
+
+   GeosDataFrameAccessor.destroy_prepared
+   GeosDataFrameAccessor.prepare
+
 
 Measurement
 -----------
