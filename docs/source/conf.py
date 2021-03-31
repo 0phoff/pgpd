@@ -34,6 +34,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages',
     'sphinx_toggleprompt',
     'nbsphinx',
     'matplotlib.sphinxext.plot_directive',
