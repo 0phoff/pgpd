@@ -31,6 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          python3 -m pip install wheel
           python3 -m pip install -r ./develop.txt
           python3 -m pip install .
 
