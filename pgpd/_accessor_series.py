@@ -2,9 +2,22 @@
 # Geos Accessor for Series
 #
 from math import sin, cos, tan
+import numpy as np
 import pandas as pd
+import pygeos
 from ._array import GeosArray
-from ._delegated_series import *
+from ._delegated_series import (
+    get_SeriesProperty,
+    get_IndexedSeriesProperty,
+    get_IndexedDataFrameProperty,
+    get_ReturnMethodUnary,
+    get_NoneMethodUnary,
+    # get_SeriesMethodUnary,
+    get_IndexedSeriesMethodUnary,
+    # get_IndexedDataFrameMethodUnary,
+    get_MethodBinary,
+    enableDataFrameExpand,
+)
 
 try:
     import geopandas as gpd
@@ -15,7 +28,7 @@ except ImportError:
 __all__ = ['GeosSeriesAccessor']
 
 
-@pd.api.extensions.register_series_accessor("geos")
+@pd.api.extensions.register_series_accessor('geos')
 class GeosSeriesAccessor:
     """
     Access PyGEOS functionality through the "geos" series accessor keyword.
@@ -77,7 +90,7 @@ class GeosSeriesAccessor:
         Convert a geos Series into a :class:`geopandas.GeoSeries`.
 
         Args:
-            crs (any, optional): CRS to use with GeoPandas, check the docs for more information; Default **None** 
+            crs (any, optional): CRS to use with GeoPandas, check the docs for more information; Default **None**
             copy (bool, optional): Whether to copy the data or return a wrapper around the same data; Default **False**
 
         Returns:
@@ -186,7 +199,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     boundary = get_IndexedSeriesProperty('constructive.boundary', geos=True)
     buffer = get_IndexedSeriesMethodUnary('constructive.buffer', geos=True)
-    build_area = None # TODO
+    build_area = None   # TODO
     centroid = get_IndexedSeriesProperty('constructive.centroid', geos=True)
     clip_by_rect = get_IndexedSeriesMethodUnary('constructive.clip_by_rect', geos=True)
     convex_hull = get_IndexedSeriesProperty('constructive.convex_hull', geos=True)
@@ -516,7 +529,7 @@ class GeosSeriesAccessor:
                 \\
                 x_{off} &= -(y_{origin}*a_{xy} + z_{origin}*a_{xz}) \\
                 y_{off} &= -(x_{origin}*a_{yx} + z_{origin}*a_{yz}) \\
-                z_{off} &= -(x_{origin}*a_{zx} + y_{origin}*a_{zy}) 
+                z_{off} &= -(x_{origin}*a_{zx} + y_{origin}*a_{zy})
 
         Args:
             angles (float): skewing angles (2D: ``[x, y]`` ; 3D: ``[xy, xz, yx, yz, zx, zy]``)

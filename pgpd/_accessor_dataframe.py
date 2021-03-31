@@ -3,7 +3,7 @@
 #
 import pandas as pd
 from ._array import GeosArray
-from ._delegated_dataframe import *
+from ._delegated_dataframe import get_DataFrameExpandedProperty, get_DataFrameExpandedMethodUnary
 from ._accessor_series import GeosSeriesAccessor
 
 try:
@@ -12,7 +12,7 @@ except ImportError:
     gpd = None
 
 
-@pd.api.extensions.register_dataframe_accessor("geos")
+@pd.api.extensions.register_dataframe_accessor('geos')
 class GeosDataFrameAccessor:
     """
     Access PyGEOS functionality through the "geos" dataframe accessor keyword.
@@ -68,7 +68,7 @@ class GeosDataFrameAccessor:
 
         Args:
             geometry (string, optional): Name of the column to use as geometry; Default **Infer if there is only one geos column**
-            crs (any, optional): CRS to use with GeoPandas, check the docs for more information; Default **None** 
+            crs (any, optional): CRS to use with GeoPandas, check the docs for more information; Default **None**
 
         Returns:
             geopandas.GeoDataFrame: The geopandas dataframe.
@@ -89,10 +89,10 @@ class GeosDataFrameAccessor:
 
         geos_columns = self._obj.dtypes[self._obj.dtypes == 'geos'].index
         if geometry is not None and geometry not in geos_columns:
-            raise TypeError(f'Column "{column}" should be of "geos" type')
+            raise TypeError(f'Column "{geometry}" should be of "geos" type')
         elif geometry is None:
             if len(geos_columns) != 1:
-                raise ValueError(f'There are multiple columns of "geos", please specify which one to use as geometry')
+                raise ValueError('There are multiple columns of "geos", please specify which one to use as geometry')
             geometry = geos_columns[0]
 
         df = self._obj.copy()

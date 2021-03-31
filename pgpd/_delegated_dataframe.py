@@ -23,7 +23,7 @@ def get_DataFrameExpandedProperty(name, expansion):
     func_summary = get_summary(rgetattr(GeosSeriesAccessor, f'{name}.__doc__', None))
 
     def delegated1(self, inplace=False):
-        """ 
+        """
         {summary}
 
         Applies :attr:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
@@ -48,7 +48,7 @@ def get_DataFrameExpandedProperty(name, expansion):
                 self._obj[column] = values
 
     def delegated2(self):
-        """ 
+        """
         {summary}
 
         Applies :attr:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
@@ -84,7 +84,7 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
     func_summary = get_summary(rgetattr(GeosSeriesAccessor, f'{name}.__doc__', None))
 
     def delegated1(self, *args, inplace=False, **kwargs):
-        """ 
+        """
         {summary}
 
         Applies :func:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype
@@ -111,7 +111,7 @@ def get_DataFrameExpandedMethodUnary(name, expansion):
                 self._obj[column] = values
 
     def delegated2(self, *args, **kwargs):
-        """ 
+        """
         {summary}
 
         Applies :func:`pgpd.GeosSeriesAccessor.{func}` to each column of "geos" dtype

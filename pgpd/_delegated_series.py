@@ -125,7 +125,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
         """
         result = func(self._obj.array.data)
         if any(geos):
-            result = [GeosArray(result[:, i]) if g else result[:, i] for g,i in zip(geos, range(result.shape[1]))]
+            result = [GeosArray(result[:, i]) if g else result[:, i] for g, i in zip(geos, range(result.shape[1]))]
 
         return pd.DataFrame(result, index=self._obj.index, columns=columns)
 
@@ -307,7 +307,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
         """
         result = func(self._obj.array.data, *args, **kwargs)
         if any(geos):
-            result = [GeosArray(result[:, i]) if g else result[:, i] for g,i in zip(geos, range(result.shape[1]))]
+            result = [GeosArray(result[:, i]) if g else result[:, i] for g, i in zip(geos, range(result.shape[1]))]
 
         return pd.DataFrame(result, index=self._obj.index, columns=columns)
 
@@ -315,7 +315,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
     return delegated
 
 
-def get_MethodBinary(name, geos=False):
+def get_MethodBinary(name, geos=False):     # noqa: C901
     """
     Create a binary method that runs a PyGEOS function on the original data and some other.
 
@@ -349,7 +349,7 @@ def get_MethodBinary(name, geos=False):
 
         Note:
             The ``manner`` argument dictates how the data gets transformed before applying :py:obj:`~pygeos.{func}`:
-            
+
             - **keep**:
                 Keep the original data as is and simply run the function.
                 This returns a Series where the index is the same as the ``self`` data.
@@ -359,7 +359,7 @@ def get_MethodBinary(name, geos=False):
             - **expand**:
                 Expand the data with a new index, before running the function.
                 This means that the result will be an array of dimensions ``<len(a), len(b)>`` containing the result of all possible combinations of geometries.
-                
+
             Of course, not every method is applicable for each type of ``other`` input.
             Here are the allowed manners for each type of input, as well as the default value:
 
@@ -380,14 +380,14 @@ def get_MethodBinary(name, geos=False):
         elif isinstance(other, pd.Series):
             if not (pd.api.types.pandas_dtype('geos') == other.dtype):
                 raise ValueError('"other" should be of dtype "geos".')
-            
+
             if manner == 'e':
                 data = self._obj.array.data[:, np.newaxis]
                 other = other.array.data[np.newaxis, :]
             else:
                 this = self._obj
                 if (manner is None or manner == 'a') and not this.index.equals(other.index):
-                    warn("The indices of the two Series are different, so we align them.")
+                    warn('The indices of the two Series are different, so we align them.')
                     this, other = this.align(other)
 
                 data = this.array.data

@@ -38,9 +38,7 @@ class GeosDtype(ExtensionDtype):
         if string == cls.name:
             return cls()
         else:
-            raise TypeError(
-                "Cannot construct a '{}' from '{}'".format(cls.__name__, string)
-            )
+            raise TypeError(f'Cannot construct a "{cls.__name__}" from "{string}"')
 
     @classmethod
     def construct_array_type(cls):
@@ -221,7 +219,7 @@ class GeosArray(ExtensionArray):
         if isinstance(key, (Iterable, slice)):
             return GeosArray(self.data[key])
         else:
-            raise TypeError("Index type not supported", key)
+            raise TypeError('Index type not supported', key)
 
     def __setitem__(self, key, value):
         key = pd.api.indexers.check_array_indexer(self, key)
@@ -235,7 +233,7 @@ class GeosArray(ExtensionArray):
             self.data[key] = value
         else:
             if isinstance(value, Iterable):
-                raise ValueError("cannot set a single element with an array")
+                raise ValueError('cannot set a single element with an array')
 
             if pd.isna(value):
                 self.data[key] = None
@@ -274,13 +272,13 @@ class GeosArray(ExtensionArray):
             if fill_value is None or pd.isna(fill_value):
                 fill_value = None
             elif not isinstance(fill_value, self.dtype.type):
-                raise TypeError("Provide geometry or None as fill value")
+                raise TypeError('Provide geometry or None as fill value')
 
         result = take(self.data, indices, allow_fill=allow_fill, fill_value=fill_value)
 
         if allow_fill and fill_value is None:
             result[pd.isna(result)] = None
-        
+
         return self.__class__(result)
 
     def copy(self, order='C'):
@@ -294,11 +292,11 @@ class GeosArray(ExtensionArray):
     def _values_for_argsort(self):
         """
         Return values for sorting.
-    
+
         Raises:
             TypeError: Geometries are not sortable.
         """
-        raise TypeError("geometries are not sortable")
+        raise TypeError('geometries are not sortable')
 
     # -------------------------------------------------------------------------
     # NumPy Specific
