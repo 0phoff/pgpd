@@ -7,7 +7,11 @@ import numpy as np
 import pandas as pd
 import pygeos
 from pandas.api.extensions import ExtensionArray, ExtensionDtype, register_extension_dtype
-from ._shapely import shapely, ShapelyGeometry, PYGEOS_SHAPELY_COMPAT, IGNORE_SHAPELY2_WARNINGS
+
+try:
+    from shapely.geometry.base import BaseGeometry as ShapelyGeometry
+except ImportError:
+    ShapelyGeometry = None
 
 __all__ = ['GeosDtype', 'GeosArray']
 
@@ -52,25 +56,9 @@ class GeosDtype(ExtensionDtype):
 register_extension_dtype(GeosDtype)
 
 
-def _pygeos_to_shapely(geom):
-    if geom is None:
-        return None
-
-    if PYGEOS_SHAPELY_COMPAT:
-        geom = shapely.geos.lgeos.GEOSGeom_clone(geom._ptr)
-        return shapely.geometry.base.geom_factory(geom)
-
-    # fallback going through WKB
-    if pygeos.is_empty(geom) and pygeos.get_type_id(geom) == 0:
-        # empty point does not roundtrip through WKB
-        return shapely.wkt.loads("POINT EMPTY")
-    else:
-        return shapely.wkb.loads(pygeos.to_wkb(geom))
-
-
 class GeosArray(ExtensionArray):
-    _dtype = GeosDtype()        #: Dtype for this ExtensionArray
-    ndim = 1                    #: Number of dimensions of this ExtensionArray
+    dtype = GeosDtype()     #: Dtype for this ExtensionArray
+    ndim = 1                #: Number of dimensions of this ExtensionArray
 
     # -------------------------------------------------------------------------
     # (De-)Serialization
@@ -100,16 +88,16 @@ class GeosArray(ExtensionArray):
         """
         if isinstance(data, self.__class__):
             self.data = data.data
-        elif data is None or isinstance(data, self._dtype.type):
+        elif data is None or isinstance(data, self.dtype.type):
             self.data = np.array((data,))
         elif isinstance(data, Iterable):
             val = next((d for d in data if d is not None), None)
-            if val is None or isinstance(val, self._dtype.type):
+            if val is None or isinstance(val, self.dtype.type):
                 self.data = np.asarray(data)
             else:
-                raise TypeError(f'Data should be an iterable of {self._dtype.type}')
+                raise TypeError(f'Data should be an iterable of {self.dtype.type}')
         else:
-            raise ValueError(f'Data should be an iterable of {self._dtype.type}')
+            raise ValueError(f'Data should be an iterable of {self.dtype.type}')
 
         self.data[pd.isna(self.data)] = None
 
@@ -161,17 +149,14 @@ class GeosArray(ExtensionArray):
         data = pygeos.io.from_wkt(data, **kwargs)
         return cls(data)
 
-    def to_shapely(self):
+    def to_shapely(self, **kwargs):
         """
         Transform the GeosArray to a NumPy array of shapely objects.
 
         Returns:
             numpy.ndarray: Array with the shapely data.
         """
-        out = np.empty(len(self.data), dtype=object)
-        with IGNORE_SHAPELY2_WARNINGS():
-            out[:] = [_pygeos_to_shapely(g) for g in self.data]
-        return out
+        return pygeos.io.to_shapely(self.data, **kwargs)
 
     def to_wkb(self, **kwargs):
         """
@@ -276,10 +261,6 @@ class GeosArray(ExtensionArray):
         return self.data == other
 
     @property
-    def dtype(self):
-        return self._dtype
-
-    @property
     def nbytes(self):
         return self.data.nbytes
 
@@ -292,7 +273,7 @@ class GeosArray(ExtensionArray):
         if allow_fill:
             if fill_value is None or pd.isna(fill_value):
                 fill_value = None
-            elif not isinstance(fill_value, self._dtype.type):
+            elif not isinstance(fill_value, self.dtype.type):
                 raise TypeError("Provide geometry or None as fill value")
 
         result = take(self.data, indices, allow_fill=allow_fill, fill_value=fill_value)
@@ -305,9 +286,10 @@ class GeosArray(ExtensionArray):
     def copy(self, order='C'):
         return GeosArray(self.data.copy(order))
 
-    def _concat_same_type(self, to_concat):
+    @classmethod
+    def _concat_same_type(cls, to_concat):
         data = np.concatenate([c.data for c in to_concat])
-        return self.__class__(data)
+        return cls(data)
 
     def _values_for_argsort(self):
         """
