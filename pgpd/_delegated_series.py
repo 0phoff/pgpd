@@ -14,6 +14,7 @@ __all__ = [
     'get_IndexedSeriesProperty',
     'get_IndexedDataFrameProperty',
     'get_ReturnMethodUnary',
+    'get_NoneMethodUnary',
     'get_SeriesMethodUnary',
     'get_IndexedSeriesMethodUnary',
     'get_IndexedDataFrameMethodUnary',
@@ -35,7 +36,6 @@ def get_SeriesProperty(name, index=None, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self):
@@ -71,7 +71,6 @@ def get_IndexedSeriesProperty(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self):
@@ -110,7 +109,6 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     if isinstance(geos, bool):
@@ -144,14 +142,13 @@ def get_ReturnMethodUnary(name):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self, *args, **kwargs):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns result unmodified.
+        Applies :py:obj:`pygeos.{func}` to the data and returns its result unmodified.
 
         Args:
             args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
@@ -160,6 +157,39 @@ def get_ReturnMethodUnary(name):
         return func(self._obj.array.data, *args, **kwargs)
 
     delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    return delegated
+
+
+def get_NoneMethodUnary(name):
+    """
+    Create a unary method that runs the pygeos function on the data and returns itself.
+
+    Args:
+        name (str): Name of the method within the ``pygeos`` module.
+    """
+    func = rgetattr(pygeos, name, None)
+    func_summary = get_summary(func.__doc__)
+    if func is None:
+        return None
+
+    def delegated(self, *args, **kwargs):
+        """
+        {summary}
+
+        Applies :py:obj:`pygeos.{func}` to the data.
+
+        Args:
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+
+        Returns:
+            pandas.Series: returns the series for chaining.
+        """
+        func(self._obj.array.data, *args, **kwargs)
+        return self
+
+    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__DataFrameExpand__ = 1
     return delegated
 
 
@@ -176,7 +206,6 @@ def get_SeriesMethodUnary(name, index=None, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self, *args, **kwargs):
@@ -216,7 +245,6 @@ def get_IndexedSeriesMethodUnary(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self, *args, **kwargs):
@@ -259,7 +287,6 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     if isinstance(geos, bool):
@@ -299,7 +326,6 @@ def get_MethodBinary(name, geos=False):
     func = rgetattr(pygeos, name, None)
     func_summary = get_summary(func.__doc__)
     if func is None:
-        warn(f'Could not find function "pygeos.{name}"')
         return None
 
     def delegated(self, other=None, manner=None, **kwargs):
