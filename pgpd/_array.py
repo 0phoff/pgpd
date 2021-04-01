@@ -381,14 +381,14 @@ class GeosArray(ExtensionArray):
                 matrix = np.append(matrix, [[0, 0, 0, 1]], axis=0)
         elif len(matrix) == 6:
             zdim = False
-            matrix = np.ndarray([
+            matrix = np.array([
                 [matrix[0], matrix[1], matrix[4]],
                 [matrix[2], matrix[3], matrix[5]],
                 [0,         0,         1],
             ])
         elif len(matrix) == 12:
             zdim = True
-            matrix = np.ndarray([
+            matrix = np.array([
                 [matrix[0], matrix[1], matrix[2], matrix[9]],
                 [matrix[3], matrix[4], matrix[5], matrix[10]],
                 [matrix[6], matrix[7], matrix[8], matrix[11]],

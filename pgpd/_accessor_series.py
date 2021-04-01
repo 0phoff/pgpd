@@ -405,7 +405,7 @@ class GeosSeriesAccessor:
         return pd.Series(result, index=self._obj.index, name='rotate')
 
     @enableDataFrameExpand
-    def scale(self, x, y, z=None, origin=None):
+    def scale(self, x, y, z=None, *, origin=None):
         r"""
         Performs a 2D or 3D scaling on all the coordinates.
 

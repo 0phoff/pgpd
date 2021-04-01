@@ -4,7 +4,7 @@ Geos ExtensionArray
 .. currentmodule:: pgpd
 
 .. autoclass:: GeosArray
-   :members: _dtype, ndim
+   :members: dtype, ndim
 
 
 Serialization

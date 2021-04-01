@@ -4,7 +4,7 @@ def find_packages():
     return ['pgpd'] + ['pgpd.'+p for p in setup.find_packages('pgpd')]
 
 requirements = [
-    'pandas >= 1.1',
+    'pandas>=1.1',
     'pygeos',
 ]
 
