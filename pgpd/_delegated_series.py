@@ -121,7 +121,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
         Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
 
         Returns:
-            pandas.DataFrame: Dataframe with the results of the function and the same index.
+            pandas.DataFrame: Dataframe with the results of the function in the columns {columns} and the same index.
         """
         result = func(self._obj.array.data)
         if any(geos):
@@ -129,7 +129,7 @@ def get_IndexedDataFrameProperty(name, columns, geos=False):
 
         return pd.DataFrame(result, index=self._obj.index, columns=columns)
 
-    return property(delegated, doc=delegated.__doc__.format(func=name, summary=func_summary))
+    return property(delegated, doc=delegated.__doc__.format(func=name, summary=func_summary, columns=columns))
 
 
 def get_ReturnMethodUnary(name):
@@ -303,7 +303,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
 
         Returns:
-            pandas.DataFrame: Dataframe with the results of the function and the same index.
+            pandas.DataFrame: Dataframe with the results of the function in the columns {columns} and the same index.
         """
         result = func(self._obj.array.data, *args, **kwargs)
         if any(geos):
@@ -311,7 +311,7 @@ def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
 
         return pd.DataFrame(result, index=self._obj.index, columns=columns)
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary, columns=columns)
     return delegated
 
 
