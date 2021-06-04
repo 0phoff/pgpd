@@ -10,15 +10,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../'))
-import pgpd
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'pygeospandas'
+project = 'pgpd'
 copyright = '2021, 0phoff'
 author = '0phoff'
 
@@ -48,8 +44,10 @@ intersphinx_mapping = {
     'geopandas': ('https://geopandas.org', None),
 }
 
+
 def setup(app):
-    app.add_css_file("custom.css")
+    app.add_css_file('custom.css')
+
 
 # Add any paths that contain templates here, relative to this directory.
 autosummary_generate = True
@@ -66,7 +64,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/logo.svg"
+html_logo = '_static/logo.svg'
 html_favicon = '_static/favicon.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
@@ -78,5 +76,4 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-
-htmlhelp_basename = "PyGEOSPandasDoc"
+htmlhelp_basename = 'pgpdDoc'
