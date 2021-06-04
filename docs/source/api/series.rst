@@ -35,6 +35,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_num_geometries
    GeosSeriesAccessor.get_num_interior_rings
    GeosSeriesAccessor.get_num_points
+   GeosSeriesAccessor.get_parts
    GeosSeriesAccessor.get_precision
    GeosSeriesAccessor.get_srid
    GeosSeriesAccessor.get_type_id
@@ -73,6 +74,7 @@ Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
     GeosSeriesAccessor.frechet_distance
     GeosSeriesAccessor.hausdorff_distance
     GeosSeriesAccessor.length
+    GeosSeriesAccessor.minimum_bounding_radius
     GeosSeriesAccessor.minimum_clearance
     GeosSeriesAccessor.total_bounds
 
@@ -153,8 +155,10 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
     GeosSeriesAccessor.envelope
     GeosSeriesAccessor.extract_unique_points
     GeosSeriesAccessor.make_valid
+    GeosSeriesAccessor.minimum_bounding_circle
     GeosSeriesAccessor.normalize
     GeosSeriesAccessor.offset_curve
+    GeosSeriesAccessor.oriented_envelope
     GeosSeriesAccessor.point_on_surface
     GeosSeriesAccessor.polygonize
     GeosSeriesAccessor.reverse
@@ -177,6 +181,7 @@ Methods from :doc:`PyGEOS Linestring Operations <pygeos:linear>`.
     GeosSeriesAccessor.line_locate_point
     GeosSeriesAccessor.line_merge
     GeosSeriesAccessor.shared_paths
+    GeosSeriesAccessor.shortest_line
 
 
 Coordinate Operations
@@ -203,7 +208,7 @@ Methods from :doc:`PyGEOS STRTree <pygeos:strtree>`.
    :nosignatures:
    :template: base.rst
 
-    GeosSeriesAccessor.STRTree
+    GeosSeriesAccessor.STRtree
 
 
 Custom
