@@ -274,6 +274,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_bounding_radius.html">
+     minimum_bounding_radius
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_clearance.html">
      minimum_clearance
     </a>
@@ -389,6 +394,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html">
+     minimum_bounding_circle
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.normalize.html">
      normalize
     </a>
@@ -396,6 +406,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.offset_curve.html">
      offset_curve
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.oriented_envelope.html">
+     oriented_envelope
     </a>
    </li>
    <li class="toctree-l2">
@@ -715,10 +730,13 @@ and group the results.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.length.html#pgpd.GeosDataFrameAccessor.length" title="pgpd.GeosDataFrameAccessor.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.length</span></code></a></p></td>
 <td><p>Computes the length of a (multi)linestring or polygon perimeter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_clearance.html#pgpd.GeosDataFrameAccessor.minimum_clearance" title="pgpd.GeosDataFrameAccessor.minimum_clearance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.minimum_clearance</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_bounding_radius.html#pgpd.GeosDataFrameAccessor.minimum_bounding_radius" title="pgpd.GeosDataFrameAccessor.minimum_bounding_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.minimum_bounding_radius</span></code></a></p></td>
+<td><p>Computes the radius of the minimum bounding circle that encloses an input geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_clearance.html#pgpd.GeosDataFrameAccessor.minimum_clearance" title="pgpd.GeosDataFrameAccessor.minimum_clearance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.minimum_clearance</span></code></a></p></td>
 <td><p>Computes the Minimum Clearance distance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.total_bounds.html#pgpd.GeosDataFrameAccessor.total_bounds" title="pgpd.GeosDataFrameAccessor.total_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.total_bounds</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.total_bounds.html#pgpd.GeosDataFrameAccessor.total_bounds" title="pgpd.GeosDataFrameAccessor.total_bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.total_bounds</span></code></a></p></td>
 <td><p>Computes the total bounds (extent) of the geometry.</p></td>
 </tr>
 </tbody>
@@ -808,11 +826,17 @@ and group the results.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.make_valid.html#pgpd.GeosDataFrameAccessor.make_valid" title="pgpd.GeosDataFrameAccessor.make_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.make_valid</span></code></a></p></td>
 <td><p>Repairs invalid geometries.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.normalize.html#pgpd.GeosDataFrameAccessor.normalize" title="pgpd.GeosDataFrameAccessor.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.normalize</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html#pgpd.GeosDataFrameAccessor.minimum_bounding_circle" title="pgpd.GeosDataFrameAccessor.minimum_bounding_circle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.minimum_bounding_circle</span></code></a></p></td>
+<td><p>Computes the minimum bounding circle that encloses an input geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.normalize.html#pgpd.GeosDataFrameAccessor.normalize" title="pgpd.GeosDataFrameAccessor.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.normalize</span></code></a></p></td>
 <td><p>Converts Geometry to normal form (or canonical form).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.offset_curve.html#pgpd.GeosDataFrameAccessor.offset_curve" title="pgpd.GeosDataFrameAccessor.offset_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.offset_curve</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.offset_curve.html#pgpd.GeosDataFrameAccessor.offset_curve" title="pgpd.GeosDataFrameAccessor.offset_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.offset_curve</span></code></a></p></td>
 <td><p>Returns a (Multi)LineString at a distance from the object on its right or its left side.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.oriented_envelope.html#pgpd.GeosDataFrameAccessor.oriented_envelope" title="pgpd.GeosDataFrameAccessor.oriented_envelope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.oriented_envelope</span></code></a></p></td>
+<td><p>Computes the oriented envelope (minimum rotated rectangle) that encloses an input geometry.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.point_on_surface.html#pgpd.GeosDataFrameAccessor.point_on_surface" title="pgpd.GeosDataFrameAccessor.point_on_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.point_on_surface</span></code></a></p></td>
 <td><p>Returns a point that intersects an input geometry.</p></td>

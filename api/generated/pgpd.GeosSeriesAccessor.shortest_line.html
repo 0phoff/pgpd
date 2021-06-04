@@ -1,0 +1,815 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shortest_line &#8212; pgpd  documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/toggleprompt.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="apply" href="pgpd.GeosSeriesAccessor.apply.html" />
+    <link rel="prev" title="shared_paths" href="pgpd.GeosSeriesAccessor.shared_paths.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../index.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../notes/01-start.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../notes/02-benchmark.html">
+  Benchmark
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p class="caption">
+ <span class="caption-text">
+  Documentation
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array.html">
+   GeosArray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dtype.html">
+   GeosDtype
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../series.html">
+   Series Accessor
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.from_geopandas.html">
+     from_geopandas
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.to_geopandas.html">
+     to_geopandas
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_coordinate_dimension.html">
+     get_coordinate_dimension
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_dimensions.html">
+     get_dimensions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_exterior_ring.html">
+     get_exterior_ring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_interior_ring.html">
+     get_interior_ring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_num_coordinates.html">
+     get_num_coordinates
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_num_geometries.html">
+     get_num_geometries
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_num_interior_rings.html">
+     get_num_interior_rings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_num_points.html">
+     get_num_points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_parts.html">
+     get_parts
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_precision.html">
+     get_precision
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_srid.html">
+     get_srid
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_type_id.html">
+     get_type_id
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_x.html">
+     get_x
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_y.html">
+     get_y
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_z.html">
+     get_z
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.set_precision.html">
+     set_precision
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.set_srid.html">
+     set_srid
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.destroy_prepared.html">
+     destroy_prepared
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.prepare.html">
+     prepare
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.area.html">
+     area
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.bounds.html">
+     bounds
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.distance.html">
+     distance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.frechet_distance.html">
+     frechet_distance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.hausdorff_distance.html">
+     hausdorff_distance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.length.html">
+     length
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_radius.html">
+     minimum_bounding_radius
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_clearance.html">
+     minimum_clearance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.total_bounds.html">
+     total_bounds
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.contains.html">
+     contains
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.contains_properly.html">
+     contains_properly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.covered_by.html">
+     covered_by
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.covers.html">
+     covers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.crosses.html">
+     crosses
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.disjoint.html">
+     disjoint
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.equals.html">
+     equals
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.equals_exact.html">
+     equals_exact
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.has_z.html">
+     has_z
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.intersects.html">
+     intersects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_ccw.html">
+     is_ccw
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_closed.html">
+     is_closed
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_empty.html">
+     is_empty
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_geometry.html">
+     is_geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_missing.html">
+     is_missing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_prepared.html">
+     is_prepared
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_ring.html">
+     is_ring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_simple.html">
+     is_simple
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_valid.html">
+     is_valid
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_valid_input.html">
+     is_valid_input
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_valid_reason.html">
+     is_valid_reason
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.overlaps.html">
+     overlaps
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.relate.html">
+     relate
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.relate_pattern.html">
+     relate_pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.touches.html">
+     touches
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.within.html">
+     within
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.coverage_union.html">
+     coverage_union
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.coverage_union_all.html">
+     coverage_union_all
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.difference.html">
+     difference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.intersection.html">
+     intersection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.intersection_all.html">
+     intersection_all
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.symmetric_difference.html">
+     symmetric_difference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.symmetric_difference_all.html">
+     symmetric_difference_all
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.union.html">
+     union
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.union_all.html">
+     union_all
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.boundary.html">
+     boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.buffer.html">
+     buffer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.build_area.html">
+     build_area
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.centroid.html">
+     centroid
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.clip_by_rect.html">
+     clip_by_rect
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.convex_hull.html">
+     convex_hull
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.delaunay_triangles.html">
+     delaunay_triangles
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.envelope.html">
+     envelope
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.extract_unique_points.html">
+     extract_unique_points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.make_valid.html">
+     make_valid
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_circle.html">
+     minimum_bounding_circle
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html">
+     normalize
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.offset_curve.html">
+     offset_curve
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.oriented_envelope.html">
+     oriented_envelope
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.point_on_surface.html">
+     point_on_surface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.polygonize.html">
+     polygonize
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.reverse.html">
+     reverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.segmentize.html">
+     segmentize
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.simplify.html">
+     simplify
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.snap.html">
+     snap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.voronoi_polygons.html">
+     voronoi_polygons
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_interpolate_point.html">
+     line_interpolate_point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_locate_point.html">
+     line_locate_point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_merge.html">
+     line_merge
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.shared_paths.html">
+     shared_paths
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     shortest_line
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.apply.html">
+     apply
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.count_coordinates.html">
+     count_coordinates
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_coordinates.html">
+     get_coordinates
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.set_coordinates.html">
+     set_coordinates
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.STRtree.html">
+     STRtree
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.affine.html">
+     affine
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.rotate.html">
+     rotate
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.scale.html">
+     scale
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.skew.html">
+     skew
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.translate.html">
+     translate
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.apply_shapely.html">
+     apply_shapely
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dataframe.html">
+   DataFrame Accessor
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="shortest-line">
+<h1>shortest_line<a class="headerlink" href="#shortest-line" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt class="sig sig-object py" id="pgpd.GeosSeriesAccessor.shortest_line">
+<span class="sig-prename descclassname"><span class="pre">GeosSeriesAccessor.</span></span><span class="sig-name descname"><span class="pre">shortest_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosSeriesAccessor.shortest_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the shortest line between two geometries.</p>
+<p>Applies <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html#pygeos.linear.shortest_line" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pygeos.linear.shortest_line</span></code></a> to <code class="docutils literal notranslate"><span class="pre">(self,</span> <span class="pre">other)</span></code> and returns the result.
+If no <code class="docutils literal notranslate"><span class="pre">other</span></code> data is given, the function gets applied to all possible combinations of the <code class="docutils literal notranslate"><span class="pre">self</span></code> data, by expanding the array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.4)"><em>pandas.Series</em></a><em> or </em><em>numpy.ndarray</em><em> or </em><em>pygeos.Geometry</em><em>, </em><em>optional</em>) – Second argument to <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html#pygeos.linear.shortest_line" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortest_line</span></code></a>; Default <strong>self</strong>.</p></li>
+<li><p><strong>manner</strong> (<em>'keep'</em><em> or </em><em>'align'</em><em> or </em><em>'expand'</em><em>, </em><em>optional</em>) – How to apply the <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html#pygeos.linear.shortest_line" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortest_line</span></code></a> to the data; Default <strong>None</strong> .</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html#pygeos.linear.shortest_line" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortest_line</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Series with the result of the function applied to self and other, with the same index as self.
+numpy.ndarray: 2-Dimensional array with the results of the function applied to each combination of geometries between self and other.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.4)">pandas.Series</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – <code class="docutils literal notranslate"><span class="pre">other</span></code> argument is not a geos Series or PyGEOS NumPy Array</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">manner</span></code> argument dictates how the data gets transformed before applying <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html#pygeos.linear.shortest_line" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortest_line</span></code></a>:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>keep</strong>:</dt><dd><p>Keep the original data as is and simply run the function.
+This returns a Series where the index is the same as the <code class="docutils literal notranslate"><span class="pre">self</span></code> data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>align</strong>:</dt><dd><p>Align both Series according to their index, before running the function (we align the data according the <code class="docutils literal notranslate"><span class="pre">self</span></code> data).
+This returns a Series where the index is the same as the <code class="docutils literal notranslate"><span class="pre">self</span></code> data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>expand</strong>:</dt><dd><p>Expand the data with a new index, before running the function.
+This means that the result will be an array of dimensions <code class="docutils literal notranslate"><span class="pre">&lt;len(a),</span> <span class="pre">len(b)&gt;</span></code> containing the result of all possible combinations of geometries.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Of course, not every method is applicable for each type of <code class="docutils literal notranslate"><span class="pre">other</span></code> input.
+Here are the allowed manners for each type of input, as well as the default value:</p>
+<ul class="simple">
+<li><p><em>Series</em>: keep, align, expand (default: align)</p></li>
+<li><p><em>1D ndarray</em>: keep, expand (default: keep)</p></li>
+<li><p><em>nD ndarray</em>: keep (default: keep)</p></li>
+<li><p><em>Geometry</em>: keep (default: keep)</p></li>
+<li><p><em>None</em> (aka. use self): expand (default: expand)</p></li>
+</ul>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="pgpd.GeosSeriesAccessor.shared_paths.html" title="previous page">shared_paths</a>
+    <a class='right-next' id="next-link" href="pgpd.GeosSeriesAccessor.apply.html" title="next page">apply</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, 0phoff.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

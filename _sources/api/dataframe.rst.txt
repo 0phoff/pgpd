@@ -69,6 +69,7 @@ Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
 
     GeosDataFrameAccessor.area
     GeosDataFrameAccessor.length
+    GeosDataFrameAccessor.minimum_bounding_radius
     GeosDataFrameAccessor.minimum_clearance
     GeosDataFrameAccessor.total_bounds
 
@@ -114,8 +115,10 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
     GeosDataFrameAccessor.envelope
     GeosDataFrameAccessor.extract_unique_points
     GeosDataFrameAccessor.make_valid
+    GeosDataFrameAccessor.minimum_bounding_circle
     GeosDataFrameAccessor.normalize
     GeosDataFrameAccessor.offset_curve
+    GeosDataFrameAccessor.oriented_envelope
     GeosDataFrameAccessor.point_on_surface
     GeosDataFrameAccessor.reverse
     GeosDataFrameAccessor.simplify
