@@ -124,6 +124,7 @@ class GeosSeriesAccessor:
     get_num_geometries = get_IndexedSeriesProperty('geometry.get_num_geometries')
     get_num_interior_rings = get_IndexedSeriesProperty('geometry.get_num_interior_rings')
     get_num_points = get_IndexedSeriesProperty('geometry.get_num_points')
+    get_parts = get_SeriesProperty('geometry.get_parts', geos=True)
     get_precision = get_IndexedSeriesProperty('geometry.get_precision')
     get_srid = get_IndexedSeriesProperty('geometry.get_srid')
     get_type_id = get_IndexedSeriesProperty('geometry.get_type_id')
@@ -148,6 +149,7 @@ class GeosSeriesAccessor:
     frechet_distance = get_MethodBinary('measurement.frechet_distance')
     hausdorff_distance = get_MethodBinary('measurement.hausdorff_distance')
     length = get_IndexedSeriesProperty('measurement.length')
+    minimum_bounding_radius = get_IndexedSeriesProperty('measurement.minimum_bounding_radius')
     minimum_clearance = get_IndexedSeriesProperty('measurement.minimum_clearance')
     total_bounds = get_SeriesProperty('measurement.total_bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
 
@@ -199,7 +201,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     boundary = get_IndexedSeriesProperty('constructive.boundary', geos=True)
     buffer = get_IndexedSeriesMethodUnary('constructive.buffer', geos=True)
-    build_area = None   # TODO
+    build_area = get_ReturnMethodUnary('constructive.build_area')
     centroid = get_IndexedSeriesProperty('constructive.centroid', geos=True)
     clip_by_rect = get_IndexedSeriesMethodUnary('constructive.clip_by_rect', geos=True)
     convex_hull = get_IndexedSeriesProperty('constructive.convex_hull', geos=True)
@@ -207,8 +209,10 @@ class GeosSeriesAccessor:
     envelope = get_IndexedSeriesProperty('constructive.envelope', geos=True)
     extract_unique_points = get_IndexedSeriesProperty('constructive.extract_unique_points', geos=True)
     make_valid = get_IndexedSeriesProperty('constructive.make_valid', geos=True)
+    minimum_bounding_circle = get_IndexedSeriesProperty('constructive.minimum_bounding_circle', geos=True)
     normalize = get_IndexedSeriesProperty('constructive.normalize', geos=True)
     offset_curve = get_IndexedSeriesMethodUnary('constructive.offset_curve', geos=True)
+    oriented_envelope = get_IndexedSeriesProperty('constructive.oriented_envelope', geos=True)
     point_on_surface = get_IndexedSeriesProperty('constructive.point_on_surface', geos=True)
     polygonize = get_ReturnMethodUnary('constructive.polygonize')
     reverse = get_IndexedSeriesProperty('constructive.reverse', geos=True)
@@ -224,6 +228,7 @@ class GeosSeriesAccessor:
     line_locate_point = get_IndexedSeriesMethodUnary('linear.line_locate_point', geos=True)
     line_merge = get_IndexedSeriesProperty('linear.line_merge', geos=True)
     shared_paths = get_MethodBinary('linear.shared_paths', geos=True)
+    shortest_line = get_MethodBinary('linear.shortest_line', geos=True)
 
     # -------------------------------------------------------------------------
     # Coordinate operations
@@ -236,7 +241,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     # STRTree
     # -------------------------------------------------------------------------
-    STRTree = get_ReturnMethodUnary('strtree.STRtree')
+    STRtree = get_ReturnMethodUnary('strtree.STRtree')
 
     # -------------------------------------------------------------------------
     # Custom Methods
