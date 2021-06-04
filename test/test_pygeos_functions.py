@@ -8,12 +8,11 @@ import pgpd
 
 skips = {
     'geometry': (
-        '_geometry',
         'get_geometry',
         'get_rings',
+        'IntEnum',
     ),
     'creation': (
-        '_wrap_construct_ufunc',
         'box',
         'collections_1d',
         'geometrycollections',
@@ -31,8 +30,8 @@ skips = {
         'warnings',
     ),
     'set_operations': (
-        'UnsupportedGEOSOperation',
         'box',
+        'UnsupportedGEOSOperation',
     ),
     'constructive': (
         'BufferCapStyles',
@@ -60,7 +59,7 @@ def test_for_missing_methods(module):
     for func in dir(mod):
         if func.startswith('_'):
             continue
-        if func in ('Geometry', 'GeometryType', 'IntEnum', 'lib', 'np', 'requires_geos', 'multithreading_enabled'):
+        if func in ('Geometry', 'GeometryType', 'lib', 'np', 'requires_geos', 'multithreading_enabled'):
             continue
         if func in skip:
             continue
