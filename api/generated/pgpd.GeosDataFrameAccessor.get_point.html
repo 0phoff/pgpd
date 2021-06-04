@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>line_interpolate_point &#8212; pgpd  documentation</title>
+    <title>get_point &#8212; pgpd  documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,8 +38,8 @@
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="line_locate_point" href="pgpd.GeosDataFrameAccessor.line_locate_point.html" />
-    <link rel="prev" title="voronoi_polygons" href="pgpd.GeosDataFrameAccessor.voronoi_polygons.html" />
+    <link rel="next" title="get_precision" href="pgpd.GeosDataFrameAccessor.get_precision.html" />
+    <link rel="prev" title="get_num_points" href="pgpd.GeosDataFrameAccessor.get_num_points.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -213,8 +213,8 @@
      get_num_points
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_point.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      get_point
     </a>
    </li>
@@ -443,8 +443,8 @@
      voronoi_polygons
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_interpolate_point.html">
      line_interpolate_point
     </a>
    </li>
@@ -541,20 +541,20 @@
               
               <div>
                 
-  <div class="section" id="line-interpolate-point">
-<h1>line_interpolate_point<a class="headerlink" href="#line-interpolate-point" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="get-point">
+<h1>get_point<a class="headerlink" href="#get-point" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.line_interpolate_point">
-<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">line_interpolate_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.line_interpolate_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a point interpolated at given distance on a line.</p>
-<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_interpolate_point.html#pgpd.GeosSeriesAccessor.line_interpolate_point" title="pgpd.GeosSeriesAccessor.line_interpolate_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.line_interpolate_point()</span></code></a> to each column of “geos” dtype
+<dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.get_point">
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">get_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.get_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the nth point of a linestring or linearring.</p>
+<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_point.html#pgpd.GeosSeriesAccessor.get_point" title="pgpd.GeosSeriesAccessor.get_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.get_point()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_interpolate_point.html#pgpd.GeosSeriesAccessor.line_interpolate_point" title="pgpd.GeosSeriesAccessor.line_interpolate_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">line_interpolate_point()</span></code></a> after the first argument.</p></li>
+<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_point.html#pgpd.GeosSeriesAccessor.get_point" title="pgpd.GeosSeriesAccessor.get_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_point()</span></code></a> after the first argument.</p></li>
 <li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.line_interpolate_point.html#pgpd.GeosSeriesAccessor.line_interpolate_point" title="pgpd.GeosSeriesAccessor.line_interpolate_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">line_interpolate_point()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_point.html#pgpd.GeosSeriesAccessor.get_point" title="pgpd.GeosSeriesAccessor.get_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_point()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -574,8 +574,8 @@ and aggregates the results in a DataFrame.</p>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.voronoi_polygons.html" title="previous page">voronoi_polygons</a>
-    <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.line_locate_point.html" title="next page">line_locate_point</a>
+    <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.get_num_points.html" title="previous page">get_num_points</a>
+    <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.get_precision.html" title="next page">get_precision</a>
 
               </div>
               

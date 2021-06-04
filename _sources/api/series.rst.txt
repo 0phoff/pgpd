@@ -36,6 +36,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_num_interior_rings
    GeosSeriesAccessor.get_num_points
    GeosSeriesAccessor.get_parts
+   GeosSeriesAccessor.get_point
    GeosSeriesAccessor.get_precision
    GeosSeriesAccessor.get_srid
    GeosSeriesAccessor.get_type_id
