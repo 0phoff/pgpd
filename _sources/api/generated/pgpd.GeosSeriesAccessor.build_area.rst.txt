@@ -1,9 +1,9 @@
-﻿STRTree
-=======
+﻿build\_area
+===========
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosSeriesAccessor.STRTree
+.. automethod:: GeosSeriesAccessor.build_area
 
 
 .. include:: /links.rst
