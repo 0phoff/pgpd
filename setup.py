@@ -5,12 +5,12 @@ def find_packages():
 
 requirements = [
     'pandas>=1.1',
-    'pygeos',
+    'pygeos>=0.10',
 ]
 
 setup.setup(
     name='pgpd',
-    version='0.1.0',
+    version='1.0.0',
     author='0phoff',
     description='PyGEOS ExtensionArray for pandas',
     long_description=open('README.md').read(),
