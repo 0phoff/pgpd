@@ -8,6 +8,9 @@ flake8-quotes
 flake8-simplify
 flake8-logging-format
 
+# DEVELOP
+versioneer
+
 # DOCS
 sphinx
 pydata-sphinx-theme

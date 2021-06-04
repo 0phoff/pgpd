@@ -1,4 +1,5 @@
 import setuptools as setup
+import versioneer
 
 
 def find_packages():
@@ -12,7 +13,8 @@ requirements = [
 
 setup.setup(
     name='pgpd',
-    version='1.0.0',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     author='0phoff',
     description='PyGEOS ExtensionArray for pandas',
     long_description=open('README.md').read(),
