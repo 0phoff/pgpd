@@ -10,11 +10,12 @@ skips = {
     'geometry': (
         '_geometry',
         'get_geometry',
-        'get_point',
+        'get_rings',
     ),
     'creation': (
         '_wrap_construct_ufunc',
         'box',
+        'collections_1d',
         'geometrycollections',
         'linearrings',
         'linestrings',
@@ -23,6 +24,7 @@ skips = {
         'multipolygons',
         'points',
         'polygons',
+        'simple_geometries_1d',
     ),
     'measurement': (),
     'predicates': (
@@ -36,6 +38,7 @@ skips = {
         'BufferCapStyles',
         'BufferJoinStyles',
         'ParamEnum',
+        'polygonize_full',
     ),
     'linear': (
         'warn',
@@ -55,7 +58,7 @@ def test_for_missing_methods(module):
     mod = getattr(pygeos, module)
 
     for func in dir(mod):
-        if func.startswith('__'):
+        if func.startswith('_'):
             continue
         if func in ('Geometry', 'GeometryType', 'IntEnum', 'lib', 'np', 'requires_geos', 'multithreading_enabled'):
             continue

@@ -35,6 +35,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosDataFrameAccessor.get_num_geometries
    GeosDataFrameAccessor.get_num_interior_rings
    GeosDataFrameAccessor.get_num_points
+   GeosDataFrameAccessor.get_point
    GeosDataFrameAccessor.get_precision
    GeosDataFrameAccessor.get_srid
    GeosDataFrameAccessor.get_type_id
