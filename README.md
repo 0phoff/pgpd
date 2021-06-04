@@ -195,7 +195,7 @@ Name: pt, dtype: geometry
 Name: pt, dtype: geos
 ```
 
-[version-badge]: https://img.shields.io/badge/version-0.1.0--alpha-blue
+[version-badge]: https://img.shields.io/pypi/v/pgpd?label=version
 [lint-badge]: https://github.com/0phoff/pygeos-pandas/actions/workflows/lint.yml/badge.svg?branch=master
 [doc-badge]: https://img.shields.io/badge/-Documentation-9B59B6.svg
 [release-url]: https://github.com/0phoff/pygeos-pandas/releases
