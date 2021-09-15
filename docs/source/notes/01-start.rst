@@ -8,7 +8,7 @@ Install as follows:
 
 .. code-block:: bash
 
-   pip install pygeospandas
+   pip install pgpd
 
 
 Example

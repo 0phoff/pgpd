@@ -9,6 +9,13 @@ Small wrapper to use pygeos functions from pandas.
 The main use case is if you want to have geometries in your dataframe,
 but you do not care about CRS at all and thus do not need all the extra features from GeoPandas.
 
+# Install
+This package is available on PyPi for installation.
+
+```bash
+pip install pgpd
+```
+
 
 # Example
 Let's get started by first creating a dataframe with PyGEOS data.  
