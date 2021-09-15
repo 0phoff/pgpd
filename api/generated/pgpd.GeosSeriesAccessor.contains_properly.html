@@ -132,7 +132,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <p class="caption">
+    <p class="caption" role="heading">
  <span class="caption-text">
   Documentation
  </span>
@@ -728,7 +728,7 @@ If no <code class="docutils literal notranslate"><span class="pre">other</span><
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>other</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.4)"><em>pandas.Series</em></a><em> or </em><em>numpy.ndarray</em><em> or </em><em>pygeos.Geometry</em><em>, </em><em>optional</em>) – Second argument to <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.contains_properly" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_properly</span></code></a>; Default <strong>self</strong>.</p></li>
+<li><p><strong>other</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.3.3)"><em>pandas.Series</em></a><em> or </em><em>numpy.ndarray</em><em> or </em><em>pygeos.Geometry</em><em>, </em><em>optional</em>) – Second argument to <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.contains_properly" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_properly</span></code></a>; Default <strong>self</strong>.</p></li>
 <li><p><strong>manner</strong> (<em>'keep'</em><em> or </em><em>'align'</em><em> or </em><em>'expand'</em><em>, </em><em>optional</em>) – How to apply the <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.contains_properly" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_properly</span></code></a> to the data; Default <strong>None</strong> .</p></li>
 <li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.contains_properly" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_properly</span></code></a>.</p></li>
 </ul>
@@ -738,7 +738,7 @@ If no <code class="docutils literal notranslate"><span class="pre">other</span><
 numpy.ndarray: 2-Dimensional array with the results of the function applied to each combination of geometries between self and other.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.4)">pandas.Series</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.3.3)">pandas.Series</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/exceptions.html#ValueError" title="(in Python v3.6)"><strong>ValueError</strong></a> – <code class="docutils literal notranslate"><span class="pre">other</span></code> argument is not a geos Series or PyGEOS NumPy Array</p>
@@ -811,7 +811,7 @@ Here are the allowed manners for each type of input, as well as the default valu
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     
