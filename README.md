@@ -1,7 +1,7 @@
 <img src="https://github.com/0phoff/pygeos-pd/blob/master/docs/source/_static/logo.svg?raw=true" alt="Logo" width="100%">  
 
 [![Version][version-badge]][release-url]
-[![Lint][lint-badge]][lint-url]
+[![CI][ci-badge]][ci-url]
 [![Documentation][doc-badge]][documentation-url]
 <a href="https://ko-fi.com/D1D31LPHE"><img alt="Ko-Fi" src="https://www.ko-fi.com/img/githubbutton_sm.svg" height="20"></a>  
 
@@ -196,8 +196,8 @@ Name: pt, dtype: geos
 ```
 
 [version-badge]: https://img.shields.io/pypi/v/pgpd?label=version
-[lint-badge]: https://github.com/0phoff/pygeos-pandas/actions/workflows/lint.yml/badge.svg?branch=master
+[ci-badge]: https://github.com/0phoff/pygeos-pandas/actions/workflows/ci.yml/badge.svg?branch=master
 [doc-badge]: https://img.shields.io/badge/-Documentation-9B59B6.svg
 [release-url]: https://github.com/0phoff/pygeos-pandas/releases
-[lint-url]: https://github.com/0phoff/pygeos-pandas/actions/workflows/lint.yml
+[ci-url]: https://github.com/0phoff/pygeos-pandas/actions/workflows/ci.yml
 [documentation-url]: https://0phoff.github.io/pygeos-pandas
