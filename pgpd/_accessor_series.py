@@ -119,7 +119,7 @@ class GeosSeriesAccessor:
     get_coordinate_dimension = get_IndexedSeriesProperty('geometry.get_coordinate_dimension')
     get_dimensions = get_IndexedSeriesProperty('geometry.get_dimensions')
     get_exterior_ring = get_IndexedSeriesProperty('geometry.get_exterior_ring', geos=True)
-    get_interior_ring = get_IndexedSeriesProperty('geometry.get_interior_ring', geos=True)
+    get_interior_ring = get_IndexedSeriesMethodUnary('geometry.get_interior_ring', geos=True)
     get_num_coordinates = get_IndexedSeriesProperty('geometry.get_num_coordinates')
     get_num_geometries = get_IndexedSeriesProperty('geometry.get_num_geometries')
     get_num_interior_rings = get_IndexedSeriesProperty('geometry.get_num_interior_rings')
@@ -219,7 +219,7 @@ class GeosSeriesAccessor:
     polygonize = get_ReturnMethodUnary('constructive.polygonize')
     reverse = get_IndexedSeriesProperty('constructive.reverse', geos=True)
     segmentize = get_ReturnMethodUnary('constructive.segmentize')
-    simplify = get_IndexedSeriesProperty('constructive.simplify', geos=True)
+    simplify = get_IndexedSeriesMethodUnary('constructive.simplify', geos=True)
     snap = get_IndexedSeriesMethodUnary('constructive.snap', geos=True)
     voronoi_polygons = get_IndexedSeriesMethodUnary('constructive.voronoi_polygons', geos=True)
 
