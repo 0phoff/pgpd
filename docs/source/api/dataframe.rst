@@ -30,6 +30,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosDataFrameAccessor.get_coordinate_dimension
    GeosDataFrameAccessor.get_dimensions
    GeosDataFrameAccessor.get_exterior_ring
+   GeosDataFrameAccessor.get_geometry
    GeosDataFrameAccessor.get_interior_ring
    GeosDataFrameAccessor.get_num_coordinates
    GeosDataFrameAccessor.get_num_geometries
@@ -117,6 +118,7 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
     GeosDataFrameAccessor.extract_unique_points
     GeosDataFrameAccessor.make_valid
     GeosDataFrameAccessor.minimum_bounding_circle
+    GeosDataFrameAccessor.minimum_rotated_rectangle
     GeosDataFrameAccessor.normalize
     GeosDataFrameAccessor.offset_curve
     GeosDataFrameAccessor.oriented_envelope
