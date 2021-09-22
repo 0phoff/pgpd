@@ -427,5 +427,5 @@ def setup_args(args, kwargs, defaults, positions):
 def setup_docstring(string, defaults, **kwargs):
     string = string.format(**kwargs)
     if len(defaults) != 0:
-        string += f'\n\n        Note:\n            The pygeos functions gets called with these default values that cannot be overwritten: {defaults}'
+        string += f'\n        Note:\n            The pygeos functions gets called with these default values that cannot be overwritten: `{defaults}`'
     return string
