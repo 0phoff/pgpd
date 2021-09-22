@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.total_bounds
+.. automethod:: GeosSeriesAccessor.total_bounds
 
 
 .. include:: /links.rst

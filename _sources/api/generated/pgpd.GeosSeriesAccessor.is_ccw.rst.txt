@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.is_ccw
+.. automethod:: GeosSeriesAccessor.is_ccw
 
 
 .. include:: /links.rst

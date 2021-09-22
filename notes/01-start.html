@@ -160,6 +160,18 @@
   <a class="reference internal nav-link" href="#example">
    Example
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#series">
+     Series
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dataframe">
+     DataFrame
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#geopandas">
@@ -193,7 +205,7 @@
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>pygeospandas is available as a python wheel on the Python Package Index (PyPi).
 Install as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pygeospandas
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pgpd
 </pre></div>
 </div>
 </div>
@@ -221,10 +233,10 @@ Note that we need to explicitly set the type of the PyGEOS columns to <strong>�
 <span class="go">4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)</span>
 </pre></div>
 </div>
-<p>We can access pygeos functionality through the “geos” accessor namespace.
-PyGEOS functions that don’t require any arguments besides the geometries are accessed as properties on the Series,
-others are accessed as methods.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">length</span>
+<div class="section" id="series">
+<h3>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h3>
+<p>We can access pygeos functionality through the “geos” accessor namespace.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
 <span class="go">0    40.0</span>
 <span class="go">1    40.0</span>
 <span class="go">2    40.0</span>
@@ -232,7 +244,7 @@ others are accessed as methods.</p>
 <span class="go">4    40.0</span>
 <span class="go">Name: length, dtype: float64</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">()</span>
 <span class="go">xmin     0.0</span>
 <span class="go">ymin    10.0</span>
 <span class="go">xmax     4.0</span>
@@ -248,10 +260,110 @@ others are accessed as methods.</p>
 <span class="go">Name: clip_by_rect, dtype: geos</span>
 </pre></div>
 </div>
+<p>Some functions return more values per row, so we convert them to DataFrames:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+<span class="go">   xmin  ymin  xmax  ymax</span>
+<span class="go">0   0.0   0.0  10.0  10.0</span>
+<span class="go">1   1.0   0.0  11.0  10.0</span>
+<span class="go">2   2.0   0.0  12.0  10.0</span>
+<span class="go">3   3.0   0.0  13.0  10.0</span>
+<span class="go">4   4.0   0.0  14.0  10.0</span>
+</pre></div>
+</div>
+<p>There are some functions that return a variable number of items per original object.
+For these functions, the index of the returned Series/DataFrame will point to the original object index.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">pygeos</span><span class="o">.</span><span class="n">multipoints</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">]],</span>
+<span class="gp">... </span>    <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="p">),</span>
+<span class="gp">... </span>  <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;geos&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span>
+<span class="go">0                 MULTIPOINT (0 0, 1 1, 2 2)</span>
+<span class="go">1                      MULTIPOINT (0 1, 2 3)</span>
+<span class="go">2    MULTIPOINT (10 20, 30 40, 40 50, 50 60)</span>
+<span class="go">dtype: geos</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">get_parts</span><span class="p">()</span>
+<span class="go">0      POINT (0 0)</span>
+<span class="go">0      POINT (1 1)</span>
+<span class="go">0      POINT (2 2)</span>
+<span class="go">1      POINT (0 1)</span>
+<span class="go">1      POINT (2 3)</span>
+<span class="go">2    POINT (10 20)</span>
+<span class="go">2    POINT (30 40)</span>
+<span class="go">2    POINT (40 50)</span>
+<span class="go">2    POINT (50 60)</span>
+<span class="go">Name: get_parts, dtype: geos</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
+<span class="go">      x     y   z</span>
+<span class="go">0   0.0   0.0 NaN</span>
+<span class="go">0   1.0   1.0 NaN</span>
+<span class="go">0   2.0   2.0 NaN</span>
+<span class="go">1   0.0   1.0 NaN</span>
+<span class="go">1   2.0   3.0 NaN</span>
+<span class="go">2  10.0  20.0 NaN</span>
+<span class="go">2  30.0  40.0 NaN</span>
+<span class="go">2  40.0  50.0 NaN</span>
+<span class="go">2  50.0  60.0 NaN</span>
+</pre></div>
+</div>
+<p>Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.
+These functions are also made available on Series, but work slightly differently.
+We added a <cite>manner</cite> argument, which can be one of 3 different values: <em>keep</em>, <em>align</em>, <em>expand</em>.
+This argument dictates how the 2 sets of geometries are transformed before running the binary function:</p>
+<ul class="simple">
+<li><p><em>keep</em>: Function is run on the input as is.</p></li>
+<li><p><em>align</em>: Align both sets with each other, according to their index (only works when <cite>other</cite> is a Series).</p></li>
+<li><p><em>expand</em>: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension <em>&lt;len(A), len(B)&gt;</em>).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># KEEP: Just runs the `contains` function on the &quot;poly&quot; column data and the given Point</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="s2">&quot;Point (11 5)&quot;</span><span class="p">),</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;keep&#39;</span><span class="p">)</span>
+<span class="go">0    False</span>
+<span class="go">1    False</span>
+<span class="go">2     True</span>
+<span class="go">3     True</span>
+<span class="go">4     True</span>
+<span class="go">Name: contains, dtype: bool</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ALIGN: We only pass 3 points, but tell the function to align the data according to the index</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;align&#39;</span><span class="p">)</span>
+<span class="go">0    NaN</span>
+<span class="go">1    1.0</span>
+<span class="go">2    2.0</span>
+<span class="go">3    3.0</span>
+<span class="go">4    NaN</span>
+<span class="go">Name: distance, dtype: float64</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># EXPAND: Compare each polygon with each point (returns numpy.ndarray &lt;5,3&gt; in this case)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;expand&#39;</span><span class="p">)</span>
+<span class="go">array([[1.        , 2.        , 3.        ],</span>
+<span class="go">       [1.        , 2.        , 3.        ],</span>
+<span class="go">       [1.41421356, 2.        , 3.        ],</span>
+<span class="go">       [2.23606798, 2.23606798, 3.        ],</span>
+<span class="go">       [3.16227766, 2.82842712, 3.16227766]])</span>
+</pre></div>
+</div>
+<p>One last difference is that you can omit the <cite>other</cite> set of geometries.
+The method will then automatically choose the <em>expand</em> mode and use the <cite>self</cite> data twice.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute all possible intersection areas of the geometries in the &quot;poly&quot; column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pygeos</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">intersection</span><span class="p">())</span>
+<span class="go">array([[100.,  90.,  80.,  70.,  60.],</span>
+<span class="go">       [ 90., 100.,  90.,  80.,  70.],</span>
+<span class="go">       [ 80.,  90., 100.,  90.,  80.],</span>
+<span class="go">       [ 70.,  80.,  90., 100.,  90.],</span>
+<span class="go">       [ 60.,  70.,  80.,  90., 100.]])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dataframe">
+<h3>DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h3>
 <p>While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.
 The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fixed number of outputs (ic. xmin,ymin,xmax,ymax)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">()</span>
 <span class="go">      poly    pt</span>
 <span class="go">xmin   0.0   0.0</span>
 <span class="go">ymin   0.0  10.0</span>
@@ -270,52 +382,6 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
 <span class="go">4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)</span>
 </pre></div>
 </div>
-<p>Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.
-These functions are also made available on Series, but work slightly differently.
-We added a <cite>manner</cite> argument, which can be one of 3 different values: <em>keep</em>, <em>align</em>, <em>expand</em>.
-This argument dictates how the 2 sets of geometries are transformed before running the binary function:</p>
-<ul class="simple">
-<li><p><em>keep</em>: Function is run on the input as is.</p></li>
-<li><p><em>align</em>: Align both sets with each other, according to their index (only works when <cite>other</cite> is a Series).</p></li>
-<li><p><em>expand</em>: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension <em>&lt;len(A), len(B)&gt;</em>).</p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># KEEP: Just runs the `contains` function on the &quot;poly&quot; column data and the given Point</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="s2">&quot;Point (23 10)&quot;</span><span class="p">),</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;keep&#39;</span><span class="p">)</span>
-<span class="go">0    False</span>
-<span class="go">1    False</span>
-<span class="go">2     True</span>
-<span class="go">3     True</span>
-<span class="go">4     True</span>
-<span class="go">Name: contains, dtype: bool</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ALIGN: We only pass 3 points, but tell the function to align the data according to the index</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;align&#39;</span><span class="p">)</span>
-<span class="go">0    NaN</span>
-<span class="go">1    2.0</span>
-<span class="go">2    4.0</span>
-<span class="go">3    6.0</span>
-<span class="go">4    NaN</span>
-<span class="go">Name: distance, dtype: float64</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># EXPAND: Compare each polygon with each point (returns numpy.ndarray &lt;5,3&gt; in this case)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;expand&#39;</span><span class="p">)</span>
-<span class="go">array([[2.        , 4.        , 6.        ],</span>
-<span class="go">       [2.        , 4.        , 6.        ],</span>
-<span class="go">       [2.82842712, 4.        , 6.        ],</span>
-<span class="go">       [4.47213595, 4.47213595, 6.        ],</span>
-<span class="go">       [6.32455532, 5.65685425, 6.32455532]])</span>
-</pre></div>
-</div>
-<p>One last difference is that you can omit the <cite>other</cite> set of geometries.
-The method will then automatically choose the <em>expand</em> mode and use the <cite>self</cite> data twice.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute all possible intersection areas of the geometries in the &quot;poly&quot; column</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pygeos</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">intersection</span><span class="p">())</span>
-<span class="go">array([[400., 360., 320., 280., 240.],</span>
-<span class="go">       [360., 400., 360., 320., 280.],</span>
-<span class="go">       [320., 360., 400., 360., 320.],</span>
-<span class="go">       [280., 320., 360., 400., 360.],</span>
-<span class="go">       [240., 280., 320., 360., 400.]])</span>
-</pre></div>
 </div>
 </div>
 <div class="section" id="geopandas">

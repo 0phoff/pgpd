@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.line_merge
+.. automethod:: GeosSeriesAccessor.line_merge
 
 
 .. include:: /links.rst

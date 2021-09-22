@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.make_valid
+.. automethod:: GeosSeriesAccessor.make_valid
 
 
 .. include:: /links.rst

@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.point_on_surface
+.. automethod:: GeosSeriesAccessor.point_on_surface
 
 
 .. include:: /links.rst

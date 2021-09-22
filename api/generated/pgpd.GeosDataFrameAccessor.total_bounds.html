@@ -189,6 +189,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">
+     get_geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_interior_ring.html">
      get_interior_ring
     </a>
@@ -404,6 +409,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">
+     minimum_rotated_rectangle
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.normalize.html">
      normalize
     </a>
@@ -543,18 +553,24 @@
                 
   <div class="section" id="total-bounds">
 <h1>total_bounds<a class="headerlink" href="#total-bounds" title="Permalink to this headline">¶</a></h1>
-<dl class="py property">
+<dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.total_bounds">
-<em class="property"><span class="pre">property</span> </em><span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">total_bounds</span></span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.total_bounds" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">total_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.total_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the total bounds (extent) of the geometry.</p>
-<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.total_bounds.html#pgpd.GeosSeriesAccessor.total_bounds" title="pgpd.GeosSeriesAccessor.total_bounds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.total_bounds</span></code></a> to each column of “geos” dtype
+<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.total_bounds.html#pgpd.GeosSeriesAccessor.total_bounds" title="pgpd.GeosSeriesAccessor.total_bounds"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.total_bounds()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DataFrame where each “geos” column from the original is transformed.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.total_bounds.html#pgpd.GeosSeriesAccessor.total_bounds" title="pgpd.GeosSeriesAccessor.total_bounds"><code class="xref py py-func docutils literal notranslate"><span class="pre">total_bounds()</span></code></a> after the first argument.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.total_bounds.html#pgpd.GeosSeriesAccessor.total_bounds" title="pgpd.GeosSeriesAccessor.total_bounds"><code class="xref py py-func docutils literal notranslate"><span class="pre">total_bounds()</span></code></a>.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.3)">pandas.DataFrame</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame where each “geos” column from the original is transformed or None if <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.3)">pandas.DataFrame</a> or <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.extract_unique_points
+.. automethod:: GeosSeriesAccessor.extract_unique_points
 
 
 .. include:: /links.rst

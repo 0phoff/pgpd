@@ -8,7 +8,7 @@ Install as follows:
 
 .. code-block:: bash
 
-   pip install pygeospandas
+   pip install pgpd
 
 
 Example
@@ -37,13 +37,14 @@ Note that we need to explicitly set the type of the PyGEOS columns to **"geos"**
    3  d  POLYGON ((3 0, 3 10, 13 10, 13 0, 3 0))  POINT (3 13)
    4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)
 
+
+Series
+~~~~~~
 We can access pygeos functionality through the "geos" accessor namespace.  
-PyGEOS functions that don't require any arguments besides the geometries are accessed as properties on the Series,
-others are accessed as methods.
 
 .. code-block:: python
 
-   >>> df.poly.geos.length
+   >>> df.poly.geos.length()
    0    40.0
    1    40.0
    2    40.0
@@ -51,7 +52,7 @@ others are accessed as methods.
    4    40.0
    Name: length, dtype: float64
    
-   >>> df.pt.geos.total_bounds
+   >>> df.pt.geos.total_bounds()
    xmin     0.0
    ymin    10.0
    xmax     4.0
@@ -66,13 +67,121 @@ others are accessed as methods.
    4    POLYGON ((4 0, 4 10, 5 10, 5 0, 4 0))
    Name: clip_by_rect, dtype: geos
 
+Some functions return more values per row, so we convert them to DataFrames:
+
+.. code-block:: python
+
+   >>> df.poly.bounds()
+      xmin  ymin  xmax  ymax
+   0   0.0   0.0  10.0  10.0
+   1   1.0   0.0  11.0  10.0
+   2   2.0   0.0  12.0  10.0
+   3   3.0   0.0  13.0  10.0
+   4   4.0   0.0  14.0  10.0
+
+There are some functions that return a variable number of items per original object.
+For these functions, the index of the returned Series/DataFrame will point to the original object index.
+
+.. code-block:: python
+
+   >>> points = pd.Series(
+   ...   pygeos.multipoints(
+   ...     [[0,0], [1,1], [2,2], [0,1],[2,3], [10,20],[30,40],[40,50],[50,60]],
+   ...     indices=[0,0,0,1,1,2,2,2,2],
+   ...   ),
+   ...   dtype='geos',
+   ... )
+   >>> points
+   0                 MULTIPOINT (0 0, 1 1, 2 2)
+   1                      MULTIPOINT (0 1, 2 3)
+   2    MULTIPOINT (10 20, 30 40, 40 50, 50 60)
+   dtype: geos
+   
+   >>> points.geos.get_parts()
+   0      POINT (0 0)
+   0      POINT (1 1)
+   0      POINT (2 2)
+   1      POINT (0 1)
+   1      POINT (2 3)
+   2    POINT (10 20)
+   2    POINT (30 40)
+   2    POINT (40 50)
+   2    POINT (50 60)
+   Name: get_parts, dtype: geos
+   
+   >>> points.geos.get_coordinates()
+         x     y   z
+   0   0.0   0.0 NaN
+   0   1.0   1.0 NaN
+   0   2.0   2.0 NaN
+   1   0.0   1.0 NaN
+   1   2.0   3.0 NaN
+   2  10.0  20.0 NaN
+   2  30.0  40.0 NaN
+   2  40.0  50.0 NaN
+   2  50.0  60.0 NaN
+
+Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.  
+These functions are also made available on Series, but work slightly differently.
+We added a `manner` argument, which can be one of 3 different values: *keep*, *align*, *expand*.
+This argument dictates how the 2 sets of geometries are transformed before running the binary function:
+
+- *keep*: Function is run on the input as is.
+- *align*: Align both sets with each other, according to their index (only works when `other` is a Series).
+- *expand*: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension *<len(A), len(B)>*).
+
+.. code-block:: python
+
+   >>> # KEEP: Just runs the `contains` function on the "poly" column data and the given Point
+   >>> df.poly.geos.contains(pygeos.Geometry("Point (11 5)"), manner='keep')
+   0    False
+   1    False
+   2     True
+   3     True
+   4     True
+   Name: contains, dtype: bool
+   
+   >>> # ALIGN: We only pass 3 points, but tell the function to align the data according to the index
+   >>> df.poly.geos.distance(df.pt[1:4], manner='align')
+   0    NaN
+   1    1.0
+   2    2.0
+   3    3.0
+   4    NaN
+   Name: distance, dtype: float64
+   
+   >>> # EXPAND: Compare each polygon with each point (returns numpy.ndarray <5,3> in this case)
+   >>> df.poly.geos.distance(df.pt[1:4], manner='expand')
+   array([[1.        , 2.        , 3.        ],
+          [1.        , 2.        , 3.        ],
+          [1.41421356, 2.        , 3.        ],
+          [2.23606798, 2.23606798, 3.        ],
+          [3.16227766, 2.82842712, 3.16227766]])
+
+
+One last difference is that you can omit the `other` set of geometries.
+The method will then automatically choose the *expand* mode and use the `self` data twice.
+
+.. code-block:: python
+
+   >>> # Compute all possible intersection areas of the geometries in the "poly" column
+   >>> pygeos.area(df.poly.geos.intersection())
+   array([[100.,  90.,  80.,  70.,  60.],
+          [ 90., 100.,  90.,  80.,  70.],
+          [ 80.,  90., 100.,  90.,  80.],
+          [ 70.,  80.,  90., 100.,  90.],
+          [ 60.,  70.,  80.,  90., 100.]])
+
+
+DataFrame
+~~~~~~~~~
 While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.  
 The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.
 
 .. code-block:: python
 
    >>> # Fixed number of outputs (ic. xmin,ymin,xmax,ymax)
-   >>> df.geos.total_bounds
+   >>> df.geos.total_bounds()
          poly    pt
    xmin   0.0   0.0
    ymin   0.0  10.0
@@ -89,56 +198,6 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
    2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)
    3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)
    4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)
-
-Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.  
-These functions are also made available on Series, but work slightly differently.
-We added a `manner` argument, which can be one of 3 different values: *keep*, *align*, *expand*.
-This argument dictates how the 2 sets of geometries are transformed before running the binary function:
-
-- *keep*: Function is run on the input as is.
-- *align*: Align both sets with each other, according to their index (only works when `other` is a Series).
-- *expand*: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension *<len(A), len(B)>*).
-
-.. code-block:: python
-
-   >>> # KEEP: Just runs the `contains` function on the "poly" column data and the given Point
-   >>> df.poly.geos.contains(pygeos.Geometry("Point (23 10)"), manner='keep')
-   0    False
-   1    False
-   2     True
-   3     True
-   4     True
-   Name: contains, dtype: bool
-   
-   >>> # ALIGN: We only pass 3 points, but tell the function to align the data according to the index
-   >>> df.poly.geos.distance(df.pt[1:4], manner='align')
-   0    NaN
-   1    2.0
-   2    4.0
-   3    6.0
-   4    NaN
-   Name: distance, dtype: float64
-   
-   >>> # EXPAND: Compare each polygon with each point (returns numpy.ndarray <5,3> in this case)
-   >>> df.poly.geos.distance(df.pt[1:4], manner='expand')
-   array([[2.        , 4.        , 6.        ],
-          [2.        , 4.        , 6.        ],
-          [2.82842712, 4.        , 6.        ],
-          [4.47213595, 4.47213595, 6.        ],
-          [6.32455532, 5.65685425, 6.32455532]])
-
-One last difference is that you can omit the `other` set of geometries.
-The method will then automatically choose the *expand* mode and use the `self` data twice.
-
-.. code-block:: python
-
-   >>> # Compute all possible intersection areas of the geometries in the "poly" column
-   >>> pygeos.area(df.poly.geos.intersection())
-   array([[400., 360., 320., 280., 240.],
-          [360., 400., 360., 320., 280.],
-          [320., 360., 400., 360., 320.],
-          [280., 320., 360., 400., 360.],
-          [240., 280., 320., 360., 400.]])
 
 
 GeoPandas

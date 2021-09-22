@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="offset_curve" href="pgpd.GeosDataFrameAccessor.offset_curve.html" />
-    <link rel="prev" title="minimum_bounding_circle" href="pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html" />
+    <link rel="prev" title="minimum_rotated_rectangle" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -186,6 +186,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_exterior_ring.html">
      get_exterior_ring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">
+     get_geometry
     </a>
    </li>
    <li class="toctree-l2">
@@ -403,6 +408,11 @@
      minimum_bounding_circle
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">
+     minimum_rotated_rectangle
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      normalize
@@ -545,13 +555,17 @@
 <h1>normalize<a class="headerlink" href="#normalize" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.normalize">
-<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.normalize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.normalize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts Geometry to normal form (or canonical form).</p>
-<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html#pgpd.GeosSeriesAccessor.normalize" title="pgpd.GeosSeriesAccessor.normalize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.normalize</span></code></a> to each column of “geos” dtype
+<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html#pgpd.GeosSeriesAccessor.normalize" title="pgpd.GeosSeriesAccessor.normalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.normalize()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html#pgpd.GeosSeriesAccessor.normalize" title="pgpd.GeosSeriesAccessor.normalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalize()</span></code></a> after the first argument.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html#pgpd.GeosSeriesAccessor.normalize" title="pgpd.GeosSeriesAccessor.normalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalize()</span></code></a>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>DataFrame where each “geos” column from the original is transformed or None if <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>.</p>
@@ -570,7 +584,7 @@ and aggregates the results in a DataFrame.</p>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html" title="previous page">minimum_bounding_circle</a>
+    <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html" title="previous page">minimum_rotated_rectangle</a>
     <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.offset_curve.html" title="next page">offset_curve</a>
 
               </div>

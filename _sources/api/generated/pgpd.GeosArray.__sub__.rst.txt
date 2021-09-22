@@ -1,9 +1,9 @@
-﻿\_\_rmul\_\_
-============
+﻿\_\_sub\_\_
+===========
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosArray.__rmul__
+.. automethod:: GeosArray.__sub__
 
 
 .. include:: /links.rst

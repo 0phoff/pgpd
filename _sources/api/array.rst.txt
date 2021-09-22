@@ -74,9 +74,10 @@ Custom methods to add more functionality.
 
    GeosArray.affine
    GeosArray.__add__
-   GeosArray.__radd__
+   GeosArray.__sub__
    GeosArray.__mul__
-   GeosArray.__rmul__
+   GeosArray.__truediv__
+   GeosArray.__floordiv__
 
 
 .. include:: /links.rst

@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.centroid
+.. automethod:: GeosSeriesAccessor.centroid
 
 
 .. include:: /links.rst

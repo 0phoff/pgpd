@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.get_num_interior_rings
+.. automethod:: GeosSeriesAccessor.get_num_interior_rings
 
 
 .. include:: /links.rst

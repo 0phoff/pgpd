@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.oriented_envelope
+.. automethod:: GeosSeriesAccessor.oriented_envelope
 
 
 .. include:: /links.rst

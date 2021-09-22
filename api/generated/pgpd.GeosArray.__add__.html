@@ -38,7 +38,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="__radd__" href="pgpd.GeosArray.__radd__.html" />
+    <link rel="next" title="__sub__" href="pgpd.GeosArray.__sub__.html" />
     <link rel="prev" title="affine" href="pgpd.GeosArray.affine.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -279,8 +279,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosArray.__radd__.html">
-     __radd__
+    <a class="reference internal" href="pgpd.GeosArray.__sub__.html">
+     __sub__
     </a>
    </li>
    <li class="toctree-l2">
@@ -289,8 +289,13 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosArray.__rmul__.html">
-     __rmul__
+    <a class="reference internal" href="pgpd.GeosArray.__truediv__.html">
+     __truediv__
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosArray.__floordiv__.html">
+     __floordiv__
     </a>
    </li>
   </ul>
@@ -354,20 +359,108 @@
 <dd><p>Performs an addition between the coordinates array and other.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<em>array-like</em>) – Item to add to the coordinates.</p>
+<dd class="field-odd"><p><strong>other</strong> (<em>array-like</em>) – Item to add to the coordinates (max 2-dimensional).</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When adding the coordinates array and <cite>other</cite>, standard NumPy broadcasting rules apply.
-In order to reduce the friction for users, we decide whether to use the Z-dimension,
-depending on the shape of <cite>other</cite>:</p>
+In order to reduce the friction for users, we perform two checks before adding the arrays.</p>
+<p>Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of <cite>other</cite>:</p>
 <ul class="simple">
-<li><p><cite>other.shape[-1] == 2</cite>: Do not use Z-dimension.</p></li>
-<li><p><cite>other.shape[-1] == 3</cite>: Do use Z-dimension.</p></li>
+<li><p><cite>other.ndim &gt;= 2 and other.shape[1] == 2</cite>: Do not use Z-dimension.</p></li>
+<li><p><cite>other.ndim &gt;= 2 and other.shape[1] == 3</cite>: Do use Z-dimension.</p></li>
 <li><p><cite>else</cite>: Use Z-dimension if there are any.</p></li>
 </ul>
+<p>Secondly, if <cite>other.shape[-2] == self.data.shape[0]</cite>,
+we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+This allows you to easily add different coordinate pairs to each polygon.</p>
 </div>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pygeos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pgpd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pgpd</span><span class="o">.</span><span class="n">GeosArray</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">14</span><span class="p">),</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">&lt;GeosArray&gt;</span>
+<span class="go">[&lt;pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))&gt;]</span>
+<span class="go">Length: 4, dtype: geos</span>
+</pre></div>
+</div>
+<p>Providing values for each coordinate:
+&gt;&gt;&gt; other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+&gt;&gt;&gt; other
+array([[0, 1],</p>
+<blockquote>
+<div><p>[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1]])</p>
+</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">+</span> <span class="n">other</span>
+<span class="go">&lt;GeosArray&gt;</span>
+<span class="go">[&lt;pygeos.Geometry POLYGON ((10 1, 12 13, 4 15, 6 7, 10 1))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((11 1, 13 13, 5 15, 7 7, 11 1))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((12 1, 14 13, 6 15, 8 7, 12 1))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((13 1, 15 13, 7 15, 9 7, 13 1))&gt;]</span>
+<span class="go">Length: 4, dtype: geos</span>
+</pre></div>
+</div>
+<p>Provide coordinates for each polygon:
+&gt;&gt;&gt; other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+&gt;&gt;&gt; data + other
+&lt;GeosArray&gt;
+[&lt;pygeos.Geometry POLYGON ((10 1, 10 11, 0 11, 0 1, 10 1))&gt;,</p>
+<blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((13 3, 13 13, 3 13, 3 3, 13 3))&gt;,
+&lt;pygeos.Geometry POLYGON ((16 5, 16 15, 6 15, 6 5, 16 5))&gt;,
+&lt;pygeos.Geometry POLYGON ((19 7, 19 17, 9 17, 9 7, 19 7))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos</p>
+<p>NumPy broadcasting still works:
+&gt;&gt;&gt; # Broadcast X,Y(,Z)
+&gt;&gt;&gt; other = np.array([1,2,3,4])[…, None]
+&gt;&gt;&gt; other.shape
+(4, 1)
+&gt;&gt;&gt; data + other
+&lt;GeosArray&gt;
+[&lt;pygeos.Geometry POLYGON ((11 1, 11 11, 1 11, 1 1, 11 1))&gt;,</p>
+<blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((13 2, 13 12, 3 12, 3 2, 13 2))&gt;,
+&lt;pygeos.Geometry POLYGON ((15 3, 15 13, 5 13, 5 3, 15 3))&gt;,
+&lt;pygeos.Geometry POLYGON ((17 4, 17 14, 7 14, 7 4, 17 4))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos
+&gt;&gt;&gt; # Broadcast coordinates
+&gt;&gt;&gt; other = np.array([10,10])
+&gt;&gt;&gt; other.shape
+(2,)
+&gt;&gt;&gt; data + other
+&lt;GeosArray&gt;
+[&lt;pygeos.Geometry POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))&gt;,</p>
+<blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))&gt;,
+&lt;pygeos.Geometry POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))&gt;,
+&lt;pygeos.Geometry POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos</p>
 </dd></dl>
 
 </div>
@@ -379,7 +472,7 @@ depending on the shape of <cite>other</cite>:</p>
               <div class='prev-next-bottom'>
                 
     <a class='left-prev' id="prev-link" href="pgpd.GeosArray.affine.html" title="previous page">affine</a>
-    <a class='right-next' id="next-link" href="pgpd.GeosArray.__radd__.html" title="next page">__radd__</a>
+    <a class='right-next' id="next-link" href="pgpd.GeosArray.__sub__.html" title="next page">__sub__</a>
 
               </div>
               

@@ -1,9 +1,9 @@
-﻿\_\_radd\_\_
-============
+﻿get\_geometry
+=============
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosArray.__radd__
+.. automethod:: GeosSeriesAccessor.get_geometry
 
 
 .. include:: /links.rst

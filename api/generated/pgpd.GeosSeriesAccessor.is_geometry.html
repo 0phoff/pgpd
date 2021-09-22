@@ -184,6 +184,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_geometry.html">
+     get_geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_interior_ring.html">
      get_interior_ring
     </a>
@@ -221,6 +226,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_precision.html">
      get_precision
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.get_rings.html">
+     get_rings
     </a>
    </li>
    <li class="toctree-l2">
@@ -544,6 +554,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_rotated_rectangle.html">
+     minimum_rotated_rectangle
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosSeriesAccessor.normalize.html">
      normalize
     </a>
@@ -718,14 +733,14 @@
                 
   <div class="section" id="is-geometry">
 <h1>is_geometry<a class="headerlink" href="#is-geometry" title="Permalink to this headline">¶</a></h1>
-<dl class="py property">
+<dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosSeriesAccessor.is_geometry">
-<em class="property"><span class="pre">property</span> </em><span class="sig-prename descclassname"><span class="pre">GeosSeriesAccessor.</span></span><span class="sig-name descname"><span class="pre">is_geometry</span></span><a class="headerlink" href="#pgpd.GeosSeriesAccessor.is_geometry" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosSeriesAccessor.</span></span><span class="sig-name descname"><span class="pre">is_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosSeriesAccessor.is_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the object is a geometry</p>
-<p>Applies <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.is_geometry" title="(in pygeos)"><code class="docutils literal notranslate"><span class="pre">pygeos.predicates.is_geometry</span></code></a> to the data and returns a Series with the result.</p>
+<p>Applies <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html#pygeos.predicates.is_geometry" title="(in pygeos)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pygeos.predicates.is_geometry</span></code></a> to the data and returns a Series with the result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Series with the result of the function and the same index.</p>
+<dd class="field-odd"><p>Series with the results of the function.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.3.3)">pandas.Series</a></p>

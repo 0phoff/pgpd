@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.get_type_id
+.. automethod:: GeosSeriesAccessor.get_type_id
 
 
 .. include:: /links.rst

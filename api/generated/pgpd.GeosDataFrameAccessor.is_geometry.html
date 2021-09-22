@@ -189,6 +189,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">
+     get_geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_interior_ring.html">
      get_interior_ring
     </a>
@@ -404,6 +409,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">
+     minimum_rotated_rectangle
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.normalize.html">
      normalize
     </a>
@@ -545,13 +555,17 @@
 <h1>is_geometry<a class="headerlink" href="#is-geometry" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.is_geometry">
-<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">is_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.is_geometry" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">is_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.is_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the object is a geometry</p>
-<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_geometry.html#pgpd.GeosSeriesAccessor.is_geometry" title="pgpd.GeosSeriesAccessor.is_geometry"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.is_geometry</span></code></a> to each column of “geos” dtype
+<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_geometry.html#pgpd.GeosSeriesAccessor.is_geometry" title="pgpd.GeosSeriesAccessor.is_geometry"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.is_geometry()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_geometry.html#pgpd.GeosSeriesAccessor.is_geometry" title="pgpd.GeosSeriesAccessor.is_geometry"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_geometry()</span></code></a> after the first argument.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.is_geometry.html#pgpd.GeosSeriesAccessor.is_geometry" title="pgpd.GeosSeriesAccessor.is_geometry"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_geometry()</span></code></a>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>DataFrame where each “geos” column from the original is transformed or None if <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>.</p>

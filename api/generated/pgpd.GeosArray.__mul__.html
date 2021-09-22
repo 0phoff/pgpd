@@ -38,8 +38,8 @@
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="__rmul__" href="pgpd.GeosArray.__rmul__.html" />
-    <link rel="prev" title="__radd__" href="pgpd.GeosArray.__radd__.html" />
+    <link rel="next" title="__truediv__" href="pgpd.GeosArray.__truediv__.html" />
+    <link rel="prev" title="__sub__" href="pgpd.GeosArray.__sub__.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -279,8 +279,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosArray.__radd__.html">
-     __radd__
+    <a class="reference internal" href="pgpd.GeosArray.__sub__.html">
+     __sub__
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -289,8 +289,13 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosArray.__rmul__.html">
-     __rmul__
+    <a class="reference internal" href="pgpd.GeosArray.__truediv__.html">
+     __truediv__
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosArray.__floordiv__.html">
+     __floordiv__
     </a>
    </li>
   </ul>
@@ -368,6 +373,95 @@ depending on the shape of <cite>other</cite>:</p>
 <li><p><cite>else</cite>: Use Z-dimension if there are any.</p></li>
 </ul>
 </div>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pygeos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pgpd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pgpd</span><span class="o">.</span><span class="n">GeosArray</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">14</span><span class="p">),</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">&lt;GeosArray&gt;</span>
+<span class="go">[&lt;pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))&gt;]</span>
+<span class="go">Length: 4, dtype: geos</span>
+</pre></div>
+</div>
+<p>Providing values for each coordinate:
+&gt;&gt;&gt; other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+&gt;&gt;&gt; other
+array([[0, 1],</p>
+<blockquote>
+<div><p>[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1],
+[0, 1],
+[2, 3],
+[4, 5],
+[6, 7],
+[0, 1]])</p>
+</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">*</span> <span class="n">other</span>
+<span class="go">&lt;GeosArray&gt;</span>
+<span class="go">[  &lt;pygeos.Geometry POLYGON ((0 0, 20 30, 0 50, 0 0, 0 0))&gt;,</span>
+<span class="go">   &lt;pygeos.Geometry POLYGON ((0 0, 22 30, 4 50, 6 0, 0 0))&gt;,</span>
+<span class="go">  &lt;pygeos.Geometry POLYGON ((0 0, 24 30, 8 50, 12 0, 0 0))&gt;,</span>
+<span class="go"> &lt;pygeos.Geometry POLYGON ((0 0, 26 30, 12 50, 18 0, 0 0))&gt;]</span>
+<span class="go">Length: 4, dtype: geos</span>
+</pre></div>
+</div>
+<p>Provide coordinates for each polygon:
+&gt;&gt;&gt; other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+&gt;&gt;&gt; data * other
+&lt;GeosArray&gt;
+[     &lt;pygeos.Geometry POLYGON ((0 0, 0 10, 0 10, 0 0, 0 0))&gt;,</p>
+<blockquote>
+<div><blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((22 0, 22 30, 2 30, 2 0, 22 0))&gt;,
+&lt;pygeos.Geometry POLYGON ((48 0, 48 50, 8 50, 8 0, 48 0))&gt;,</p>
+</div></blockquote>
+<p>&lt;pygeos.Geometry POLYGON ((78 0, 78 70, 18 70, 18 0, 78 0))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos</p>
+<p>NumPy broadcasting still works:
+&gt;&gt;&gt; # Broadcast X,Y(,Z)
+&gt;&gt;&gt; other = np.array([1,2,3,4])[…, None]
+&gt;&gt;&gt; other.shape
+(4, 1)
+&gt;&gt;&gt; data * other
+&lt;GeosArray&gt;
+[  &lt;pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))&gt;,</p>
+<blockquote>
+<div><blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))&gt;,
+&lt;pygeos.Geometry POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))&gt;,</p>
+</div></blockquote>
+<p>&lt;pygeos.Geometry POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos
+&gt;&gt;&gt; # Broadcast coordinates
+&gt;&gt;&gt; other = np.array([10,10])
+&gt;&gt;&gt; other.shape
+(2,)
+&gt;&gt;&gt; data * other
+&lt;GeosArray&gt;
+[  &lt;pygeos.Geometry POLYGON ((100 0, 100 100, 0 100, 0 0, 100 0))&gt;,</p>
+<blockquote>
+<div><p>&lt;pygeos.Geometry POLYGON ((110 0, 110 100, 10 100, 10 0, 110 0))&gt;,
+&lt;pygeos.Geometry POLYGON ((120 0, 120 100, 20 100, 20 0, 120 0))&gt;,
+&lt;pygeos.Geometry POLYGON ((130 0, 130 100, 30 100, 30 0, 130 0))&gt;]</p>
+</div></blockquote>
+<p>Length: 4, dtype: geos</p>
 </dd></dl>
 
 </div>
@@ -378,8 +472,8 @@ depending on the shape of <cite>other</cite>:</p>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="pgpd.GeosArray.__radd__.html" title="previous page">__radd__</a>
-    <a class='right-next' id="next-link" href="pgpd.GeosArray.__rmul__.html" title="next page">__rmul__</a>
+    <a class='left-prev' id="prev-link" href="pgpd.GeosArray.__sub__.html" title="previous page">__sub__</a>
+    <a class='right-next' id="next-link" href="pgpd.GeosArray.__truediv__.html" title="next page">__truediv__</a>
 
               </div>
               

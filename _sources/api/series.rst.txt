@@ -30,6 +30,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_coordinate_dimension
    GeosSeriesAccessor.get_dimensions
    GeosSeriesAccessor.get_exterior_ring
+   GeosSeriesAccessor.get_geometry
    GeosSeriesAccessor.get_interior_ring
    GeosSeriesAccessor.get_num_coordinates
    GeosSeriesAccessor.get_num_geometries
@@ -38,6 +39,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_parts
    GeosSeriesAccessor.get_point
    GeosSeriesAccessor.get_precision
+   GeosSeriesAccessor.get_rings
    GeosSeriesAccessor.get_srid
    GeosSeriesAccessor.get_type_id
    GeosSeriesAccessor.get_x
@@ -157,6 +159,7 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
     GeosSeriesAccessor.extract_unique_points
     GeosSeriesAccessor.make_valid
     GeosSeriesAccessor.minimum_bounding_circle
+    GeosSeriesAccessor.minimum_rotated_rectangle
     GeosSeriesAccessor.normalize
     GeosSeriesAccessor.offset_curve
     GeosSeriesAccessor.oriented_envelope

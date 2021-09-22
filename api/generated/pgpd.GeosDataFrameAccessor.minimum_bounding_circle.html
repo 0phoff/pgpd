@@ -38,7 +38,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="normalize" href="pgpd.GeosDataFrameAccessor.normalize.html" />
+    <link rel="next" title="minimum_rotated_rectangle" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html" />
     <link rel="prev" title="make_valid" href="pgpd.GeosDataFrameAccessor.make_valid.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -186,6 +186,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_exterior_ring.html">
      get_exterior_ring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">
+     get_geometry
     </a>
    </li>
    <li class="toctree-l2">
@@ -404,6 +409,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">
+     minimum_rotated_rectangle
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pgpd.GeosDataFrameAccessor.normalize.html">
      normalize
     </a>
@@ -545,13 +555,17 @@
 <h1>minimum_bounding_circle<a class="headerlink" href="#minimum-bounding-circle" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.minimum_bounding_circle">
-<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">minimum_bounding_circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.minimum_bounding_circle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">minimum_bounding_circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.minimum_bounding_circle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the minimum bounding circle that encloses an input geometry.</p>
-<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_circle.html#pgpd.GeosSeriesAccessor.minimum_bounding_circle" title="pgpd.GeosSeriesAccessor.minimum_bounding_circle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.minimum_bounding_circle</span></code></a> to each column of “geos” dtype
+<p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_circle.html#pgpd.GeosSeriesAccessor.minimum_bounding_circle" title="pgpd.GeosSeriesAccessor.minimum_bounding_circle"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.minimum_bounding_circle()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_circle.html#pgpd.GeosSeriesAccessor.minimum_bounding_circle" title="pgpd.GeosSeriesAccessor.minimum_bounding_circle"><code class="xref py py-func docutils literal notranslate"><span class="pre">minimum_bounding_circle()</span></code></a> after the first argument.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.minimum_bounding_circle.html#pgpd.GeosSeriesAccessor.minimum_bounding_circle" title="pgpd.GeosSeriesAccessor.minimum_bounding_circle"><code class="xref py py-func docutils literal notranslate"><span class="pre">minimum_bounding_circle()</span></code></a>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>DataFrame where each “geos” column from the original is transformed or None if <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>.</p>
@@ -571,7 +585,7 @@ and aggregates the results in a DataFrame.</p>
               <div class='prev-next-bottom'>
                 
     <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.make_valid.html" title="previous page">make_valid</a>
-    <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.normalize.html" title="next page">normalize</a>
+    <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html" title="next page">minimum_rotated_rectangle</a>
 
               </div>
               

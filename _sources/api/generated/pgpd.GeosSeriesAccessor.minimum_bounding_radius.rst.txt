@@ -3,7 +3,7 @@
 
 .. currentmodule:: pgpd
 
-.. autoproperty:: GeosSeriesAccessor.minimum_bounding_radius
+.. automethod:: GeosSeriesAccessor.minimum_bounding_radius
 
 
 .. include:: /links.rst
