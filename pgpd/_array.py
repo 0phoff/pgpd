@@ -409,26 +409,116 @@ class GeosArray(ExtensionArray):
         Performs an addition between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates.
+            other (array-like): Item to add to the coordinates (max 2-dimensional).
 
         Note:
             When adding the coordinates array and `other`, standard NumPy broadcasting rules apply.
-            In order to reduce the friction for users, we decide whether to use the Z-dimension,
-            depending on the shape of `other`:
+            In order to reduce the friction for users, we perform two checks before adding the arrays.
 
-            - `other.shape[-1] == 2`: Do not use Z-dimension.
-            - `other.shape[-1] == 3`: Do use Z-dimension.
+            Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
+
+            - `other.ndim >= 2 and other.shape[1] == 2`: Do not use Z-dimension.
+            - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+            Secondly, if `other.shape[-2] == self.data.shape[0]`,
+            we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+            This allows you to easily add different coordinate pairs to each polygon.
+
+        Example:
+            >>> import pygeos
+            >>> import pgpd
+            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            Length: 4, dtype: geos
+
+            Providing values for each coordinate:
+            >>> other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+            >>> other
+            array([[0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1]])
+            >>> data + other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 1, 12 13, 4 15, 6 7, 10 1))>,
+             <pygeos.Geometry POLYGON ((11 1, 13 13, 5 15, 7 7, 11 1))>,
+             <pygeos.Geometry POLYGON ((12 1, 14 13, 6 15, 8 7, 12 1))>,
+             <pygeos.Geometry POLYGON ((13 1, 15 13, 7 15, 9 7, 13 1))>]
+            Length: 4, dtype: geos
+
+            Provide coordinates for each polygon:
+            >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+            >>> data + other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 1, 10 11, 0 11, 0 1, 10 1))>,
+             <pygeos.Geometry POLYGON ((13 3, 13 13, 3 13, 3 3, 13 3))>,
+             <pygeos.Geometry POLYGON ((16 5, 16 15, 6 15, 6 5, 16 5))>,
+             <pygeos.Geometry POLYGON ((19 7, 19 17, 9 17, 9 7, 19 7))>]
+            Length: 4, dtype: geos
+
+            NumPy broadcasting still works:
+            >>> # Broadcast X,Y(,Z)
+            >>> other = np.array([1,2,3,4])[..., None]
+            >>> other.shape
+            (4, 1)
+            >>> data + other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((11 1, 11 11, 1 11, 1 1, 11 1))>,
+             <pygeos.Geometry POLYGON ((13 2, 13 12, 3 12, 3 2, 13 2))>,
+             <pygeos.Geometry POLYGON ((15 3, 15 13, 5 13, 5 3, 15 3))>,
+             <pygeos.Geometry POLYGON ((17 4, 17 14, 7 14, 7 4, 17 4))>]
+            Length: 4, dtype: geos
+            >>> # Broadcast coordinates
+            >>> other = np.array([10,10])
+            >>> other.shape
+            (2,)
+            >>> data + other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))>,
+             <pygeos.Geometry POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))>,
+             <pygeos.Geometry POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))>,
+             <pygeos.Geometry POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))>]
+            Length: 4, dtype: geos
         """
         other = np.asarray(other)
-        shape = other.ndim and other.shape[-1]
+        if other.ndim > 2:
+            raise ValueError('Other cannot have more than 2 dimensions.')
 
-        if shape == 2:
+        # Check whether we use Z-dimension
+        zshape = other.ndim == 2 and other.shape[1]
+        if zshape == 2:
             zdim = False
-        elif shape == 3:
+        elif zshape == 3:
             zdim = True
         else:
             zdim = pygeos.predicates.has_z(self.data).any()
+
+        # Expand other to number of coords per shape
+        pshape = (other.ndim >= 1 and other.shape[0])
+        if pshape == self.data.shape[0]:
+            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
         return self.__class__(pygeos.coordinates.apply(
             self.data,
@@ -436,35 +526,125 @@ class GeosArray(ExtensionArray):
             zdim,
         ))
 
-    def __radd__(self, other):
+    def __sub__(self, other):
         """
-        Performs an right-addition between the coordinates array and other.
+        Performs a subtraction between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates.
+            other (array-like): Item to add to the coordinates (max 2-dimensional).
 
         Note:
             When adding the coordinates array and `other`, standard NumPy broadcasting rules apply.
-            In order to reduce the friction for users, we decide whether to use the Z-dimension,
-            depending on the shape of `other`:
+            In order to reduce the friction for users, we perform two checks before adding the arrays.
 
-            - `other.shape[-1] == 2`: Do not use Z-dimension.
-            - `other.shape[-1] == 3`: Do use Z-dimension.
+            Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
+
+            - `other.ndim >= 2 and other.shape[1] == 2`: Do not use Z-dimension.
+            - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+            Secondly, if `other.shape[-2] == self.data.shape[0]`,
+            we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+            This allows you to easily add different coordinate pairs to each polygon.
+
+        Example:
+            >>> import pygeos
+            >>> import pgpd
+            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            Length: 4, dtype: geos
+
+            Providing values for each coordinate:
+            >>> other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+            >>> other
+            array([[0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1]])
+            >>> data - other
+            <GeosArray>
+            [ <pygeos.Geometry POLYGON ((10 -1, 8 7, -4 5, -6 -7, 10 -1))>,
+              <pygeos.Geometry POLYGON ((11 -1, 9 7, -3 5, -5 -7, 11 -1))>,
+             <pygeos.Geometry POLYGON ((12 -1, 10 7, -2 5, -4 -7, 12 -1))>,
+             <pygeos.Geometry POLYGON ((13 -1, 11 7, -1 5, -3 -7, 13 -1))>]
+            Length: 4, dtype: geos
+
+            Provide coordinates for each polygon:
+            >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+            >>> data - other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 -1, 10 9, 0 9, 0 -1, 10 -1))>,
+              <pygeos.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
+              <pygeos.Geometry POLYGON ((8 -5, 8 5, -2 5, -2 -5, 8 -5))>,
+              <pygeos.Geometry POLYGON ((7 -7, 7 3, -3 3, -3 -7, 7 -7))>]
+            Length: 4, dtype: geos
+
+            NumPy broadcasting still works:
+            >>> # Broadcast X,Y(,Z)
+            >>> other = np.array([1,2,3,4])[..., None]
+            >>> other.shape
+            (4, 1)
+            >>> data - other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((9 -1, 9 9, -1 9, -1 -1, 9 -1))>,
+             <pygeos.Geometry POLYGON ((9 -2, 9 8, -1 8, -1 -2, 9 -2))>,
+             <pygeos.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
+             <pygeos.Geometry POLYGON ((9 -4, 9 6, -1 6, -1 -4, 9 -4))>]
+            Length: 4, dtype: geos
+            >>> # Broadcast coordinates
+            >>> other = np.array([10,10])
+            >>> other.shape
+            (2,)
+            >>> data - other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((0 -10, 0 0, -10 0, -10 -10, 0 -10))>,
+               <pygeos.Geometry POLYGON ((1 -10, 1 0, -9 0, -9 -10, 1 -10))>,
+               <pygeos.Geometry POLYGON ((2 -10, 2 0, -8 0, -8 -10, 2 -10))>,
+               <pygeos.Geometry POLYGON ((3 -10, 3 0, -7 0, -7 -10, 3 -10))>]
+            Length: 4, dtype: geos
         """
         other = np.asarray(other)
-        shape = other.ndim and other.shape[-1]
+        if other.ndim > 2:
+            raise ValueError('Other cannot have more than 2 dimensions.')
 
-        if shape == 2:
+        # Check whether we use Z-dimension
+        zshape = other.ndim == 2 and other.shape[1]
+        if zshape == 2:
             zdim = False
-        elif shape == 3:
+        elif zshape == 3:
             zdim = True
         else:
             zdim = pygeos.predicates.has_z(self.data).any()
 
+        # Expand other to number of coords per shape
+        pshape = (other.ndim >= 1 and other.shape[0])
+        if pshape == self.data.shape[0]:
+            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+
         return self.__class__(pygeos.coordinates.apply(
             self.data,
-            lambda pt: other + pt,
+            lambda pt: pt - other,
             zdim,
         ))
 
@@ -483,16 +663,101 @@ class GeosArray(ExtensionArray):
             - `other.shape[-1] == 2`: Do not use Z-dimension.
             - `other.shape[-1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+        Example:
+            >>> import pygeos
+            >>> import pgpd
+            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            Length: 4, dtype: geos
+
+            Providing values for each coordinate:
+            >>> other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+            >>> other
+            array([[0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1]])
+            >>> data * other
+            <GeosArray>
+            [  <pygeos.Geometry POLYGON ((0 0, 20 30, 0 50, 0 0, 0 0))>,
+               <pygeos.Geometry POLYGON ((0 0, 22 30, 4 50, 6 0, 0 0))>,
+              <pygeos.Geometry POLYGON ((0 0, 24 30, 8 50, 12 0, 0 0))>,
+             <pygeos.Geometry POLYGON ((0 0, 26 30, 12 50, 18 0, 0 0))>]
+            Length: 4, dtype: geos
+
+            Provide coordinates for each polygon:
+            >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+            >>> data * other
+            <GeosArray>
+            [     <pygeos.Geometry POLYGON ((0 0, 0 10, 0 10, 0 0, 0 0))>,
+               <pygeos.Geometry POLYGON ((22 0, 22 30, 2 30, 2 0, 22 0))>,
+               <pygeos.Geometry POLYGON ((48 0, 48 50, 8 50, 8 0, 48 0))>,
+             <pygeos.Geometry POLYGON ((78 0, 78 70, 18 70, 18 0, 78 0))>]
+            Length: 4, dtype: geos
+
+            NumPy broadcasting still works:
+            >>> # Broadcast X,Y(,Z)
+            >>> other = np.array([1,2,3,4])[..., None]
+            >>> other.shape
+            (4, 1)
+            >>> data * other
+            <GeosArray>
+            [  <pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+               <pygeos.Geometry POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))>,
+               <pygeos.Geometry POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))>,
+             <pygeos.Geometry POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))>]
+            Length: 4, dtype: geos
+            >>> # Broadcast coordinates
+            >>> other = np.array([10,10])
+            >>> other.shape
+            (2,)
+            >>> data * other
+            <GeosArray>
+            [  <pygeos.Geometry POLYGON ((100 0, 100 100, 0 100, 0 0, 100 0))>,
+             <pygeos.Geometry POLYGON ((110 0, 110 100, 10 100, 10 0, 110 0))>,
+             <pygeos.Geometry POLYGON ((120 0, 120 100, 20 100, 20 0, 120 0))>,
+             <pygeos.Geometry POLYGON ((130 0, 130 100, 30 100, 30 0, 130 0))>]
+            Length: 4, dtype: geos
         """
         other = np.asarray(other)
-        shape = other.ndim and other.shape[-1]
+        if other.ndim > 2:
+            raise ValueError('Other cannot have more than 2 dimensions.')
 
-        if shape == 2:
+        # Check whether we use Z-dimension
+        zshape = other.ndim == 2 and other.shape[1]
+        if zshape == 2:
             zdim = False
-        elif shape == 3:
+        elif zshape == 3:
             zdim = True
         else:
             zdim = pygeos.predicates.has_z(self.data).any()
+
+        # Expand other to number of coords per shape
+        pshape = (other.ndim >= 1 and other.shape[0])
+        if pshape == self.data.shape[0]:
+            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
         return self.__class__(pygeos.coordinates.apply(
             self.data,
@@ -500,9 +765,9 @@ class GeosArray(ExtensionArray):
             zdim,
         ))
 
-    def __rmul__(self, other):
+    def __truediv__(self, other):
         """
-        Performs a right-multiplication between the coordinates array and other.
+        Performs a division between the coordinates array and other.
 
         Args:
             other (array-like): Item to add to the coordinates.
@@ -515,19 +780,221 @@ class GeosArray(ExtensionArray):
             - `other.shape[-1] == 2`: Do not use Z-dimension.
             - `other.shape[-1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+        Example:
+            >>> import pygeos
+            >>> import pgpd
+            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            Length: 4, dtype: geos
+
+            Providing values for each coordinate:
+            >>> other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+            >>> other
+            array([[0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1]])
+            >>> data / other
+            <GeosArray>
+            [         <pygeos.Geometry POLYGON ((inf 0, 5 3.33, 0 2, 0 0, inf 0))>,
+             <pygeos.Geometry POLYGON ((inf 0, 5.5 3.33, 0.25 2, 0.167 0, inf 0))>,
+                <pygeos.Geometry POLYGON ((inf 0, 6 3.33, 0.5 2, 0.333 0, inf 0))>,
+               <pygeos.Geometry POLYGON ((inf 0, 6.5 3.33, 0.75 2, 0.5 0, inf 0))>]
+            Length: 4, dtype: geos
+
+            Provide coordinates for each polygon:
+            >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+            >>> data / other
+            <GeosArray>
+            [     <pygeos.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
+                <pygeos.Geometry POLYGON ((5.5 0, 5.5 3.33, 0.5 3.33, 0.5 0, 5.5 0))>,
+                            <pygeos.Geometry POLYGON ((3 0, 3 2, 0.5 2, 0.5 0, 3 0))>,
+             <pygeos.Geometry POLYGON ((2.17 0, 2.17 1.43, 0.5 1.43, 0.5 0, 2.17 0))>]
+            Length: 4, dtype: geos
+
+            NumPy broadcasting still works:
+            >>> # Broadcast X,Y(,Z)
+            >>> other = np.array([1,2,3,4])[..., None]
+            >>> other.shape
+            (4, 1)
+            >>> data / other
+            <GeosArray>
+            [              <pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+                      <pygeos.Geometry POLYGON ((5.5 0, 5.5 5, 0.5 5, 0.5 0, 5.5 0))>,
+                  <pygeos.Geometry POLYGON ((4 0, 4 3.33, 0.667 3.33, 0.667 0, 4 0))>,
+             <pygeos.Geometry POLYGON ((3.25 0, 3.25 2.5, 0.75 2.5, 0.75 0, 3.25 0))>]
+            Length: 4, dtype: geos
+            >>> # Broadcast coordinates
+            >>> other = np.array([10,10])
+            >>> other.shape
+            (2,)
+            >>> data / other
+            <GeosArray>
+            [          <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <pygeos.Geometry POLYGON ((1.1 0, 1.1 1, 0.1 1, 0.1 0, 1.1 0))>,
+             <pygeos.Geometry POLYGON ((1.2 0, 1.2 1, 0.2 1, 0.2 0, 1.2 0))>,
+             <pygeos.Geometry POLYGON ((1.3 0, 1.3 1, 0.3 1, 0.3 0, 1.3 0))>]
+            Length: 4, dtype: geos
         """
         other = np.asarray(other)
-        shape = other.ndim and other.shape[-1]
+        if other.ndim > 2:
+            raise ValueError('Other cannot have more than 2 dimensions.')
 
-        if shape == 2:
+        # Check whether we use Z-dimension
+        zshape = other.ndim == 2 and other.shape[1]
+        if zshape == 2:
             zdim = False
-        elif shape == 3:
+        elif zshape == 3:
             zdim = True
         else:
             zdim = pygeos.predicates.has_z(self.data).any()
 
+        # Expand other to number of coords per shape
+        pshape = (other.ndim >= 1 and other.shape[0])
+        if pshape == self.data.shape[0]:
+            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+
         return self.__class__(pygeos.coordinates.apply(
             self.data,
-            lambda pt: other * pt,
+            lambda pt: pt / other,
+            zdim,
+        ))
+
+    def __floordiv__(self, other):
+        """
+        Performs a division between the coordinates array and other.
+
+        Args:
+            other (array-like): Item to add to the coordinates.
+
+        Note:
+            When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we decide whether to use the Z-dimension,
+            depending on the shape of `other`:
+
+            - `other.shape[-1] == 2`: Do not use Z-dimension.
+            - `other.shape[-1] == 3`: Do use Z-dimension.
+            - `else`: Use Z-dimension if there are any.
+
+        Example:
+            >>> import pygeos
+            >>> import pgpd
+            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            Length: 4, dtype: geos
+
+            Providing values for each coordinate:
+            >>> other = np.tile([0, 1, 2, 3, 4, 5, 6, 7, 0, 1], 4).reshape(20, 2)
+            >>> other
+            array([[0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1],
+                   [0, 1],
+                   [2, 3],
+                   [4, 5],
+                   [6, 7],
+                   [0, 1]])
+            >>> data // other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
+             <pygeos.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
+             <pygeos.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>,
+             <pygeos.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>]
+            Length: 4, dtype: geos
+
+            Provide coordinates for each polygon:
+            >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
+            >>> data // other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
+                           <pygeos.Geometry POLYGON ((5 0, 5 3, 0 3, 0 0, 5 0))>,
+                           <pygeos.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>,
+                           <pygeos.Geometry POLYGON ((2 0, 2 1, 0 1, 0 0, 2 0))>]
+            Length: 4, dtype: geos
+
+            NumPy broadcasting still works:
+            >>> # Broadcast X,Y(,Z)
+            >>> other = np.array([1,2,3,4])[..., None]
+            >>> other.shape
+            (4, 1)
+            >>> data // other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+                  <pygeos.Geometry POLYGON ((5 0, 5 5, 0 5, 0 0, 5 0))>,
+                  <pygeos.Geometry POLYGON ((4 0, 4 3, 0 3, 0 0, 4 0))>,
+                  <pygeos.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>]
+            Length: 4, dtype: geos
+            >>> # Broadcast coordinates
+            >>> other = np.array([10,10])
+            >>> other.shape
+            (2,)
+            >>> data // other
+            <GeosArray>
+            [<pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>]
+            Length: 4, dtype: geos
+        """
+        other = np.asarray(other)
+        if other.ndim > 2:
+            raise ValueError('Other cannot have more than 2 dimensions.')
+
+        # Check whether we use Z-dimension
+        zshape = other.ndim == 2 and other.shape[1]
+        if zshape == 2:
+            zdim = False
+        elif zshape == 3:
+            zdim = True
+        else:
+            zdim = pygeos.predicates.has_z(self.data).any()
+
+        # Expand other to number of coords per shape
+        pshape = (other.ndim >= 1 and other.shape[0])
+        if pshape == self.data.shape[0]:
+            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+
+        return self.__class__(pygeos.coordinates.apply(
+            self.data,
+            lambda pt: pt // other,
             zdim,
         ))

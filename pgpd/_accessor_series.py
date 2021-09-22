@@ -7,15 +7,14 @@ import pandas as pd
 import pygeos
 from ._array import GeosArray
 from ._delegated_series import (
-    get_SeriesProperty,
-    get_IndexedSeriesProperty,
-    get_IndexedDataFrameProperty,
-    get_ReturnMethodUnary,
-    get_NoneMethodUnary,
-    # get_SeriesMethodUnary,
-    get_IndexedSeriesMethodUnary,
-    # get_IndexedDataFrameMethodUnary,
-    get_MethodBinary,
+    unary_series,
+    unary_series_indexed,
+    unary_series_keyed,
+    unary_dataframe_indexed,
+    unary_dataframe_keyed,
+    unary_return,
+    unary_none,
+    binary,
     enableDataFrameExpand,
 )
 
@@ -116,134 +115,136 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     # Geometry
     # -------------------------------------------------------------------------
-    get_coordinate_dimension = get_IndexedSeriesProperty('geometry.get_coordinate_dimension')
-    get_dimensions = get_IndexedSeriesProperty('geometry.get_dimensions')
-    get_exterior_ring = get_IndexedSeriesProperty('geometry.get_exterior_ring', geos=True)
-    get_interior_ring = get_IndexedSeriesMethodUnary('geometry.get_interior_ring', geos=True)
-    get_num_coordinates = get_IndexedSeriesProperty('geometry.get_num_coordinates')
-    get_num_geometries = get_IndexedSeriesProperty('geometry.get_num_geometries')
-    get_num_interior_rings = get_IndexedSeriesProperty('geometry.get_num_interior_rings')
-    get_num_points = get_IndexedSeriesProperty('geometry.get_num_points')
-    get_parts = get_SeriesProperty('geometry.get_parts', geos=True)
-    get_point = get_IndexedSeriesMethodUnary('geometry.get_point', geos=True)
-    get_precision = get_IndexedSeriesProperty('geometry.get_precision')
-    get_srid = get_IndexedSeriesProperty('geometry.get_srid')
-    get_type_id = get_IndexedSeriesProperty('geometry.get_type_id')
-    get_x = get_IndexedSeriesProperty('geometry.get_x')
-    get_y = get_IndexedSeriesProperty('geometry.get_y')
-    get_z = get_IndexedSeriesProperty('geometry.get_z')
-    set_precision = get_NoneMethodUnary('geometry.set_precision')
-    set_srid = get_NoneMethodUnary('geometry.set_srid')
+    get_coordinate_dimension = unary_series_indexed('geometry.get_coordinate_dimension')
+    get_dimensions = unary_series_indexed('geometry.get_dimensions')
+    get_exterior_ring = unary_series_indexed('geometry.get_exterior_ring', geos=True)
+    get_geometry = unary_series_indexed('geometry.get_geometry', geos=True)
+    get_interior_ring = unary_series_indexed('geometry.get_interior_ring', geos=True)
+    get_num_coordinates = unary_series_indexed('geometry.get_num_coordinates')
+    get_num_geometries = unary_series_indexed('geometry.get_num_geometries')
+    get_num_interior_rings = unary_series_indexed('geometry.get_num_interior_rings')
+    get_num_points = unary_series_indexed('geometry.get_num_points')
+    get_parts = unary_series_keyed('geometry.get_parts', geos=True, return_index=True)
+    get_point = unary_series_indexed('geometry.get_point', geos=True)
+    get_precision = unary_series_indexed('geometry.get_precision')
+    get_rings = unary_series_keyed('geometry.get_rings', geos=True, return_index=True)
+    get_srid = unary_series_indexed('geometry.get_srid')
+    get_type_id = unary_series_indexed('geometry.get_type_id')
+    get_x = unary_series_indexed('geometry.get_x')
+    get_y = unary_series_indexed('geometry.get_y')
+    get_z = unary_series_indexed('geometry.get_z')
+    set_precision = unary_none('geometry.set_precision')
+    set_srid = unary_none('geometry.set_srid')
 
     # -------------------------------------------------------------------------
     # Geometry Creation
     # -------------------------------------------------------------------------
-    destroy_prepared = get_NoneMethodUnary('creation.destroy_prepared')
-    prepare = get_NoneMethodUnary('creation.prepare')
+    destroy_prepared = unary_none('creation.destroy_prepared')
+    prepare = unary_none('creation.prepare')
 
     # -------------------------------------------------------------------------
     # Measurement
     # -------------------------------------------------------------------------
-    area = get_IndexedSeriesProperty('measurement.area')
-    bounds = get_IndexedDataFrameProperty('measurement.bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
-    distance = get_MethodBinary('measurement.distance')
-    frechet_distance = get_MethodBinary('measurement.frechet_distance')
-    hausdorff_distance = get_MethodBinary('measurement.hausdorff_distance')
-    length = get_IndexedSeriesProperty('measurement.length')
-    minimum_bounding_radius = get_IndexedSeriesProperty('measurement.minimum_bounding_radius')
-    minimum_clearance = get_IndexedSeriesProperty('measurement.minimum_clearance')
-    total_bounds = get_SeriesProperty('measurement.total_bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
+    area = unary_series_indexed('measurement.area')
+    bounds = unary_dataframe_indexed('measurement.bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
+    distance = binary('measurement.distance')
+    frechet_distance = binary('measurement.frechet_distance')
+    hausdorff_distance = binary('measurement.hausdorff_distance')
+    length = unary_series_indexed('measurement.length')
+    minimum_bounding_radius = unary_series_indexed('measurement.minimum_bounding_radius')
+    minimum_clearance = unary_series_indexed('measurement.minimum_clearance')
+    total_bounds = unary_series('measurement.total_bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
 
     # -------------------------------------------------------------------------
     # Predicates
     # -------------------------------------------------------------------------
-    contains = get_MethodBinary('predicates.contains')
-    contains_properly = get_MethodBinary('predicates.contains_properly')
-    covered_by = get_MethodBinary('predicates.covered_by')
-    covers = get_MethodBinary('predicates.covers')
-    crosses = get_MethodBinary('predicates.crosses')
-    disjoint = get_MethodBinary('predicates.disjoint')
-    equals = get_MethodBinary('predicates.equals')
-    equals_exact = get_MethodBinary('predicates.equals_exact')
-    has_z = get_IndexedSeriesProperty('predicates.has_z')
-    intersects = get_MethodBinary('predicates.intersects')
-    is_ccw = get_IndexedSeriesProperty('predicates.is_ccw')
-    is_closed = get_IndexedSeriesProperty('predicates.is_closed')
-    is_empty = get_IndexedSeriesProperty('predicates.is_empty')
-    is_geometry = get_IndexedSeriesProperty('predicates.is_geometry')
-    is_missing = get_IndexedSeriesProperty('predicates.is_missing')
-    is_prepared = get_IndexedSeriesProperty('predicates.is_prepared')
-    is_ring = get_IndexedSeriesProperty('predicates.is_ring')
-    is_simple = get_IndexedSeriesProperty('predicates.is_simple')
-    is_valid = get_IndexedSeriesProperty('predicates.is_valid')
-    is_valid_input = get_IndexedSeriesProperty('predicates.is_valid_input')
-    is_valid_reason = get_IndexedSeriesProperty('predicates.is_valid_reason')
-    overlaps = get_MethodBinary('predicates.overlaps')
-    relate = get_MethodBinary('predicates.relate')
-    relate_pattern = get_MethodBinary('predicates.relate_pattern')
-    touches = get_MethodBinary('predicates.touches')
-    within = get_MethodBinary('predicates.within')
+    contains = binary('predicates.contains')
+    contains_properly = binary('predicates.contains_properly')
+    covered_by = binary('predicates.covered_by')
+    covers = binary('predicates.covers')
+    crosses = binary('predicates.crosses')
+    disjoint = binary('predicates.disjoint')
+    equals = binary('predicates.equals')
+    equals_exact = binary('predicates.equals_exact')
+    has_z = unary_series_indexed('predicates.has_z')
+    intersects = binary('predicates.intersects')
+    is_ccw = unary_series_indexed('predicates.is_ccw')
+    is_closed = unary_series_indexed('predicates.is_closed')
+    is_empty = unary_series_indexed('predicates.is_empty')
+    is_geometry = unary_series_indexed('predicates.is_geometry')
+    is_missing = unary_series_indexed('predicates.is_missing')
+    is_prepared = unary_series_indexed('predicates.is_prepared')
+    is_ring = unary_series_indexed('predicates.is_ring')
+    is_simple = unary_series_indexed('predicates.is_simple')
+    is_valid = unary_series_indexed('predicates.is_valid')
+    is_valid_input = unary_series_indexed('predicates.is_valid_input')
+    is_valid_reason = unary_series_indexed('predicates.is_valid_reason')
+    overlaps = binary('predicates.overlaps')
+    relate = binary('predicates.relate')
+    relate_pattern = binary('predicates.relate_pattern')
+    touches = binary('predicates.touches')
+    within = binary('predicates.within')
 
     # -------------------------------------------------------------------------
     # Set operations
     # -------------------------------------------------------------------------
-    coverage_union = get_MethodBinary('set_operations.coverage_union', geos=True)
-    coverage_union_all = get_ReturnMethodUnary('set_operations.coverage_union_all')
-    difference = get_MethodBinary('set_operations.difference', geos=True)
-    intersection = get_MethodBinary('set_operations.intersection', geos=True)
-    intersection_all = get_ReturnMethodUnary('set_operations.intersection_all')
-    symmetric_difference = get_MethodBinary('set_operations.symmetric_difference', geos=True)
-    symmetric_difference_all = get_ReturnMethodUnary('set_operations.symmetric_difference_all')
-    union = get_MethodBinary('set_operations.union', geos=True)
-    union_all = get_ReturnMethodUnary('set_operations.union_all')
+    coverage_union = binary('set_operations.coverage_union', geos=True)
+    coverage_union_all = unary_return('set_operations.coverage_union_all')
+    difference = binary('set_operations.difference', geos=True)
+    intersection = binary('set_operations.intersection', geos=True)
+    intersection_all = unary_return('set_operations.intersection_all')
+    symmetric_difference = binary('set_operations.symmetric_difference', geos=True)
+    symmetric_difference_all = unary_return('set_operations.symmetric_difference_all')
+    union = binary('set_operations.union', geos=True)
+    union_all = unary_return('set_operations.union_all')
 
     # -------------------------------------------------------------------------
     # Constructive operations
     # -------------------------------------------------------------------------
-    boundary = get_IndexedSeriesProperty('constructive.boundary', geos=True)
-    buffer = get_IndexedSeriesMethodUnary('constructive.buffer', geos=True)
-    build_area = get_ReturnMethodUnary('constructive.build_area')
-    centroid = get_IndexedSeriesProperty('constructive.centroid', geos=True)
-    clip_by_rect = get_IndexedSeriesMethodUnary('constructive.clip_by_rect', geos=True)
-    convex_hull = get_IndexedSeriesProperty('constructive.convex_hull', geos=True)
-    delaunay_triangles = get_IndexedSeriesMethodUnary('constructive.delaunay_triangles', geos=True)
-    envelope = get_IndexedSeriesProperty('constructive.envelope', geos=True)
-    extract_unique_points = get_IndexedSeriesProperty('constructive.extract_unique_points', geos=True)
-    make_valid = get_IndexedSeriesProperty('constructive.make_valid', geos=True)
-    minimum_bounding_circle = get_IndexedSeriesProperty('constructive.minimum_bounding_circle', geos=True)
-    minimum_rotated_rectangle = get_IndexedSeriesProperty('constructive.minimum_rotated_rectangle', geos=True)
-    normalize = get_IndexedSeriesProperty('constructive.normalize', geos=True)
-    offset_curve = get_IndexedSeriesMethodUnary('constructive.offset_curve', geos=True)
-    oriented_envelope = get_IndexedSeriesProperty('constructive.oriented_envelope', geos=True)
-    point_on_surface = get_IndexedSeriesProperty('constructive.point_on_surface', geos=True)
-    polygonize = get_ReturnMethodUnary('constructive.polygonize')
-    reverse = get_IndexedSeriesProperty('constructive.reverse', geos=True)
-    segmentize = get_ReturnMethodUnary('constructive.segmentize')
-    simplify = get_IndexedSeriesMethodUnary('constructive.simplify', geos=True)
-    snap = get_IndexedSeriesMethodUnary('constructive.snap', geos=True)
-    voronoi_polygons = get_IndexedSeriesMethodUnary('constructive.voronoi_polygons', geos=True)
+    boundary = unary_series_indexed('constructive.boundary', geos=True)
+    buffer = unary_series_indexed('constructive.buffer', geos=True)
+    build_area = unary_return('constructive.build_area')
+    centroid = unary_series_indexed('constructive.centroid', geos=True)
+    clip_by_rect = unary_series_indexed('constructive.clip_by_rect', geos=True)
+    convex_hull = unary_series_indexed('constructive.convex_hull', geos=True)
+    delaunay_triangles = unary_series_indexed('constructive.delaunay_triangles', geos=True)
+    envelope = unary_series_indexed('constructive.envelope', geos=True)
+    extract_unique_points = unary_series_indexed('constructive.extract_unique_points', geos=True)
+    make_valid = unary_series_indexed('constructive.make_valid', geos=True)
+    minimum_bounding_circle = unary_series_indexed('constructive.minimum_bounding_circle', geos=True)
+    minimum_rotated_rectangle = unary_series_indexed('constructive.minimum_rotated_rectangle', geos=True)
+    normalize = unary_series_indexed('constructive.normalize', geos=True)
+    offset_curve = unary_series_indexed('constructive.offset_curve', geos=True)
+    oriented_envelope = unary_series_indexed('constructive.oriented_envelope', geos=True)
+    point_on_surface = unary_series_indexed('constructive.point_on_surface', geos=True)
+    polygonize = unary_return('constructive.polygonize')
+    reverse = unary_series_indexed('constructive.reverse', geos=True)
+    segmentize = unary_return('constructive.segmentize')
+    simplify = unary_series_indexed('constructive.simplify', geos=True)
+    snap = unary_series_indexed('constructive.snap', geos=True)
+    voronoi_polygons = unary_series_indexed('constructive.voronoi_polygons', geos=True)
 
     # -------------------------------------------------------------------------
     # Linestring operations
     # -------------------------------------------------------------------------
-    line_interpolate_point = get_IndexedSeriesMethodUnary('linear.line_interpolate_point', geos=True)
-    line_locate_point = get_IndexedSeriesMethodUnary('linear.line_locate_point', geos=True)
-    line_merge = get_IndexedSeriesProperty('linear.line_merge', geos=True)
-    shared_paths = get_MethodBinary('linear.shared_paths', geos=True)
-    shortest_line = get_MethodBinary('linear.shortest_line', geos=True)
+    line_interpolate_point = unary_series_indexed('linear.line_interpolate_point', geos=True)
+    line_locate_point = unary_series_indexed('linear.line_locate_point', geos=True)
+    line_merge = unary_series_indexed('linear.line_merge', geos=True)
+    shared_paths = binary('linear.shared_paths', geos=True)
+    shortest_line = binary('linear.shortest_line', geos=True)
 
     # -------------------------------------------------------------------------
     # Coordinate operations
     # -------------------------------------------------------------------------
-    apply = get_IndexedSeriesMethodUnary('coordinates.apply', geos=True)
-    count_coordinates = get_IndexedSeriesProperty('coordinates.count_coordinates')
-    get_coordinates = get_ReturnMethodUnary('coordinates.get_coordinates')
-    set_coordinates = get_IndexedSeriesMethodUnary('coordinates.set_coordinates', geos=True)
+    apply = unary_series_indexed('coordinates.apply', geos=True)
+    count_coordinates = unary_series_indexed('coordinates.count_coordinates')
+    get_coordinates = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y', 'z'], include_z=True, return_index=True)
+    set_coordinates = unary_series_indexed('coordinates.set_coordinates', geos=True)
 
     # -------------------------------------------------------------------------
     # STRTree
     # -------------------------------------------------------------------------
-    STRtree = get_ReturnMethodUnary('strtree.STRtree')
+    STRtree = unary_return('strtree.STRtree')
 
     # -------------------------------------------------------------------------
     # Custom Methods

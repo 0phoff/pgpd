@@ -8,8 +8,6 @@ import pgpd
 
 skips = {
     'geometry': (
-        'get_geometry',
-        'get_rings',
         'IntEnum',
     ),
     'creation': (

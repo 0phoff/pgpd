@@ -2,6 +2,7 @@
 # Delegated Accessor Attributes for Series
 #
 from collections.abc import Iterable
+from inspect import signature
 from warnings import warn
 import numpy as np
 import pandas as pd
@@ -10,35 +11,34 @@ from ._util import rgetattr, get_summary
 from ._array import GeosArray
 
 __all__ = [
-    'get_SeriesProperty',
-    'get_IndexedSeriesProperty',
-    'get_IndexedDataFrameProperty',
-    'get_ReturnMethodUnary',
-    'get_NoneMethodUnary',
-    'get_SeriesMethodUnary',
-    'get_IndexedSeriesMethodUnary',
-    'get_IndexedDataFrameMethodUnary',
-    'get_MethodBinary',
-    'enableDataFrameExpand',
+    'unary_series',
+    'unary_series_indexed',
+    'unary_series_keyed',
+    'unary_dataframe_indexed',
+    'unary_dataframe_keyed',
+    'unary_return',
+    'unary_none',
+    'binary',
+    'enableDataFrameExpand'
 ]
 
 
-def get_SeriesProperty(name, index=None, geos=False):
+def unary_series(name, index=None, geos=False, **defaults):
     """
-    Create a property that returns a Series with values.
-    This function is usually used for methods that have a many-to-1 relation with the original data.
+    Create a method that returns a Series with values.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
         index (list): Values to use as the index of the returned Series; Default **None**.
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        defaults (**kwargs): Default argument values that cannot be overwritten
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
         return None
 
-    def delegated(self):
+    def delegated(self, *args, **kwargs):
         """
         {summary}
 
@@ -47,101 +47,177 @@ def get_SeriesProperty(name, index=None, geos=False):
         Returns:
             pandas.Series: Series with the results of the function.
         """
-        result = func(self._obj.array.data)
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        result = func(self._obj.array.data, *args, **kwargs)
         if geos:
             result = GeosArray(result)
 
         return pd.Series(result, index=index, name=func.__name__)
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     if index is not None:
         delegated.__DataFrameExpand__ = 2
-    return property(delegated)
+    return delegated
 
 
-def get_IndexedSeriesProperty(name, geos=False):
+def unary_series_indexed(name, geos=False, **defaults):
     """
-    Create a property that returns a Series with values and the same index as the original data.
-    This function is used for methods that have a 1-to-1 relation with the original data.
+    Create a method that returns a Series with values, where each object in the original data maps to one new value.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        defaults (**kwargs): Default argument values that cannot be overwritten
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
         return None
 
-    def delegated(self):
+    def delegated(self, *args, **kwargs):
         """
         {summary}
 
-        Applies :py:obj:`pygeos:pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
-            pandas.Series: Series with the result of the function and the same index.
+            pandas.Series: Series with the results of the function.
         """
-        result = func(self._obj.array.data)
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        result = func(self._obj.array.data, *args, **kwargs)
         if geos:
             result = GeosArray(result)
 
         return pd.Series(result, index=self._obj.index, name=func.__name__)
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     delegated.__DataFrameExpand__ = 1
-    return property(delegated)
+    return delegated
 
 
-def get_IndexedDataFrameProperty(name, columns, geos=False):
+def unary_series_keyed(name, geos=False, **defaults):
     """
-    Create a property that returns a DataFrame with values and the same index as the original data.
-    This function is used for methods that have a 1-to-many relation with the original data.
+    Create a method that returns a Series with values, where each object in the original data can return a different number of values.
+    The difference with :func:`unary_series` is that the pygeos method should return the index of the original data, so we can setup the index as a foreign key.
+
+    Args:
+        name (str): Name of the method within the ``pygeos`` module.
+        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        defaults (**kwargs): Default argument values that cannot be overwritten
+    """
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
+        return None
+
+    def delegated(self, *args, **kwargs):
+        """
+        {summary}
+
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+
+        Returns:
+            pandas.Series: Series with the results of the function.
+        """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        result, index = func(self._obj.array.data, *args, **kwargs)
+        if geos:
+            result = GeosArray(result)
+
+        return pd.Series(result, index=self._obj.index[index], name=func.__name__)
+
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
+    return delegated
+
+
+def unary_dataframe_indexed(name, columns, geos=False, **defaults):
+    """
+    Create a method that returns a DataFrame, where each object in the original data maps to N new values (different columns).
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
         columns (list<str>): List with column names.
         geos (bool or list<bool>, optional): Whether the returned data is PyGEOS dtype; Default **False**.
-
-    Note:
-        If the returned data has different dtypes, you can pass a list of booleans for the ``geos`` argument.
+        defaults (**kwargs): Default argument values that cannot be overwritten
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
         return None
 
     if isinstance(geos, bool):
         geos = [geos] * len(columns)
 
-    def delegated(self):
+    def delegated(self, *args, **kwargs):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
 
         Returns:
-            pandas.DataFrame: Dataframe with the results of the function in the columns {columns} and the same index.
+            pandas.Series: Series with the results of the function.
         """
-        result = func(self._obj.array.data)
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        result = func(self._obj.array.data, *args, **kwargs)
         if any(geos):
             result = [GeosArray(result[:, i]) if g else result[:, i] for g, i in zip(geos, range(result.shape[1]))]
 
         return pd.DataFrame(result, index=self._obj.index, columns=columns)
 
-    return property(delegated, doc=delegated.__doc__.format(func=name, summary=func_summary, columns=columns))
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary, columns=columns)
+    return delegated
 
 
-def get_ReturnMethodUnary(name):
+def unary_dataframe_keyed(name, columns, geos=False, **defaults):
     """
-    Create a unary method that returns the output of the function unmodified.
+    Create a method that returns a DataFrame with values, where each object in the original data can return different rows of N values.
+    The pygeos method should return the index of the original data, so we can setup the index as a foreign key.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
+        columns (list<str>): List with column names.
+        geos (bool or list<bool>, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        defaults (**kwargs): Default argument values that cannot be overwritten
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
+        return None
+
+    if isinstance(geos, bool):
+        geos = [geos] * len(columns)
+
+    def delegated(self, *args, **kwargs):
+        """
+        {summary}
+
+        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+
+        Returns:
+            pandas.Series: Series with the results of the function.
+        """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        result, index = func(self._obj.array.data, *args, **kwargs)
+        if any(geos):
+            result = [GeosArray(result[:, i]) if g else result[:, i] for g, i in zip(geos, range(result.shape[1]))]
+
+        return pd.DataFrame(result, index=self._obj.index[index], columns=columns)
+
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary, columns=columns)
+    return delegated
+
+
+def unary_return(name, **defaults):
+    """
+    Create a method that returns the output of the function unmodified.
+
+    Args:
+        name (str): Name of the method within the ``pygeos`` module.
+        defaults (**kwargs): Default argument values that cannot be overwritten
+    """
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
         return None
 
     def delegated(self, *args, **kwargs):
@@ -154,22 +230,24 @@ def get_ReturnMethodUnary(name):
             args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
             kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
         """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
         return func(self._obj.array.data, *args, **kwargs)
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     return delegated
 
 
-def get_NoneMethodUnary(name):
+def unary_none(name, **defaults):
     """
     Create a unary method that runs the pygeos function on the data and returns itself.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
+        defaults (**kwargs): Default argument values that cannot be overwritten
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
         return None
 
     def delegated(self, *args, **kwargs):
@@ -185,137 +263,16 @@ def get_NoneMethodUnary(name):
         Returns:
             pandas.Series: returns the series for chaining.
         """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
         func(self._obj.array.data, *args, **kwargs)
         return self
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     delegated.__DataFrameExpand__ = 1
     return delegated
 
 
-def get_SeriesMethodUnary(name, index=None, geos=False):
-    """
-    Create a unary method that returns a Series with values.
-    This function is usually used for methods that have a many-to-1 relation with the original data.
-
-    Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        index (list): Values to use as the index of the returned Series; Default **None**.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
-    """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
-        return None
-
-    def delegated(self, *args, **kwargs):
-        """
-        {summary}
-
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
-
-        Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
-
-        Returns:
-            pandas.Series: Series with the results of the function.
-        """
-        result = func(self._obj.array.data, *args, **kwargs)
-        if geos:
-            result = GeosArray(result)
-
-        return pd.Series(result, index=index, name=func.__name__)
-
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
-    if index is not None:
-        delegated.__DataFrameExpand__ = 2
-    return delegated
-
-
-def get_IndexedSeriesMethodUnary(name, geos=False):
-    """
-    Create a unary method that returns a Series with values and the same index as the original data.
-    This function is used for methods that have a 1-to-1 relation with the original data.
-
-    Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
-    """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
-        return None
-
-    def delegated(self, *args, **kwargs):
-        """
-        {summary}
-
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
-
-        Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
-
-        Returns:
-            pandas.Series: Series with the result of the function and the same index.
-        """
-        result = func(self._obj.array.data, *args, **kwargs)
-        if geos:
-            result = GeosArray(result)
-
-        return pd.Series(result, index=self._obj.index, name=func.__name__)
-
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
-    delegated.__DataFrameExpand__ = 1
-    return delegated
-
-
-def get_IndexedDataFrameMethodUnary(name, columns, geos=False):
-    """
-    Create a unary method that returns a DataFrame with values and the same index as the original data.
-    This function is used for methods that have a 1-to-many relation with the original data.
-
-    Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        columns (list<str>): List with column names.
-        geos (bool or list<bool>, optional): Whether the returned data is PyGEOS dtype; Default **False**.
-
-    Note:
-        If the returned data has different dtypes, you can pass a list of booleans for the ``geos`` argument.
-    """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
-        return None
-
-    if isinstance(geos, bool):
-        geos = [geos] * len(columns)
-
-    def delegated(self, *args, **kwargs):
-        """
-        {summary}
-
-        Applies :py:obj:`pygeos.{func}` to the data and returns a DataFrame with the result.
-
-        Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
-
-        Returns:
-            pandas.DataFrame: Dataframe with the results of the function in the columns {columns} and the same index.
-        """
-        result = func(self._obj.array.data, *args, **kwargs)
-        if any(geos):
-            result = [GeosArray(result[:, i]) if g else result[:, i] for g, i in zip(geos, range(result.shape[1]))]
-
-        return pd.DataFrame(result, index=self._obj.index, columns=columns)
-
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary, columns=columns)
-    return delegated
-
-
-def get_MethodBinary(name, geos=False):     # noqa: C901
+def binary(name, geos=False, **defaults):     # noqa: C901
     """
     Create a binary method that runs a PyGEOS function on the original data and some other.
 
@@ -323,9 +280,9 @@ def get_MethodBinary(name, geos=False):     # noqa: C901
         name (str): Name of the method within the ``pygeos`` module.
         geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
     """
-    func = rgetattr(pygeos, name, None)
-    func_summary = get_summary(func.__doc__)
-    if func is None:
+    try:
+        func, func_summary = get_func_info(name)
+    except AttributeError:
         return None
 
     def delegated(self, other=None, manner=None, **kwargs):
@@ -414,6 +371,7 @@ def get_MethodBinary(name, geos=False):     # noqa: C901
         else:
             raise ValueError('"other" should be a geos Series or PyGEOS NumPy array')
 
+        kwargs = {**kwargs, **defaults}
         result = func(data, other, **kwargs)
         if not isinstance(result, np.ndarray):
             result = result if isinstance(result, Iterable) else [result]
@@ -426,7 +384,7 @@ def get_MethodBinary(name, geos=False):     # noqa: C901
         else:
             return result
 
-    delegated.__doc__ = delegated.__doc__.format(func=name, summary=func_summary)
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     return delegated
 
 
@@ -441,3 +399,33 @@ def enableDataFrameExpand(expansion=1):
         return expansion
     else:
         return decorator
+
+
+def get_func_info(name, defaults=None):
+    func = rgetattr(pygeos, name)
+    func_summary = get_summary(func.__doc__)
+    if defaults is None:
+        return func, func_summary
+
+    positions = {}
+    for idx, (name, param) in enumerate(signature(func).parameters.items()):
+        if name in defaults and param.kind == param.POSITIONAL_OR_KEYWORD:
+            positions[idx] = name
+
+    return func, func_summary, positions
+
+
+def setup_args(args, kwargs, defaults, positions):
+    if len(defaults) > 0 and len(args) > 0:
+        defaults = defaults.copy()
+        for i in range(len(args)):
+            if i in positions:
+                args[i] = defaults.pop(positions[i])
+    return args, {**kwargs, **defaults}
+
+
+def setup_docstring(string, defaults, **kwargs):
+    string = string.format(**kwargs)
+    if len(defaults) != 0:
+        string += f'\n\n        Note:\n            The pygeos functions gets called with these default values that cannot be overwritten: {defaults}'
+    return string

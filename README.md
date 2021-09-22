@@ -43,11 +43,9 @@ Note that we need to explicitly set the type of the PyGEOS columns to __"geos"__
 ```
 
 We can access pygeos functionality through the "geos" accessor namespace.  
-PyGEOS functions that don't require any arguments besides the geometries are accessed as properties on the Series,
-others are accessed as methods.
 
 ```python
->>> df.poly.geos.length
+>>> df.poly.geos.length()
 0    40.0
 1    40.0
 2    40.0
@@ -55,7 +53,7 @@ others are accessed as methods.
 4    40.0
 Name: length, dtype: float64
 
->>> df.pt.geos.total_bounds
+>>> df.pt.geos.total_bounds()
 xmin     0.0
 ymin    10.0
 xmax     4.0
@@ -76,7 +74,7 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
 
 ```python
 >>> # Fixed number of outputs (ic. xmin,ymin,xmax,ymax)
->>> df.geos.total_bounds
+>>> df.geos.total_bounds()
       poly    pt
 xmin   0.0   0.0
 ymin   0.0  10.0
