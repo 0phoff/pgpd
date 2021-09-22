@@ -19,7 +19,7 @@ __all__ = [
     'unary_return',
     'unary_none',
     'binary',
-    'enableDataFrameExpand'
+    'enableDataFrameExpand',
 ]
 
 
