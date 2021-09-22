@@ -9,7 +9,7 @@ Small wrapper to use pygeos functions from pandas.
 The main use case is if you want to have geometries in your dataframe,
 but you do not care about CRS at all and thus do not need all the extra features from GeoPandas.
 
-# Install
+## Install
 This package is available on PyPi for installation.
 
 ```bash
@@ -17,7 +17,7 @@ pip install pgpd
 ```
 
 
-# Example
+## Example
 Let's get started by first creating a dataframe with PyGEOS data.  
 Note that we need to explicitly set the type of the PyGEOS columns to __"geos"__!
 
@@ -42,6 +42,7 @@ Note that we need to explicitly set the type of the PyGEOS columns to __"geos"__
 4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)
 ```
 
+### Series
 We can access pygeos functionality through the "geos" accessor namespace.  
 
 ```python
@@ -69,28 +70,58 @@ Name: total_bounds, dtype: float64
 Name: clip_by_rect, dtype: geos
 ```
 
-While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.  
-The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.
+Some functions return more values per row, so we convert them to DataFrames:
 
 ```python
->>> # Fixed number of outputs (ic. xmin,ymin,xmax,ymax)
->>> df.geos.total_bounds()
-      poly    pt
-xmin   0.0   0.0
-ymin   0.0  10.0
-xmax  14.0   4.0
-ymax  10.0  14.0
+>>> df.poly.bounds()
+   xmin  ymin  xmax  ymax
+0   0.0   0.0  10.0  10.0
+1   1.0   0.0  11.0  10.0
+2   2.0   0.0  12.0  10.0
+3   3.0   0.0  13.0  10.0
+4   4.0   0.0  14.0  10.0
+```
 
->>> # For every PyGEOS function that has a 1-to-1 relation,
->>> # the DataFrame variant allows inplace modification
->>> df.geos.apply(lambda coord: coord*2, inplace=True)
->>> df
-   a                                     poly            pt
-0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)
-1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)
-2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)
-3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)
-4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)
+There are some functions that return a variable number of items per original object.
+For these functions, the index of the returned Series/DataFrame will point to the original object index.
+
+```python
+>>> points = pd.Series(
+...   pygeos.multipoints(
+...     [[0,0], [1,1], [2,2], [0,1],[2,3], [10,20],[30,40],[40,50],[50,60]],
+...     indices=[0,0,0,1,1,2,2,2,2],
+...   ),
+...   dtype='geos',
+... )
+>>> points
+0                 MULTIPOINT (0 0, 1 1, 2 2)
+1                      MULTIPOINT (0 1, 2 3)
+2    MULTIPOINT (10 20, 30 40, 40 50, 50 60)
+dtype: geos
+
+>>> points.geos.get_parts()
+0      POINT (0 0)
+0      POINT (1 1)
+0      POINT (2 2)
+1      POINT (0 1)
+1      POINT (2 3)
+2    POINT (10 20)
+2    POINT (30 40)
+2    POINT (40 50)
+2    POINT (50 60)
+Name: get_parts, dtype: geos
+
+>>> points.geos.get_coordinates()
+      x     y   z
+0   0.0   0.0 NaN
+0   1.0   1.0 NaN
+0   2.0   2.0 NaN
+1   0.0   1.0 NaN
+1   2.0   3.0 NaN
+2  10.0  20.0 NaN
+2  30.0  40.0 NaN
+2  40.0  50.0 NaN
+2  50.0  60.0 NaN
 ```
 
 Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.  
@@ -144,11 +175,58 @@ array([[400., 360., 320., 280., 240.],
 ```
 
 
-# GeoPandas
+### DataFrame
+While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.  
+The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.
+
+```python
+>>> # Fixed number of outputs (ic. xmin,ymin,xmax,ymax)
+>>> df.geos.total_bounds()
+      poly    pt
+xmin   0.0   0.0
+ymin   0.0  10.0
+xmax  14.0   4.0
+ymax  10.0  14.0
+
+>>> # For every PyGEOS function that has a 1-to-1 relation,
+>>> # the DataFrame variant allows inplace modification
+>>> df.geos.apply(lambda coord: coord*2, inplace=True)
+>>> df
+   a                                     poly            pt
+0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)
+1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)
+2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)
+3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)
+4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)
+```
+
+
+## GeoPandas
 The main use case for this library is not to depend on GeoPandas and all of its dependencies.
 However -if you need to- this library provides methods to convert from and to GeoPandas.
 
-_DataFrame_
+### Series
+```python
+>>> gs = df.pt.geos.to_geopandas(crs='WGS84')
+>>> gs
+0    POINT (0.00000 20.00000)
+1    POINT (2.00000 22.00000)
+2    POINT (4.00000 24.00000)
+3    POINT (6.00000 26.00000)
+4    POINT (8.00000 28.00000)
+Name: pt, dtype: geometry
+
+>>> s2 = gs.geos.from_geopandas()
+>>> s2
+0    POINT (0 20)
+1    POINT (2 22)
+2    POINT (4 24)
+3    POINT (6 26)
+4    POINT (8 28)
+Name: pt, dtype: geos
+```
+
+### DataFrame
 ```python
 >>> gdf = df.geos.to_geopandas(geometry='poly', crs='WGS84')
 >>> gdf
@@ -179,26 +257,6 @@ pt        geos
 dtype: object
 ```
 
-_Series_
-```python
->>> gs = df.pt.geos.to_geopandas(crs='WGS84')
->>> gs
-0    POINT (0.00000 20.00000)
-1    POINT (2.00000 22.00000)
-2    POINT (4.00000 24.00000)
-3    POINT (6.00000 26.00000)
-4    POINT (8.00000 28.00000)
-Name: pt, dtype: geometry
-
->>> s2 = gs.geos.from_geopandas()
->>> s2
-0    POINT (0 20)
-1    POINT (2 22)
-2    POINT (4 24)
-3    POINT (6 26)
-4    POINT (8 28)
-Name: pt, dtype: geos
-```
 
 [version-badge]: https://img.shields.io/pypi/v/pgpd?label=version
 [ci-badge]: https://github.com/0phoff/pygeos-pandas/actions/workflows/ci.yml/badge.svg?branch=master
