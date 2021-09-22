@@ -135,7 +135,7 @@ This argument dictates how the 2 sets of geometries are transformed before runni
 
 ```python
 >>> # KEEP: Just runs the `contains` function on the "poly" column data and the given Point
->>> df.poly.geos.contains(pygeos.Geometry("Point (23 10)"), manner='keep')
+>>> df.poly.geos.contains(pygeos.Geometry("Point (11 5)"), manner='keep')
 0    False
 1    False
 2     True
@@ -146,19 +146,19 @@ Name: contains, dtype: bool
 >>> # ALIGN: We only pass 3 points, but tell the function to align the data according to the index
 >>> df.poly.geos.distance(df.pt[1:4], manner='align')
 0    NaN
-1    2.0
-2    4.0
-3    6.0
+1    1.0
+2    2.0
+3    3.0
 4    NaN
 Name: distance, dtype: float64
 
 >>> # EXPAND: Compare each polygon with each point (returns numpy.ndarray <5,3> in this case)
 >>> df.poly.geos.distance(df.pt[1:4], manner='expand')
-array([[2.        , 4.        , 6.        ],
-       [2.        , 4.        , 6.        ],
-       [2.82842712, 4.        , 6.        ],
-       [4.47213595, 4.47213595, 6.        ],
-       [6.32455532, 5.65685425, 6.32455532]])
+array([[1.        , 2.        , 3.        ],
+       [1.        , 2.        , 3.        ],
+       [1.41421356, 2.        , 3.        ],
+       [2.23606798, 2.23606798, 3.        ],
+       [3.16227766, 2.82842712, 3.16227766]])
 ```
 
 One last difference is that you can omit the `other` set of geometries.
@@ -167,11 +167,11 @@ The method will then automatically choose the _expand_ mode and use the `self` d
 ```python
 >>> # Compute all possible intersection areas of the geometries in the "poly" column
 >>> pygeos.area(df.poly.geos.intersection())
-array([[400., 360., 320., 280., 240.],
-       [360., 400., 360., 320., 280.],
-       [320., 360., 400., 360., 320.],
-       [280., 320., 360., 400., 360.],
-       [240., 280., 320., 360., 400.]])
+array([[100.,  90.,  80.,  70.,  60.],
+       [ 90., 100.,  90.,  80.,  70.],
+       [ 80.,  90., 100.,  90.,  80.],
+       [ 70.,  80.,  90., 100.,  90.],
+       [ 60.,  70.,  80.,  90., 100.]])
 ```
 
 
