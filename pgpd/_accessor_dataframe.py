@@ -3,7 +3,7 @@
 #
 import pandas as pd
 from ._array import GeosArray
-from ._delegated_dataframe import get_DataFrameExpandedProperty, get_DataFrameExpandedMethodUnary
+from ._delegated_dataframe import unary_dataframe_expanded
 from ._accessor_series import GeosSeriesAccessor
 
 try:
@@ -100,16 +100,16 @@ class GeosDataFrameAccessor:
         return gpd.GeoDataFrame(df, geometry=geometry, crs=crs)
 
 
-# Set convenience properties and methods on DataFrame accessor
-# They simply call the Series accessor equivalent for each geos column and group the result
 for name in dir(GeosSeriesAccessor):
     if name.startswith('__'):
         continue
-
     item = getattr(GeosSeriesAccessor, name)
+
     if item is None:
+        # Any accessor function that tries to access an non-existent pygeos function (eg. older version)
+        # is set to None and will thus be removed from the accessor here.
         delattr(GeosSeriesAccessor, name)
-    if isinstance(item, property) and hasattr(item.fget, '__DataFrameExpand__'):
-        setattr(GeosDataFrameAccessor, name, get_DataFrameExpandedProperty(name, item.fget.__DataFrameExpand__))
     elif callable(item) and hasattr(item, '__DataFrameExpand__'):
-        setattr(GeosDataFrameAccessor, name, get_DataFrameExpandedMethodUnary(name, item.__DataFrameExpand__))
+        # Set convenience properties and methods on DataFrame accessor.
+        # They simply call the Series accessor equivalent for each geos column and group the result.
+        setattr(GeosDataFrameAccessor, name, unary_dataframe_expanded(name, item.__DataFrameExpand__))

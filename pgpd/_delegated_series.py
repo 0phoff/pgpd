@@ -11,16 +11,81 @@ from ._util import rgetattr, get_summary
 from ._array import GeosArray
 
 __all__ = [
+    'unary_return',
+    'unary_none',
     'unary_series',
     'unary_series_indexed',
     'unary_series_keyed',
     'unary_dataframe_indexed',
     'unary_dataframe_keyed',
-    'unary_return',
-    'unary_none',
     'binary',
-    'enableDataFrameExpand',
+    'enable_dataframe_expand',
 ]
+
+
+def unary_return(name, **defaults):
+    """
+    Create a method that returns the output of the function unmodified.
+
+    Args:
+        name (str): Name of the method within the ``pygeos`` module.
+        defaults (**kwargs): Default argument values that cannot be overwritten
+    """
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
+        return None
+
+    def delegated(self, *args, **kwargs):
+        """
+        {summary}
+
+        Applies :py:obj:`pygeos.{func}` to the data and returns its result unmodified.
+
+        Args:
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+        """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        return func(self._obj.array.data, *args, **kwargs)
+
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
+    return delegated
+
+
+def unary_none(name, **defaults):
+    """
+    Create a unary method that runs the pygeos function on the data and returns itself.
+
+    Args:
+        name (str): Name of the method within the ``pygeos`` module.
+        defaults (**kwargs): Default argument values that cannot be overwritten
+    """
+    try:
+        func, func_summary, default_pos = get_func_info(name, defaults)
+    except AttributeError:
+        return None
+
+    def delegated(self, *args, **kwargs):
+        """
+        {summary}
+
+        Applies :py:obj:`pygeos.{func}` to the data.
+
+        Args:
+            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+
+        Returns:
+            pandas.Series: returns the series for chaining.
+        """
+        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
+        func(self._obj.array.data, *args, **kwargs)
+        return self
+
+    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
+    delegated.__DataFrameExpand__ = 1
+    return delegated
 
 
 def unary_series(name, index=None, geos=False, **defaults):
@@ -207,71 +272,6 @@ def unary_dataframe_keyed(name, columns, geos=False, **defaults):
     return delegated
 
 
-def unary_return(name, **defaults):
-    """
-    Create a method that returns the output of the function unmodified.
-
-    Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        defaults (**kwargs): Default argument values that cannot be overwritten
-    """
-    try:
-        func, func_summary, default_pos = get_func_info(name, defaults)
-    except AttributeError:
-        return None
-
-    def delegated(self, *args, **kwargs):
-        """
-        {summary}
-
-        Applies :py:obj:`pygeos.{func}` to the data and returns its result unmodified.
-
-        Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
-        """
-        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
-        return func(self._obj.array.data, *args, **kwargs)
-
-    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
-    return delegated
-
-
-def unary_none(name, **defaults):
-    """
-    Create a unary method that runs the pygeos function on the data and returns itself.
-
-    Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        defaults (**kwargs): Default argument values that cannot be overwritten
-    """
-    try:
-        func, func_summary, default_pos = get_func_info(name, defaults)
-    except AttributeError:
-        return None
-
-    def delegated(self, *args, **kwargs):
-        """
-        {summary}
-
-        Applies :py:obj:`pygeos.{func}` to the data.
-
-        Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
-
-        Returns:
-            pandas.Series: returns the series for chaining.
-        """
-        args, kwargs = setup_args(args, kwargs, defaults, default_pos)
-        func(self._obj.array.data, *args, **kwargs)
-        return self
-
-    delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
-    delegated.__DataFrameExpand__ = 1
-    return delegated
-
-
 def binary(name, geos=False, **defaults):     # noqa: C901
     """
     Create a binary method that runs a PyGEOS function on the original data and some other.
@@ -388,7 +388,7 @@ def binary(name, geos=False, **defaults):     # noqa: C901
     return delegated
 
 
-def enableDataFrameExpand(expansion=1):
+def enable_dataframe_expand(expansion=1):
     def decorator(func):
         func.__DataFrameExpand__ = expansion
         return func

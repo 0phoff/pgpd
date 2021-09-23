@@ -15,7 +15,7 @@ from ._delegated_series import (
     unary_return,
     unary_none,
     binary,
-    enableDataFrameExpand,
+    enable_dataframe_expand
 )
 
 try:
@@ -249,7 +249,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     # Custom Methods
     # -------------------------------------------------------------------------
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def affine(self, matrix):
         r"""
         Performs a 2D or 3D affine transformation on all the coordinates.
@@ -308,7 +308,7 @@ class GeosSeriesAccessor:
         result = self._obj.array.affine(matrix)
         return pd.Series(result, index=self._obj.index, name='affine')
 
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def rotate(self, *angles, origin):
         r"""
         Performs a 2D or 3D rotation on all the coordinates.
@@ -412,7 +412,7 @@ class GeosSeriesAccessor:
 
         return pd.Series(result, index=self._obj.index, name='rotate')
 
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def scale(self, x, y, z=None, *, origin=None):
         r"""
         Performs a 2D or 3D scaling on all the coordinates.
@@ -494,7 +494,7 @@ class GeosSeriesAccessor:
 
         return pd.Series(result, index=self._obj.index, name='scale')
 
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def skew(self, *angles, origin=None):
         r"""
         Performs a 2D or 3D skew/shear transformation on all the coordinates.
@@ -578,7 +578,7 @@ class GeosSeriesAccessor:
 
         return pd.Series(result, index=self._obj.index, name='skew')
 
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def translate(self, x, y, z=None):
         r"""
         Performs a 2D or 3D translation on all the coordinates.
@@ -631,7 +631,7 @@ class GeosSeriesAccessor:
 
         return pd.Series(result, index=self._obj.index, name='translate')
 
-    @enableDataFrameExpand
+    @enable_dataframe_expand
     def apply_shapely(self, func):
         """
         Applies a function to each geometry as a shapely object.
