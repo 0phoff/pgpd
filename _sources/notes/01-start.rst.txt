@@ -38,7 +38,7 @@ Note that we need to explicitly set the type of the PyGEOS columns to **"geos"**
    4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)
 
 
-Series
+PyGEOS
 ~~~~~~
 We can access pygeos functionality through the "geos" accessor namespace.  
 
@@ -173,6 +173,52 @@ The method will then automatically choose the *expand* mode and use the `self` d
           [ 60.,  70.,  80.,  90., 100.]])
 
 
+Custom
+~~~~~~
+Additionally to the PyGEOS functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.
+
+The :func:`~pgpd.GeosSeriesAccessor.affine`, :func:`~pgpd.GeosSeriesAccessor.rotate`, :func:`~pgpd.GeosSeriesAccessor.scale`, :func:`~pgpd.GeosSeriesAccessor.skew` and :func:`~pgpd.GeosSeriesAccessor.translate` functions allow to perform a single affine transformation to all the coordinates of your geometries.
+
+.. code-block:: python
+
+   >>> # Rotate all geometries 90 degrees (1.571 rad) around the (0, 0) origin.
+   >>> df.pt.geos.rotate(1.571, origin=(0, 0))
+   0    POINT (-10 0)
+   1    POINT (-11 1)
+   2    POINT (-12 2)
+   3    POINT (-13 3)
+   4    POINT (-14 4)
+   Name: rotate, dtype: geos
+
+You can also add, subtract, multiply or divide values with these series.
+This will perform the operation on the coordinates array. |br|
+However, we perform some checks and potentially modify your input before executing the mathematical operation:
+
+- Depending on the second dimension of your input array, we use 2D or 3D coordinates. Note that if your geometries are 2D, performing 3D operations has no effect.
+- If you have one set of coordinates per geometry, instead of one set of coordinates foreach point in the set, we automatically expand each coordinate to the number of points per geometry.
+
+.. code-block::
+
+   >>> # Perform 2D multiplication
+   >>> # Note that we only provide one transformation coordinate per polygon
+   >>> df.poly * [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+   0      POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))
+   1      POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))
+   2      POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))
+   3    POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))
+   4    POLYGON ((70 0, 70 50, 20 50, 20 0, 70 0))
+   Name: poly, dtype: geos
+
+   >>> # NumPy broadcasting rules still apply
+   >>> df.poly + 10
+   0    POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))
+   1    POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))
+   2    POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))
+   3    POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))
+   4    POLYGON ((24 10, 24 20, 14 20, 14 10, 24 10))
+   Name: poly, dtype: geos
+
+
 DataFrame
 ~~~~~~~~~
 While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.  
@@ -205,7 +251,33 @@ GeoPandas
 The main use case for this library is not to depend on GeoPandas and all of its dependencies.
 However -if you need to- this library provides methods to convert from and to GeoPandas.
 
-.. rubric:: DataFrame
+
+Series
+~~~~~~
+
+.. code-block:: python
+
+   >>> gs = df.pt.geos.to_geopandas(crs='WGS84')
+   >>> gs
+   0    POINT (0.00000 20.00000)
+   1    POINT (2.00000 22.00000)
+   2    POINT (4.00000 24.00000)
+   3    POINT (6.00000 26.00000)
+   4    POINT (8.00000 28.00000)
+   Name: pt, dtype: geometry
+   
+   >>> s2 = gs.geos.from_geopandas()
+   >>> s2
+   0    POINT (0 20)
+   1    POINT (2 22)
+   2    POINT (4 24)
+   3    POINT (6 26)
+   4    POINT (8 28)
+   Name: pt, dtype: geos
+
+
+DataFrame
+~~~~~~~~~
 
 .. code-block:: python
 
@@ -236,28 +308,6 @@ However -if you need to- this library provides methods to convert from and to Ge
    poly      geos
    pt        geos
    dtype: object
-
-.. rubric:: Series
-
-.. code-block:: python
-
-   >>> gs = df.pt.geos.to_geopandas(crs='WGS84')
-   >>> gs
-   0    POINT (0.00000 20.00000)
-   1    POINT (2.00000 22.00000)
-   2    POINT (4.00000 24.00000)
-   3    POINT (6.00000 26.00000)
-   4    POINT (8.00000 28.00000)
-   Name: pt, dtype: geometry
-   
-   >>> s2 = gs.geos.from_geopandas()
-   >>> s2
-   0    POINT (0 20)
-   1    POINT (2 22)
-   2    POINT (4 24)
-   3    POINT (6 26)
-   4    POINT (8 28)
-   Name: pt, dtype: geos
 
 
 .. include:: /links.rst

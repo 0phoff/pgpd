@@ -162,8 +162,13 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#series">
-     Series
+    <a class="reference internal nav-link" href="#pygeos">
+     PyGEOS
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#custom">
+     Custom
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -177,6 +182,18 @@
   <a class="reference internal nav-link" href="#geopandas">
    GeoPandas
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#series">
+     Series
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     DataFrame
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -233,8 +250,8 @@ Note that we need to explicitly set the type of the PyGEOS columns to <strong>�
 <span class="go">4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)</span>
 </pre></div>
 </div>
-<div class="section" id="series">
-<h3>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pygeos">
+<h3>PyGEOS<a class="headerlink" href="#pygeos" title="Permalink to this headline">¶</a></h3>
 <p>We can access pygeos functionality through the “geos” accessor namespace.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
 <span class="go">0    40.0</span>
@@ -358,6 +375,48 @@ The method will then automatically choose the <em>expand</em> mode and use the <
 </pre></div>
 </div>
 </div>
+<div class="section" id="custom">
+<h3>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h3>
+<p>Additionally to the PyGEOS functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.</p>
+<p>The <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.affine.html#pgpd.GeosSeriesAccessor.affine" title="pgpd.GeosSeriesAccessor.affine"><code class="xref py py-func docutils literal notranslate"><span class="pre">affine()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.rotate.html#pgpd.GeosSeriesAccessor.rotate" title="pgpd.GeosSeriesAccessor.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.scale.html#pgpd.GeosSeriesAccessor.scale" title="pgpd.GeosSeriesAccessor.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.skew.html#pgpd.GeosSeriesAccessor.skew" title="pgpd.GeosSeriesAccessor.skew"><code class="xref py py-func docutils literal notranslate"><span class="pre">skew()</span></code></a> and <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.translate.html#pgpd.GeosSeriesAccessor.translate" title="pgpd.GeosSeriesAccessor.translate"><code class="xref py py-func docutils literal notranslate"><span class="pre">translate()</span></code></a> functions allow to perform a single affine transformation to all the coordinates of your geometries.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Rotate all geometries 90 degrees (1.571 rad) around the (0, 0) origin.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mf">1.571</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="go">0    POINT (-10 0)</span>
+<span class="go">1    POINT (-11 1)</span>
+<span class="go">2    POINT (-12 2)</span>
+<span class="go">3    POINT (-13 3)</span>
+<span class="go">4    POINT (-14 4)</span>
+<span class="go">Name: rotate, dtype: geos</span>
+</pre></div>
+</div>
+<p>You can also add, subtract, multiply or divide values with these series.
+This will perform the operation on the coordinates array. <br />
+However, we perform some checks and potentially modify your input before executing the mathematical operation:</p>
+<ul class="simple">
+<li><p>Depending on the second dimension of your input array, we use 2D or 3D coordinates. Note that if your geometries are 2D, performing 3D operations has no effect.</p></li>
+<li><p>If you have one set of coordinates per geometry, instead of one set of coordinates foreach point in the set, we automatically expand each coordinate to the number of points per geometry.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Perform 2D multiplication</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Note that we only provide one transformation coordinate per polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span> <span class="o">*</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="go">0      POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))</span>
+<span class="go">1      POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))</span>
+<span class="go">2      POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))</span>
+<span class="go">3    POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))</span>
+<span class="go">4    POLYGON ((70 0, 70 50, 20 50, 20 0, 70 0))</span>
+<span class="go">Name: poly, dtype: geos</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># NumPy broadcasting rules still apply</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span> <span class="o">+</span> <span class="mi">10</span>
+<span class="go">0    POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))</span>
+<span class="go">1    POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))</span>
+<span class="go">2    POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))</span>
+<span class="go">3    POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))</span>
+<span class="go">4    POLYGON ((24 10, 24 20, 14 20, 14 10, 24 10))</span>
+<span class="go">Name: poly, dtype: geos</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="dataframe">
 <h3>DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h3>
 <p>While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.
@@ -388,7 +447,30 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
 <h2>GeoPandas<a class="headerlink" href="#geopandas" title="Permalink to this headline">¶</a></h2>
 <p>The main use case for this library is not to depend on GeoPandas and all of its dependencies.
 However -if you need to- this library provides methods to convert from and to GeoPandas.</p>
-<p class="rubric">DataFrame</p>
+<div class="section" id="series">
+<h3>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span>
+<span class="go">0    POINT (0.00000 20.00000)</span>
+<span class="go">1    POINT (2.00000 22.00000)</span>
+<span class="go">2    POINT (4.00000 24.00000)</span>
+<span class="go">3    POINT (6.00000 26.00000)</span>
+<span class="go">4    POINT (8.00000 28.00000)</span>
+<span class="go">Name: pt, dtype: geometry</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span>
+<span class="go">0    POINT (0 20)</span>
+<span class="go">1    POINT (2 22)</span>
+<span class="go">2    POINT (4 24)</span>
+<span class="go">3    POINT (6 26)</span>
+<span class="go">4    POINT (8 28)</span>
+<span class="go">Name: pt, dtype: geos</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>DataFrame<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span>
 <span class="go">   a                                               poly            pt</span>
@@ -418,25 +500,6 @@ However -if you need to- this library provides methods to convert from and to Ge
 <span class="go">dtype: object</span>
 </pre></div>
 </div>
-<p class="rubric">Series</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span>
-<span class="go">0    POINT (0.00000 20.00000)</span>
-<span class="go">1    POINT (2.00000 22.00000)</span>
-<span class="go">2    POINT (4.00000 24.00000)</span>
-<span class="go">3    POINT (6.00000 26.00000)</span>
-<span class="go">4    POINT (8.00000 28.00000)</span>
-<span class="go">Name: pt, dtype: geometry</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span>
-<span class="go">0    POINT (0 20)</span>
-<span class="go">1    POINT (2 22)</span>
-<span class="go">2    POINT (4 24)</span>
-<span class="go">3    POINT (6 26)</span>
-<span class="go">4    POINT (8 28)</span>
-<span class="go">Name: pt, dtype: geos</span>
-</pre></div>
 </div>
 </div>
 </div>

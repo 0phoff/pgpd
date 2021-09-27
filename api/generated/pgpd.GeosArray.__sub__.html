@@ -359,12 +359,12 @@
 <dd><p>Performs a subtraction between the coordinates array and other.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<em>array-like</em>) – Item to add to the coordinates (max 2-dimensional).</p>
+<dd class="field-odd"><p><strong>other</strong> (<em>array-like</em>) – Item to subtract from the coordinates (max 2-dimensional).</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When adding the coordinates array and <cite>other</cite>, standard NumPy broadcasting rules apply.
+<p>When subtracting <cite>other</cite> from the coordinates array, standard NumPy broadcasting rules apply.
 In order to reduce the friction for users, we perform two checks before adding the arrays.</p>
 <p>Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of <cite>other</cite>:</p>
 <ul class="simple">
@@ -372,7 +372,7 @@ In order to reduce the friction for users, we perform two checks before adding t
 <li><p><cite>other.ndim &gt;= 2 and other.shape[1] == 3</cite>: Do use Z-dimension.</p></li>
 <li><p><cite>else</cite>: Use Z-dimension if there are any.</p></li>
 </ul>
-<p>Secondly, if <cite>other.shape[-2] == self.data.shape[0]</cite>,
+<p>Secondly, if <cite>other.shape[0] == self.data.shape[0]</cite>,
 we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
 This allows you to easily add different coordinate pairs to each polygon.</p>
 </div>

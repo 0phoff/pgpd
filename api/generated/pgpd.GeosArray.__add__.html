@@ -372,7 +372,7 @@ In order to reduce the friction for users, we perform two checks before adding t
 <li><p><cite>other.ndim &gt;= 2 and other.shape[1] == 3</cite>: Do use Z-dimension.</p></li>
 <li><p><cite>else</cite>: Use Z-dimension if there are any.</p></li>
 </ul>
-<p>Secondly, if <cite>other.shape[-2] == self.data.shape[0]</cite>,
+<p>Secondly, if <cite>other.shape[0] == self.data.shape[0]</cite>,
 we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
 This allows you to easily add different coordinate pairs to each polygon.</p>
 </div>
