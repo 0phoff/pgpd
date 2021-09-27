@@ -421,7 +421,7 @@ class GeosArray(ExtensionArray):
             - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
 
-            Secondly, if `other.shape[-2] == self.data.shape[0]`,
+            Secondly, if `other.shape[0] == self.data.shape[0]`,
             we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
             This allows you to easily add different coordinate pairs to each polygon.
 
@@ -516,7 +516,7 @@ class GeosArray(ExtensionArray):
             zdim = pygeos.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
-        pshape = (other.ndim >= 1 and other.shape[0])
+        pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
@@ -531,10 +531,10 @@ class GeosArray(ExtensionArray):
         Performs a subtraction between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates (max 2-dimensional).
+            other (array-like): Item to subtract from the coordinates (max 2-dimensional).
 
         Note:
-            When adding the coordinates array and `other`, standard NumPy broadcasting rules apply.
+            When subtracting `other` from the coordinates array, standard NumPy broadcasting rules apply.
             In order to reduce the friction for users, we perform two checks before adding the arrays.
 
             Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
@@ -543,7 +543,7 @@ class GeosArray(ExtensionArray):
             - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
 
-            Secondly, if `other.shape[-2] == self.data.shape[0]`,
+            Secondly, if `other.shape[0] == self.data.shape[0]`,
             we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
             This allows you to easily add different coordinate pairs to each polygon.
 
@@ -638,7 +638,7 @@ class GeosArray(ExtensionArray):
             zdim = pygeos.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
-        pshape = (other.ndim >= 1 and other.shape[0])
+        pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
@@ -653,16 +653,21 @@ class GeosArray(ExtensionArray):
         Performs a multiplication between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates.
+            other (array-like): Item to multiply with the coordinates (max 2-dimensional).
 
         Note:
             When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
-            In order to reduce the friction for users, we decide whether to use the Z-dimension,
-            depending on the shape of `other`:
+            In order to reduce the friction for users, we perform two checks before adding the arrays.
 
-            - `other.shape[-1] == 2`: Do not use Z-dimension.
-            - `other.shape[-1] == 3`: Do use Z-dimension.
+            Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
+
+            - `other.ndim >= 2 and other.shape[1] == 2`: Do not use Z-dimension.
+            - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+            Secondly, if `other.shape[0] == self.data.shape[0]`,
+            we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+            This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
             >>> import pygeos
@@ -755,7 +760,7 @@ class GeosArray(ExtensionArray):
             zdim = pygeos.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
-        pshape = (other.ndim >= 1 and other.shape[0])
+        pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
@@ -770,16 +775,21 @@ class GeosArray(ExtensionArray):
         Performs a division between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates.
+            other (array-like): Item to divide the coordinates with (max 2-dimensional).
 
         Note:
-            When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
-            In order to reduce the friction for users, we decide whether to use the Z-dimension,
-            depending on the shape of `other`:
+            When dividing the coordinates array by `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we perform two checks before adding the arrays.
 
-            - `other.shape[-1] == 2`: Do not use Z-dimension.
-            - `other.shape[-1] == 3`: Do use Z-dimension.
+            Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
+
+            - `other.ndim >= 2 and other.shape[1] == 2`: Do not use Z-dimension.
+            - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+            Secondly, if `other.shape[0] == self.data.shape[0]`,
+            we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+            This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
             >>> import pygeos
@@ -887,16 +897,21 @@ class GeosArray(ExtensionArray):
         Performs a division between the coordinates array and other.
 
         Args:
-            other (array-like): Item to add to the coordinates.
+            other (array-like): Item to divide the coordinates with (max 2-dimensional).
 
         Note:
-            When multiplying the coordinates array and `other`, standard NumPy broadcasting rules apply.
-            In order to reduce the friction for users, we decide whether to use the Z-dimension,
-            depending on the shape of `other`:
+            When dividing the coordinates array by `other`, standard NumPy broadcasting rules apply.
+            In order to reduce the friction for users, we perform two checks before adding the arrays.
 
-            - `other.shape[-1] == 2`: Do not use Z-dimension.
-            - `other.shape[-1] == 3`: Do use Z-dimension.
+            Firstly, we decide whether to use the Z-dimension for the computation, depending on the shape of `other`:
+
+            - `other.ndim >= 2 and other.shape[1] == 2`: Do not use Z-dimension.
+            - `other.ndim >= 2 and other.shape[1] == 3`: Do use Z-dimension.
             - `else`: Use Z-dimension if there are any.
+
+            Secondly, if `other.shape[0] == self.data.shape[0]`,
+            we automatically repeat each coordinate pair to the number of coordinates of its corresponding polygon.
+            This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
             >>> import pygeos
