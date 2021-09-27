@@ -15,7 +15,7 @@ from ._delegated_series import (
     unary_return,
     unary_none,
     binary,
-    enable_dataframe_expand
+    enable_dataframe_expand,
 )
 
 try:
