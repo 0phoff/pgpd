@@ -238,7 +238,8 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     apply = unary_series_indexed('coordinates.apply', geos=True)
     count_coordinates = unary_series_indexed('coordinates.count_coordinates')
-    get_coordinates = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y', 'z'], include_z=True, return_index=True)
+    get_coordinates_2d = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y'], include_z=False, return_index=True)
+    get_coordinates_3d = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y', 'z'], include_z=True, return_index=True)
     set_coordinates = unary_series_indexed('coordinates.set_coordinates', geos=True)
 
     # -------------------------------------------------------------------------
