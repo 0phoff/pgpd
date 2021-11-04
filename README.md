@@ -259,8 +259,8 @@ dtype: object
 
 
 [version-badge]: https://img.shields.io/pypi/v/pgpd?label=version
-[ci-badge]: https://github.com/0phoff/pygeos-pandas/actions/workflows/ci.yml/badge.svg?branch=master
+[ci-badge]: https://github.com/0phoff/pgpd/actions/workflows/ci.yml/badge.svg?branch=master
 [doc-badge]: https://img.shields.io/badge/-Documentation-9B59B6.svg
-[release-url]: https://github.com/0phoff/pygeos-pandas/releases
-[ci-url]: https://github.com/0phoff/pygeos-pandas/actions/workflows/ci.yml
-[documentation-url]: https://0phoff.github.io/pygeos-pandas
+[release-url]: https://github.com/0phoff/pgpd/releases
+[ci-url]: https://github.com/0phoff/pgpd/actions/workflows/ci.yml
+[documentation-url]: https://0phoff.github.io/pgpd
