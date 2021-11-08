@@ -1,9 +1,9 @@
-﻿from\_geopandas
-===============
+﻿to\_geos
+========
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosSeriesAccessor.from_geopandas
+.. automethod:: GeosSeriesAccessor.to_geos
 
 
 .. include:: /links.rst

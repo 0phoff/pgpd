@@ -1,9 +1,9 @@
-﻿from\_geopandas
-===============
+﻿force\_3d
+=========
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosDataFrameAccessor.from_geopandas
+.. automethod:: GeosDataFrameAccessor.force_3d
 
 
 .. include:: /links.rst

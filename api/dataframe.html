@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Geos DataFrame Accessor &#8212; pgpd  documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,11 +24,11 @@
 
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -38,10 +39,13 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="from_geopandas" href="generated/pgpd.GeosDataFrameAccessor.from_geopandas.html" />
+    <link rel="next" title="to_geos" href="generated/pgpd.GeosDataFrameAccessor.to_geos.html" />
     <link rel="prev" title="apply_shapely" href="generated/pgpd.GeosSeriesAccessor.apply_shapely.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -132,7 +136,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <p class="caption" role="heading">
+    <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Documentation
  </span>
@@ -164,13 +168,28 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.from_geopandas.html">
-     from_geopandas
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.to_geos.html">
+     to_geos
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.to_geopandas.html">
      to_geopandas
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_shapely.html">
+     to_shapely
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_wkt.html">
+     to_wkt
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_wkb.html">
+     to_wkb
     </a>
    </li>
    <li class="toctree-l2">
@@ -251,6 +270,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.get_z.html">
      get_z
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.force_2d.html">
+     force_2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.force_3d.html">
+     force_3d
     </a>
    </li>
    <li class="toctree-l2">
@@ -601,7 +630,7 @@
               
               <div>
                 
-  <div class="section" id="geos-dataframe-accessor">
+  <section id="geos-dataframe-accessor">
 <h1>Geos DataFrame Accessor<a class="headerlink" href="#geos-dataframe-accessor" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor">
@@ -634,7 +663,7 @@ and group the results.</p>
 </div>
 </dd></dl>
 
-<div class="section" id="serialization">
+<section id="serialization">
 <h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
 <p>Serialization &amp; Deserialization functionality.</p>
 <table class="longtable table autosummary">
@@ -643,16 +672,25 @@ and group the results.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.from_geopandas.html#pgpd.GeosDataFrameAccessor.from_geopandas" title="pgpd.GeosDataFrameAccessor.from_geopandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.from_geopandas</span></code></a></p></td>
-<td><p>Transform a <a class="reference external" href="https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html#geopandas.GeoDataFrame" title="(in GeoPandas v0.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code></a> into a regular DataFrame with a geos column.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.to_geos.html#pgpd.GeosDataFrameAccessor.to_geos" title="pgpd.GeosDataFrameAccessor.to_geos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.to_geos</span></code></a></p></td>
+<td><p>Transform a <code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code> into a regular DataFrame with a geos column.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.to_geopandas.html#pgpd.GeosDataFrameAccessor.to_geopandas" title="pgpd.GeosDataFrameAccessor.to_geopandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.to_geopandas</span></code></a></p></td>
-<td><p>Transform a pandas DataFrame with (at least) a &quot;geos&quot; dtype column to a <a class="reference external" href="https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html#geopandas.GeoDataFrame" title="(in GeoPandas v0.9.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code></a>.</p></td>
+<td><p>Transform a pandas DataFrame with (at least) a &quot;geos&quot; dtype column to a <code class="xref py py-class docutils literal notranslate"><span class="pre">geopandas.GeoDataFrame</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_shapely.html#pgpd.GeosSeriesAccessor.to_shapely" title="pgpd.GeosSeriesAccessor.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.to_shapely</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_wkt.html#pgpd.GeosSeriesAccessor.to_wkt" title="pgpd.GeosSeriesAccessor.to_wkt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.to_wkt</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosSeriesAccessor.to_wkb.html#pgpd.GeosSeriesAccessor.to_wkb" title="pgpd.GeosSeriesAccessor.to_wkb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosSeriesAccessor.to_wkb</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="geometry">
+</section>
+<section id="geometry">
 <h2>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/geometry.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Geometry</span></a>.</p>
 <table class="longtable table autosummary">
@@ -709,6 +747,12 @@ and group the results.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.get_z.html#pgpd.GeosDataFrameAccessor.get_z" title="pgpd.GeosDataFrameAccessor.get_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.get_z</span></code></a></p></td>
 <td><p>Returns the z-coordinate of a point.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.force_2d.html#pgpd.GeosDataFrameAccessor.force_2d" title="pgpd.GeosDataFrameAccessor.force_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.force_2d</span></code></a></p></td>
+<td><p>Forces the dimensionality of a geometry to 2D.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.force_3d.html#pgpd.GeosDataFrameAccessor.force_3d" title="pgpd.GeosDataFrameAccessor.force_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.force_3d</span></code></a></p></td>
+<td><p>Forces the dimensionality of a geometry to 3D.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosDataFrameAccessor.set_precision.html#pgpd.GeosDataFrameAccessor.set_precision" title="pgpd.GeosDataFrameAccessor.set_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.set_precision</span></code></a></p></td>
 <td><p>Returns geometry with the precision set to a precision grid size.</p></td>
 </tr>
@@ -717,8 +761,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="geometry-creation">
+</section>
+<section id="geometry-creation">
 <h2>Geometry Creation<a class="headerlink" href="#geometry-creation" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/creation.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Geometry Creation</span></a>.</p>
 <table class="longtable table autosummary">
@@ -735,8 +779,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="measurement">
+</section>
+<section id="measurement">
 <h2>Measurement<a class="headerlink" href="#measurement" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/measurement.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Measurement</span></a>.</p>
 <table class="longtable table autosummary">
@@ -762,8 +806,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="predicates">
+</section>
+<section id="predicates">
 <h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/predicates.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Predicates</span></a>.</p>
 <table class="longtable table autosummary">
@@ -810,8 +854,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="constructive-operations">
+</section>
+<section id="constructive-operations">
 <h2>Constructive Operations<a class="headerlink" href="#constructive-operations" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/constructive.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Constructive Operations</span></a>.</p>
 <table class="longtable table autosummary">
@@ -879,8 +923,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="linestring-operations">
+</section>
+<section id="linestring-operations">
 <h2>Linestring Operations<a class="headerlink" href="#linestring-operations" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/linear.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Linestring Operations</span></a>.</p>
 <table class="longtable table autosummary">
@@ -900,8 +944,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="coordinate-operations">
+</section>
+<section id="coordinate-operations">
 <h2>Coordinate Operations<a class="headerlink" href="#coordinate-operations" title="Permalink to this headline">¶</a></h2>
 <p>Methods from <a class="reference external" href="https://pygeos.readthedocs.io/en/latest/coordinates.html" title="(in pygeos)"><span class="xref std std-doc">PyGEOS Coordinate Operations</span></a>.</p>
 <table class="longtable table autosummary">
@@ -921,8 +965,8 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="custom">
+</section>
+<section id="custom">
 <h2>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h2>
 <p>Custom methods to add more functionality.</p>
 <table class="longtable table autosummary">
@@ -951,19 +995,30 @@ and group the results.</p>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="generated/pgpd.GeosSeriesAccessor.apply_shapely.html" title="previous page">apply_shapely</a>
-    <a class='right-next' id="next-link" href="generated/pgpd.GeosDataFrameAccessor.from_geopandas.html" title="next page">from_geopandas</a>
-
-              </div>
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="generated/pgpd.GeosSeriesAccessor.apply_shapely.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">apply_shapely</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="generated/pgpd.GeosDataFrameAccessor.to_geos.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">to_geos</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
               
           </main>
           
@@ -971,20 +1026,19 @@ and group the results.</p>
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, 0phoff.<br/>
+    &copy; Copyright 2021, 0phoff.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

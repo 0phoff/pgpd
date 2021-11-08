@@ -1,9 +1,9 @@
-﻿get\_coordinates
-================
+﻿force\_2d
+=========
 
 .. currentmodule:: pgpd
 
-.. automethod:: GeosSeriesAccessor.get_coordinates
+.. automethod:: GeosSeriesAccessor.force_2d
 
 
 .. include:: /links.rst

@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Geos ExtensionArray &#8212; pgpd  documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,11 +24,11 @@
 
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -41,7 +42,10 @@
     <link rel="next" title="__init__" href="generated/pgpd.GeosArray.__init__.html" />
     <link rel="prev" title="Documentation" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -132,7 +136,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <p class="caption" role="heading">
+    <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Documentation
  </span>
@@ -376,7 +380,7 @@
               
               <div>
                 
-  <div class="section" id="geos-extensionarray">
+  <section id="geos-extensionarray">
 <h1>Geos ExtensionArray<a class="headerlink" href="#geos-extensionarray" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pgpd.GeosArray">
@@ -395,7 +399,7 @@
 
 </dd></dl>
 
-<div class="section" id="serialization">
+<section id="serialization">
 <h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
 <p>Serialization &amp; Deserialization functionality.</p>
 <table class="longtable table autosummary">
@@ -405,7 +409,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.__init__.html#pgpd.GeosArray.__init__" title="pgpd.GeosArray.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.__init__</span></code></a></p></td>
-<td><p>Create a GeosArray.</p></td>
+<td><p>Create a GeosArray from PyGeos data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/pgpd.GeosArray.from_shapely.html#pgpd.GeosArray.from_shapely" title="pgpd.GeosArray.from_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeosArray.from_shapely</span></code></a></p></td>
 <td><p>Create a GeosArray from shapely data.</p></td>
@@ -427,10 +431,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="extensionarray-specific">
+</section>
+<section id="extensionarray-specific">
 <h2>ExtensionArray Specific<a class="headerlink" href="#extensionarray-specific" title="Permalink to this headline">¶</a></h2>
-<p>Necessary methods for the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.api.extensions.ExtensionArray.html#pandas.api.extensions.ExtensionArray" title="(in pandas v1.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionArray</span></code></a>.</p>
+<p>Necessary methods for the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.api.extensions.ExtensionArray.html#pandas.api.extensions.ExtensionArray" title="(in pandas v1.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionArray</span></code></a>.</p>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -481,8 +485,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="numpy-specific">
+</section>
+<section id="numpy-specific">
 <h2>NumPy Specific<a class="headerlink" href="#numpy-specific" title="Permalink to this headline">¶</a></h2>
 <p>Methods to make the GeosArray a
 <a class="reference external" href="https://numpy.org/doc/stable/user/basics.dispatch.html#writing-custom-array-containers">NumPy Array Container</a>.</p>
@@ -503,8 +507,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="custom">
+</section>
+<section id="custom">
 <h2>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h2>
 <p>Custom methods to add more functionality.</p>
 <table class="longtable table autosummary">
@@ -533,19 +537,30 @@
 </tr>
 </tbody>
 </table>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Documentation</a>
-    <a class='right-next' id="next-link" href="generated/pgpd.GeosArray.__init__.html" title="next page">__init__</a>
-
-              </div>
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Documentation</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="generated/pgpd.GeosArray.__init__.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">__init__</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
               
           </main>
           
@@ -553,20 +568,19 @@
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, 0phoff.<br/>
+    &copy; Copyright 2021, 0phoff.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

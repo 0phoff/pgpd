@@ -15,8 +15,11 @@ Serialization & Deserialization functionality.
    :nosignatures:
    :template: base.rst
 
-   GeosSeriesAccessor.from_geopandas
+   GeosSeriesAccessor.to_geos
    GeosSeriesAccessor.to_geopandas
+   GeosSeriesAccessor.to_shapely
+   GeosSeriesAccessor.to_wkt
+   GeosSeriesAccessor.to_wkb
 
 Geometry
 --------
@@ -45,6 +48,8 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_x
    GeosSeriesAccessor.get_y
    GeosSeriesAccessor.get_z
+   GeosSeriesAccessor.force_2d
+   GeosSeriesAccessor.force_3d
    GeosSeriesAccessor.set_precision
    GeosSeriesAccessor.set_srid
 
