@@ -9,10 +9,12 @@ import pgpd
 skips = {
     'geometry': (
         'IntEnum',
+        'SetPrecisionMode',
     ),
     'creation': (
         'box',
         'collections_1d',
+        'empty',
         'geometrycollections',
         'linearrings',
         'linestrings',
@@ -34,7 +36,6 @@ skips = {
     'constructive': (
         'BufferCapStyles',
         'BufferJoinStyles',
-        'ParamEnum',
         'polygonize_full',
     ),
     'linear': (
@@ -45,10 +46,21 @@ skips = {
     ),
     'strtree': (
         'BinaryPredicate',
-        'ParamEnum',
         'VALID_PREDICATES',
     ),
 }
+
+global_skips = (
+    'Geometry',
+    'GeometryType',
+    'geos_version',
+    'lib',
+    'multithreading_enabled',
+    'np',
+    'ParamEnum',
+    'requires_geos',
+    'warnings',
+)
 
 
 @pytest.mark.parametrize('module', skips.keys())
@@ -59,7 +71,7 @@ def test_for_missing_methods(module):
     for func in dir(mod):
         if func.startswith('_'):
             continue
-        if func in ('Geometry', 'GeometryType', 'lib', 'np', 'requires_geos', 'multithreading_enabled'):
+        if func in global_skips:
             continue
         if func in skip:
             continue
