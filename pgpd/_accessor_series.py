@@ -166,6 +166,8 @@ class GeosSeriesAccessor:
     get_x = unary_series_indexed('geometry.get_x')
     get_y = unary_series_indexed('geometry.get_y')
     get_z = unary_series_indexed('geometry.get_z')
+    force_2d = unary_series_indexed('geometry.force_2d', geos=True)
+    force_3d = unary_series_indexed('geometry.force_3d', geos=True)
     set_precision = unary_none('geometry.set_precision')
     set_srid = unary_none('geometry.set_srid')
 

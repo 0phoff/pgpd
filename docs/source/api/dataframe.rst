@@ -46,6 +46,8 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosDataFrameAccessor.get_x
    GeosDataFrameAccessor.get_y
    GeosDataFrameAccessor.get_z
+   GeosDataFrameAccessor.force_2d
+   GeosDataFrameAccessor.force_3d
    GeosDataFrameAccessor.set_precision
    GeosDataFrameAccessor.set_srid
 

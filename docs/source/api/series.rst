@@ -48,6 +48,8 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
    GeosSeriesAccessor.get_x
    GeosSeriesAccessor.get_y
    GeosSeriesAccessor.get_z
+   GeosSeriesAccessor.force_2d
+   GeosSeriesAccessor.force_3d
    GeosSeriesAccessor.set_precision
    GeosSeriesAccessor.set_srid
 
