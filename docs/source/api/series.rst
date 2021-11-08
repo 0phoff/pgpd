@@ -15,8 +15,11 @@ Serialization & Deserialization functionality.
    :nosignatures:
    :template: base.rst
 
-   GeosSeriesAccessor.from_geopandas
+   GeosSeriesAccessor.to_geos
    GeosSeriesAccessor.to_geopandas
+   GeosSeriesAccessor.to_shapely
+   GeosSeriesAccessor.to_wkt
+   GeosSeriesAccessor.to_wkb
 
 Geometry
 --------

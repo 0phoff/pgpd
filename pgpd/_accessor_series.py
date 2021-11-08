@@ -74,6 +74,11 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     # Serialization
     # -------------------------------------------------------------------------
+    def from_geopandas(self, copy=False):
+        """ DEPRECATED: Use :meth:`~pgpd.GeosSeriesAccessor.to_geos` instead. """
+        warnings.warn('from_geopandas() is deprecated; use to_geos().', warnings.DeprecationWarning)
+        return self.to_geos(copy)
+
     def to_geos(self, copy=False):
         """
         Transform the series in a PyGEOS geos column.
@@ -96,11 +101,6 @@ class GeosSeriesAccessor:
             return self._obj.copy()
         else:
             return self._obj
-
-    def from_geopandas(self, copy=False):
-        """ DEPRECATED: Use :meth:`~pgpd.GeosSeriesAccessor.to_geos` instead. """
-        warnings.warn('from_geopandas() is deprecated; use to_geos().', warnings.DeprecationWarning)
-        return self.to_geos(copy)
 
     def to_geopandas(self, crs=None, copy=False):
         """
@@ -131,6 +131,11 @@ class GeosSeriesAccessor:
             return s
 
     @enable_dataframe_expand
+    def to_shapely(self, **kwargs):
+        data = self._obj.array.to_shapely(**kwargs)
+        return pd.Series(data, name='shapely', index=self._obj.index)
+
+    @enable_dataframe_expand
     def to_wkt(self, **kwargs):
         data = self._obj.array.to_wkt(**kwargs)
         return pd.Series(data, name='wkt', index=self._obj.index)
@@ -139,11 +144,6 @@ class GeosSeriesAccessor:
     def to_wkb(self, **kwargs):
         data = self._obj.array.to_wkb(**kwargs)
         return pd.Series(data, name='wkb', index=self._obj.index)
-
-    @enable_dataframe_expand
-    def to_shapely(self, **kwargs):
-        data = self._obj.array.to_shapely(**kwargs)
-        return pd.Series(data, name='shapely', index=self._obj.index)
 
     # -------------------------------------------------------------------------
     # Geometry
