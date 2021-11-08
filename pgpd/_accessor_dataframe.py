@@ -48,9 +48,10 @@ class GeosDataFrameAccessor:
             obj[geometry] = GeosArray(obj[geometry].array.data)
         elif (obj.dtypes != 'geos').all():
             raise AttributeError('Must have at least one "geos" dtype column')
+
         self._obj = obj
 
-    def from_geopandas(self):
+    def to_geos(self):
         """
         Transform a :class:`geopandas.GeoDataFrame` into a regular DataFrame with a geos column.
 
@@ -61,6 +62,11 @@ class GeosDataFrameAccessor:
             This function always returns a copy of the original data.
         """
         return self._obj.copy()
+
+    def from_geopandas(self):
+        """ DEPRECATED: Use :meth:`~pgpd.GeosDataFrameAccessor.to_geos` instead. """
+        warnings.warn("from_geopandas() is deprecated; use to_geos().", warnings.DeprecationWarning)
+        return self.to_geos()
 
     def to_geopandas(self, geometry=None, crs=None):
         """

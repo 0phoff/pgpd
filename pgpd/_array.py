@@ -16,6 +16,7 @@ except ImportError:
 __all__ = ['GeosDtype', 'GeosArray']
 
 
+@register_extension_dtype
 class GeosDtype(ExtensionDtype):
     type = pygeos.lib.Geometry      #: Underlying type of the individual Array elements
     name = 'geos'                   #: Dtype string name
@@ -51,9 +52,6 @@ class GeosDtype(ExtensionDtype):
         return GeosArray
 
 
-register_extension_dtype(GeosDtype)
-
-
 class GeosArray(ExtensionArray):
     dtype = GeosDtype()     #: Dtype for this ExtensionArray
     ndim = 1                #: Number of dimensions of this ExtensionArray
@@ -63,10 +61,10 @@ class GeosArray(ExtensionArray):
     # -------------------------------------------------------------------------
     def __init__(self, data):
         """
-        Create a GeosArray.
+        Create a GeosArray from PyGeos data.
 
         Args:
-            data (Iterable): Data for the GeosArray (see Note)
+            data (Iterable): PyGeos data (see Note)
 
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.

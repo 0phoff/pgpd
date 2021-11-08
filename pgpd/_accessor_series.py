@@ -2,6 +2,7 @@
 # Geos Accessor for Series
 #
 from math import sin, cos, tan
+import warnings
 import numpy as np
 import pandas as pd
 import pygeos
@@ -61,28 +62,45 @@ class GeosSeriesAccessor:
     """
     def __init__(self, obj):
         if gpd is not None and pd.api.types.pandas_dtype('geometry') == obj.dtype:
-            obj = pd.Series(GeosArray(obj.array.data), name=obj.name)
+            obj = pd.Series(GeosArray(obj.array.data), name=obj.name, index=obj.index)
         elif (pd.api.types.pandas_dtype('geos') != obj.dtype):
-            raise AttributeError(f'Cannot use "geos" accessor on objects of dtype "{obj.dtype}"')
+            try:
+                obj = pd.Series(GeosArray._from_sequence(obj.values), name=obj.name, index=obj.index)
+            except BaseException as err:
+                raise AttributeError(f'Cannot convert "{obj.dtype}" type to geos dtype') from err
+
         self._obj = obj
 
     # -------------------------------------------------------------------------
     # Serialization
     # -------------------------------------------------------------------------
-    def from_geopandas(self, copy=False):
+    def to_geos(self, copy=False):
         """
-        Transform a :class:`geopandas.GeoSeries` into a regular Series with a geos dtype.
+        Transform the series in a PyGEOS geos column.
 
         Args:
             copy (bool, optional): Whether to copy the data or return a wrapper around the same data; Default **False**
 
         Returns:
             pandas.Series: Series with a geos dtype.
+
+        Note:
+            This function will try and convert the following types to geos:
+
+            - geopandas.GeoSeries
+            - shapely geometries
+            - strings (wkt)
+            - bytes (wkb)
         """
         if copy:
             return self._obj.copy()
         else:
             return self._obj
+
+    def from_geopandas(self, copy=False):
+        """ DEPRECATED: Use :meth:`~pgpd.GeosSeriesAccessor.to_geos` instead. """
+        warnings.warn("from_geopandas() is deprecated; use to_geos().", warnings.DeprecationWarning)
+        return self.to_geos(copy)
 
     def to_geopandas(self, crs=None, copy=False):
         """
@@ -111,6 +129,21 @@ class GeosSeriesAccessor:
             return s.copy()
         else:
             return s
+
+    @enable_dataframe_expand
+    def to_wkt(self, **kwargs):
+        data = self._obj.array.to_wkt(**kwargs)
+        return pd.Series(data, name='wkt', index=self._obj.index)
+
+    @enable_dataframe_expand
+    def to_wkb(self, **kwargs):
+        data = self._obj.array.to_wkb(**kwargs)
+        return pd.Series(data, name='wkb', index=self._obj.index)
+
+    @enable_dataframe_expand
+    def to_shapely(self, **kwargs):
+        data = self._obj.array.to_shapely(**kwargs)
+        return pd.Series(data, name='shapely', index=self._obj.index)
 
     # -------------------------------------------------------------------------
     # Geometry
