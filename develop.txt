@@ -9,9 +9,11 @@ flake8-simplify
 flake8-logging-format
 
 # DEVELOP
-versioneer
+geopandas
+shapely
 
 # DOCS
+versioneer
 sphinx
 pydata-sphinx-theme
 sphinx-toggleprompt
