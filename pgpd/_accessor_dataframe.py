@@ -1,6 +1,7 @@
 #
 # Geo Accessor for DataFrames
 #
+import warnings
 import pandas as pd
 from ._array import GeosArray
 from ._delegated_dataframe import unary_dataframe_expanded
@@ -65,7 +66,7 @@ class GeosDataFrameAccessor:
 
     def from_geopandas(self):
         """ DEPRECATED: Use :meth:`~pgpd.GeosDataFrameAccessor.to_geos` instead. """
-        warnings.warn("from_geopandas() is deprecated; use to_geos().", warnings.DeprecationWarning)
+        warnings.warn('from_geopandas() is deprecated; use to_geos().', warnings.DeprecationWarning)
         return self.to_geos()
 
     def to_geopandas(self, geometry=None, crs=None):
