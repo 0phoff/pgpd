@@ -40,7 +40,9 @@ skips = {
     'linear': (
         'warn',
     ),
-    'coordinates': (),
+    'coordinates': (
+        'get_coordinates',
+    ),
     'strtree': (
         'BinaryPredicate',
         'ParamEnum',
