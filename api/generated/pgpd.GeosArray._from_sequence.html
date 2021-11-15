@@ -359,8 +359,26 @@
 <h1>_from_sequence<a class="headerlink" href="#from-sequence" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosArray._from_sequence">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-prename descclassname"><span class="pre">GeosArray.</span></span><span class="sig-name descname"><span class="pre">_from_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosArray._from_sequence" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GeosArray.</span></span><span class="sig-name descname"><span class="pre">_from_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosArray._from_sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a new ExtensionArray from a sequence of scalars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scalars</strong> (<em>Sequence</em>) – Each element will be an instance of the scalar type for this
+array, <code class="docutils literal notranslate"><span class="pre">cls.dtype.type</span></code> or be converted into this type in this method.</p></li>
+<li><p><strong>dtype</strong> (<em>dtype</em><em>, </em><em>optional</em>) – Construct for this particular dtype. This should be a Dtype
+compatible with the ExtensionArray.</p></li>
+<li><p><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>default False</em>) – If True, copy the underlying data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ExtensionArray</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -404,7 +422,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
