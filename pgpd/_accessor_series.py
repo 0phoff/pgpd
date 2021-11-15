@@ -76,7 +76,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     def from_geopandas(self, copy=False):
         """ DEPRECATED: Use :meth:`~pgpd.GeosSeriesAccessor.to_geos` instead. """
-        warnings.warn('from_geopandas() is deprecated; use to_geos().', warnings.DeprecationWarning)
+        warnings.warn('from_geopandas() is deprecated; use to_geos().', DeprecationWarning)
         return self.to_geos(copy)
 
     def to_geos(self, copy=False):

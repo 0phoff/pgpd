@@ -54,7 +54,7 @@ class GeosDataFrameAccessor:
 
     def from_geopandas(self):
         """ DEPRECATED: Use :meth:`~pgpd.GeosDataFrameAccessor.to_geos` instead. """
-        warnings.warn('from_geopandas() is deprecated; use to_geos().', warnings.DeprecationWarning)
+        warnings.warn('from_geopandas() is deprecated; use to_geos().', DeprecationWarning)
         return self.to_geos()
 
     def to_geos(self):
