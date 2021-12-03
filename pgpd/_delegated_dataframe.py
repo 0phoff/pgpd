@@ -36,12 +36,15 @@ def unary_dataframe_expanded(name, expansion):
                 DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
         """
         result = {}
+        remainder = []
         for column, dtype in self._obj.dtypes.iteritems():
             if pd.api.types.pandas_dtype('geos') == dtype:
                 result[column] = getattr(self._obj[column].geos, name)(*args, **kwargs)
+            else:
+                remainder.append(column)
 
         if not inplace:
-            return pd.DataFrame.from_dict(result)
+            return pd.DataFrame.from_dict({**{col: self._obj[col].copy() for col in remainder}, **result})
         else:
             for column, values in result.items():
                 self._obj[column] = values
@@ -58,8 +61,8 @@ def unary_dataframe_expanded(name, expansion):
             kwargs: Keyword arguments passed to :func:`~pgpd.GeosSeriesAccessor.{func}`.
 
         Returns:
-            pandas.DataFrame or None:
-                DataFrame where each "geos" column from the original is transformed or None if ``inplace=True``.
+            pandas.DataFrame:
+                DataFrame with the results `{func}` for each of the geos columns.
         """
         result = {}
         for column, dtype in self._obj.dtypes.iteritems():
