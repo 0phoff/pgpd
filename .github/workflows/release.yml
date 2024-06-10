@@ -11,46 +11,50 @@ jobs:
   pypi:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.8'  
-    
-    - name: Upgrade pip
-      run: python3 -m pip install --upgrade pip
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
 
-    - name: Get pip cache dir
-      id: pip-cache
-      run: echo "::set-output name=dir::$(pip cache dir)"
+      - name: Upgrade pip
+        run: python3 -m pip install --upgrade pip
 
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/develop.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: Get pip cache dir
+        id: pip-cache
+        run: echo "::set-output name=dir::$(pip cache dir)"
 
-    - name: Install dependencies
-      run: |
-        python3 -m pip install wheel
-        python3 -m pip install -r ./develop.txt
-        python3 -m pip install .
-        pip install build
-        
-    - name: Build package
-      run: python -m build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/develop.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install wheel
+          python3 -m pip install -r ./develop.txt
+          python3 -m pip install .
+          pip install build
+
+      - name: Build package
+        run: python -m build
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
 
   pages:
     runs-on: ubuntu-18.04
     needs: pypi
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.8'
