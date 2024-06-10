@@ -1,6 +1,10 @@
 name: CI
 on: [workflow_dispatch, push, pull_request]
 
+env:
+  PYPIBUILD: 1
+  PYPITEST: 1
+
 jobs:
   lint:
     runs-on: ubuntu-latest
