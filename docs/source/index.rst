@@ -6,15 +6,15 @@
 
 |pgpdlogo|
 
-pygeospandas is a simple wrapper around `PyGEOS`_, in order to allow using its functionality in `pandas`_. |br|
+pygeospandas is a simple wrapper around `Shapely`_, in order to allow using its functionality in `pandas`_. |br|
 It contains the following pieces:
 
 - *GeosArray & GeosDtype* |br|
-  pandas ExtensionArray and Dtype to be able to work with PyGEOS data in Series and DataFrames.
+  pandas ExtensionArray and Dtype to be able to work with Shapely data in Series and DataFrames.
 - *"geos" Series Accessor* |br|
-  Access all of the PyGEOS functionality on Series objects, so that there is no need to unwrap to NumPy arrays.
+  Access all of the Shapely functionality on Series objects, so that there is no need to unwrap to NumPy arrays.
 - *"geos" DataFrame Accessor* |br|
-  Apply PyGEOS functions to all "geos" Dtype series in the dataframe at once.
+  Apply Shapely functions to all "geos" Dtype series in the dataframe at once.
 
 .. container:: button
 
@@ -27,13 +27,13 @@ GeoPandas
 =========
 This library is pretty similar to the `GeoPandas`_ library. |br|
 The main difference is that this library is much more lightweight,
-as it only depends on `NumPy`_, `pandas`_ and `PyGeos`_.
+as it only depends on `NumPy`_, `pandas`_ and `Shapely`_.
 You might want to use this library over `GeoPandas`_ if you need to work with geometries,
 but do not care about CRS or other geospatial features.
 
-Note that this library only supports PyGEOS operations and is thus more limited in what it can do.
+Note that this library only supports Shapely operations and is thus more limited in what it can do.
 There are functions to transform the data to `Shapely`_ geometries, which gives more possibilities,
-but only PyGEOS supported operations are implemented on the Series and DataFrames.
+but only Shapely supported operations are implemented on the Series and DataFrames.
 
 
 .. toctree::

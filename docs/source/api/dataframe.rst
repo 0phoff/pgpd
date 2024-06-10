@@ -23,7 +23,7 @@ Serialization & Deserialization functionality.
 
 Geometry
 --------
-Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
+Methods from :doc:`Shapely Geometry Properties <shapely:properties>`.
 
 .. autosummary::
    :toctree: generated
@@ -54,7 +54,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
 
 Geometry Creation
 -----------------
-Methods from :doc:`PyGEOS Geometry Creation <pygeos:creation>`.
+Methods from :doc:`Shapely Geometry Creation <shapely:creation>`.
 
 .. autosummary::
    :toctree: generated
@@ -67,7 +67,7 @@ Methods from :doc:`PyGEOS Geometry Creation <pygeos:creation>`.
 
 Measurement
 -----------
-Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
+Methods from :doc:`Shapely Measurement <shapely:measurement>`.
 
 .. autosummary::
    :toctree: generated
@@ -83,7 +83,7 @@ Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
 
 Predicates
 ----------
-Methods from :doc:`PyGEOS Predicates <pygeos:predicates>`.
+Methods from :doc:`Shapely Predicates <shapely:predicates>`.
 
 .. autosummary::
    :toctree: generated
@@ -106,7 +106,7 @@ Methods from :doc:`PyGEOS Predicates <pygeos:predicates>`.
 
 Constructive Operations
 ------------------------
-Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
+Methods from :doc:`Shapely Constructive Operations <shapely:constructive>`.
 
 .. autosummary::
    :toctree: generated
@@ -136,7 +136,7 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
 
 Linestring Operations
 ---------------------
-Methods from :doc:`PyGEOS Linestring Operations <pygeos:linear>`.
+Methods from :doc:`Shapely Linestring Operations <shapely:linear>`.
 
 .. autosummary::
    :toctree: generated
@@ -150,14 +150,14 @@ Methods from :doc:`PyGEOS Linestring Operations <pygeos:linear>`.
 
 Coordinate Operations
 ---------------------
-Methods from :doc:`PyGEOS Coordinate Operations <pygeos:coordinates>`.
+Methods from :doc:`Shapely Coordinate Operations <shapely:coordinates>`.
 
 .. autosummary::
    :toctree: generated
    :nosignatures:
    :template: base.rst
 
-    GeosDataFrameAccessor.apply
+    GeosDataFrameAccessor.transform
     GeosDataFrameAccessor.count_coordinates
     GeosDataFrameAccessor.set_coordinates
 
@@ -176,7 +176,6 @@ Custom methods to add more functionality.
    GeosDataFrameAccessor.scale
    GeosDataFrameAccessor.skew
    GeosDataFrameAccessor.translate
-   GeosDataFrameAccessor.apply_shapely
 
 
 .. include:: /links.rst

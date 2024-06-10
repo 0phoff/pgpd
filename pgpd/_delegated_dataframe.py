@@ -38,7 +38,7 @@ def unary_dataframe_expanded(name, expansion):
         """
         result = {}
         remainder = []
-        for column, dtype in self._obj.dtypes.iteritems():
+        for column, dtype in self._obj.dtypes.items():
             if pd.api.types.pandas_dtype('geos') == dtype:
                 result[column] = getattr(self._obj[column].geos, name)(*args, **kwargs)
             else:
@@ -68,7 +68,7 @@ def unary_dataframe_expanded(name, expansion):
                 DataFrame with the results `{func}` for each of the geos columns.
         """
         result = {}
-        for column, dtype in self._obj.dtypes.iteritems():
+        for column, dtype in self._obj.dtypes.items():
             if pd.api.types.pandas_dtype('geos') == dtype:
                 result[column] = getattr(self._obj[column].geos, name)(*args, **kwargs)
 

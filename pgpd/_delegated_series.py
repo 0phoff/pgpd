@@ -7,7 +7,7 @@ from inspect import signature
 
 import numpy as np
 import pandas as pd
-import pygeos
+import shapely
 
 from ._array import GeosArray
 from ._util import get_summary, rgetattr
@@ -30,7 +30,7 @@ def unary_return(name, **defaults):
     Create a method that returns the output of the function unmodified.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
+        name (str): Name of the method within the ``shapely`` module.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -42,11 +42,11 @@ def unary_return(name, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns its result unmodified.
+        Applies :py:obj:`shapely.{func}` to the data and returns its result unmodified.
 
         Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~shapely.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~shapely.{func}`.
         """
         args, kwargs = setup_args(args, kwargs, defaults, default_pos)
         return func(self._obj.array.data, *args, **kwargs)
@@ -57,10 +57,10 @@ def unary_return(name, **defaults):
 
 def unary_none(name, **defaults):
     """
-    Create a unary method that runs the pygeos function on the data and returns itself.
+    Create a unary method that runs the shapely function on the data and returns itself.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
+        name (str): Name of the method within the ``shapely`` module.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -72,11 +72,11 @@ def unary_none(name, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data.
+        Applies :py:obj:`shapely.{func}` to the data.
 
         Args:
-            args: Arguments passed to :py:obj:`~pygeos.{func}` after the first argument.
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+            args: Arguments passed to :py:obj:`~shapely.{func}` after the first argument.
+            kwargs: Keyword arguments passed to :py:obj:`~shapely.{func}`.
 
         Returns:
             pandas.Series: returns the series for chaining.
@@ -95,9 +95,9 @@ def unary_series(name, index=None, geos=False, **defaults):
     Create a method that returns a Series with values.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
+        name (str): Name of the method within the ``shapely`` module.
         index (list): Values to use as the index of the returned Series; Default **None**.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        geos (bool, optional): Whether the returned data is shapely dtype; Default **False**.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -109,7 +109,7 @@ def unary_series(name, index=None, geos=False, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`shapely.{func}` to the data and returns a Series with the result.
 
         Returns:
             pandas.Series: Series with the results of the function.
@@ -132,8 +132,8 @@ def unary_series_indexed(name, geos=False, **defaults):
     Create a method that returns a Series with values, where each object in the original data maps to one new value.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        name (str): Name of the method within the ``shapely`` module.
+        geos (bool, optional): Whether the returned data is shapely dtype; Default **False**.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -145,7 +145,7 @@ def unary_series_indexed(name, geos=False, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`shapely.{func}` to the data and returns a Series with the result.
 
         Returns:
             pandas.Series: Series with the results of the function.
@@ -165,12 +165,12 @@ def unary_series_indexed(name, geos=False, **defaults):
 def unary_series_keyed(name, geos=False, **defaults):
     """
     Create a method that returns a Series with values, where each object in the original data can return a different number of values.
-    The difference with :func:`unary_series` is that the pygeos method should return the index of the original data,
+    The difference with :func:`unary_series` is that the shapely method should return the index of the original data,
     so we can setup the index as a foreign key.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        name (str): Name of the method within the ``shapely`` module.
+        geos (bool, optional): Whether the returned data is shapely dtype; Default **False**.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -182,7 +182,7 @@ def unary_series_keyed(name, geos=False, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`shapely.{func}` to the data and returns a Series with the result.
 
         Returns:
             pandas.Series: Series with the results of the function.
@@ -203,9 +203,9 @@ def unary_dataframe_indexed(name, columns, geos=False, **defaults):
     Create a method that returns a DataFrame, where each object in the original data maps to N new values (different columns).
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
+        name (str): Name of the method within the ``shapely`` module.
         columns (list<str>): List with column names.
-        geos (bool or list<bool>, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        geos (bool or list<bool>, optional): Whether the returned data is shapely dtype; Default **False**.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -220,7 +220,7 @@ def unary_dataframe_indexed(name, columns, geos=False, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`shapely.{func}` to the data and returns a Series with the result.
 
         Returns:
             pandas.Series: Series with the results of the function.
@@ -239,12 +239,12 @@ def unary_dataframe_indexed(name, columns, geos=False, **defaults):
 def unary_dataframe_keyed(name, columns, geos=False, **defaults):
     """
     Create a method that returns a DataFrame with values, where each object in the original data can return different rows of N values.
-    The pygeos method should return the index of the original data, so we can setup the index as a foreign key.
+    The shapely method should return the index of the original data, so we can setup the index as a foreign key.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
+        name (str): Name of the method within the ``shapely`` module.
         columns (list<str>): List with column names.
-        geos (bool or list<bool>, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        geos (bool or list<bool>, optional): Whether the returned data is shapely dtype; Default **False**.
         defaults (**kwargs): Default argument values that cannot be overwritten
     """
     try:
@@ -259,7 +259,7 @@ def unary_dataframe_keyed(name, columns, geos=False, **defaults):
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to the data and returns a Series with the result.
+        Applies :py:obj:`shapely.{func}` to the data and returns a Series with the result.
 
         Returns:
             pandas.Series: Series with the results of the function.
@@ -277,11 +277,11 @@ def unary_dataframe_keyed(name, columns, geos=False, **defaults):
 
 def binary(name, geos=False, **defaults):  # noqa: C901
     """
-    Create a binary method that runs a PyGEOS function on the original data and some other.
+    Create a binary method that runs a shapely function on the original data and some other.
 
     Args:
-        name (str): Name of the method within the ``pygeos`` module.
-        geos (bool, optional): Whether the returned data is PyGEOS dtype; Default **False**.
+        name (str): Name of the method within the ``shapely`` module.
+        geos (bool, optional): Whether the returned data is shapely dtype; Default **False**.
     """
     try:
         func, func_summary = get_func_info(name)
@@ -292,23 +292,23 @@ def binary(name, geos=False, **defaults):  # noqa: C901
         """
         {summary}
 
-        Applies :py:obj:`pygeos.{func}` to ``(self, other)`` and returns the result.
+        Applies :py:obj:`shapely.{func}` to ``(self, other)`` and returns the result.
         If no ``other`` data is given, the function gets applied to all possible combinations of the ``self`` data, by expanding the array.
 
         Args:
-            other (pandas.Series or numpy.ndarray or pygeos.Geometry, optional): Second argument to :py:obj:`~pygeos.{func}`; Default **self**.
-            manner ('keep' or 'align' or 'expand', optional): How to apply the :py:obj:`~pygeos.{func}` to the data; Default **None** .
-            kwargs: Keyword arguments passed to :py:obj:`~pygeos.{func}`.
+            other (pandas.Series or numpy.ndarray or shapely.Geometry, optional): Second argument to :py:obj:`~shapely.{func}`; Default **self**.
+            manner ('keep' or 'align' or 'expand', optional): How to apply the :py:obj:`~shapely.{func}` to the data; Default **None** .
+            kwargs: Keyword arguments passed to :py:obj:`~shapely.{func}`.
 
         Returns:
             pandas.Series: Series with the result of the function applied to self and other, with the same index as self.
             numpy.ndarray: 2-Dimensional array with the results of the function applied to each combination of geometries between self and other.
 
         Raises:
-            ValueError: ``other`` argument is not a geos Series or PyGEOS NumPy Array
+            ValueError: ``other`` argument is not a geos Series or shapely NumPy Array
 
         Note:
-            The ``manner`` argument dictates how the data gets transformed before applying :py:obj:`~pygeos.{func}`:
+            The ``manner`` argument dictates how the data gets transformed before applying :py:obj:`~shapely.{func}`:
 
             - **keep**:
                 Keep the original data as is and simply run the function.
@@ -348,7 +348,8 @@ def binary(name, geos=False, **defaults):  # noqa: C901
             else:
                 this = self._obj
                 if (manner is None or manner == 'a') and not this.index.equals(other.index):
-                    warnings.warn('The indices of the two Series are different, so we align them.', stacklevel=1)
+                    if manner is None:
+                        warnings.warn('The indices of the two Series are different, so we align them.', stacklevel=1)
                     this, other = this.align(other)
 
                 data = this.array.data
@@ -368,12 +369,12 @@ def binary(name, geos=False, **defaults):  # noqa: C901
                     warnings.warn('Cannot align a NumPy Array.', stacklevel=1)
 
                 data = self._obj.array.data
-        elif isinstance(other, pygeos.lib.Geometry):
+        elif isinstance(other, shapely.lib.Geometry):
             data = self._obj.array.data
             if manner is not None and manner != 'k':
                 warnings.warn('Cannot align or expand a single Geometry', stacklevel=1)
         else:
-            raise ValueError('"other" should be a geos Series or PyGEOS NumPy array')
+            raise ValueError('"other" should be a geos Series or shapely NumPy array')
 
         kwargs = {**kwargs, **defaults}
         result = func(data, other, **kwargs)
@@ -405,7 +406,7 @@ def enable_dataframe_expand(expansion=1):
 
 
 def get_func_info(name, defaults=None):
-    func = rgetattr(pygeos, name)
+    func = rgetattr(shapely, name)
     func_summary = get_summary(func.__doc__)
     if defaults is None:
         return func, func_summary
@@ -430,5 +431,5 @@ def setup_args(args, kwargs, defaults, positions):
 def setup_docstring(string, defaults, **kwargs):
     string = string.format(**kwargs)
     if len(defaults) != 0:
-        string += f'\n        Note:\n            The pygeos functions gets called with these default values that cannot be overwritten: `{defaults}`'
+        string += f'\n        Note:\n            The shapely functions gets called with these default values that cannot be overwritten: `{defaults}`'
     return string

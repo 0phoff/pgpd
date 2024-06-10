@@ -23,7 +23,7 @@ Serialization & Deserialization functionality.
 
 Geometry
 --------
-Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
+Methods from :doc:`Shapely Geometry Properties <shapely:properties>`.
 
 .. autosummary::
    :toctree: generated
@@ -56,7 +56,7 @@ Methods from :doc:`PyGEOS Geometry <pygeos:geometry>`.
 
 Geometry Creation
 -----------------
-Methods from :doc:`PyGEOS Geometry Creation <pygeos:creation>`.
+Methods from :doc:`Shapely Geometry Creation <shapely:creation>`.
 
 .. autosummary::
    :toctree: generated
@@ -69,7 +69,7 @@ Methods from :doc:`PyGEOS Geometry Creation <pygeos:creation>`.
 
 Measurement
 -----------
-Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
+Methods from :doc:`Shapely Measurement <shapely:measurement>`.
 
 .. autosummary::
    :toctree: generated
@@ -89,7 +89,7 @@ Methods from :doc:`PyGEOS Measurement <pygeos:measurement>`.
 
 Predicates
 ----------
-Methods from :doc:`PyGEOS Predicates <pygeos:predicates>`.
+Methods from :doc:`Shapely Predicates <shapely:predicates>`.
 
 .. autosummary::
    :toctree: generated
@@ -126,7 +126,7 @@ Methods from :doc:`PyGEOS Predicates <pygeos:predicates>`.
 
 Set Operations
 --------------
-Methods from :doc:`PyGEOS Set Operations <pygeos:set_operations>`.
+Methods from :doc:`Shapely Set Operations <shapely:set_operations>`.
 
 .. autosummary::
    :toctree: generated
@@ -146,7 +146,7 @@ Methods from :doc:`PyGEOS Set Operations <pygeos:set_operations>`.
 
 Constructive Operations
 ------------------------
-Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
+Methods from :doc:`Shapely Constructive Operations <shapely:constructive>`.
 
 .. autosummary::
    :toctree: generated
@@ -179,7 +179,7 @@ Methods from :doc:`PyGEOS Constructive Operations <pygeos:constructive>`.
 
 Linestring Operations
 ---------------------
-Methods from :doc:`PyGEOS Linestring Operations <pygeos:linear>`.
+Methods from :doc:`Shapely Linestring Operations <shapely:linear>`.
 
 .. autosummary::
    :toctree: generated
@@ -195,7 +195,7 @@ Methods from :doc:`PyGEOS Linestring Operations <pygeos:linear>`.
 
 Coordinate Operations
 ---------------------
-Methods from :doc:`PyGEOS Coordinate Operations <pygeos:coordinates>`.
+Methods from :doc:`Shapely Coordinate Operations <shapely:coordinates>`.
 
 .. autosummary::
    :toctree: generated
@@ -210,7 +210,7 @@ Methods from :doc:`PyGEOS Coordinate Operations <pygeos:coordinates>`.
 
 STRTree
 -------
-Methods from :doc:`PyGEOS STRTree <pygeos:strtree>`.
+Methods from :doc:`Shapely STRTree <shapely:strtree>`.
 
 .. autosummary::
    :toctree: generated
@@ -234,7 +234,6 @@ Custom methods to add more functionality.
    GeosSeriesAccessor.scale
    GeosSeriesAccessor.skew
    GeosSeriesAccessor.translate
-   GeosSeriesAccessor.apply_shapely
 
 
 .. include:: /links.rst

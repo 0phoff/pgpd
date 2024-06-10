@@ -1,21 +1,19 @@
 #
-#   Test if all pygeos methods are implemented
-#   This makes it easier to update PGPD to new PyGEOS versions
+#   Test if all shapely methods are implemented
+#   This makes it easier to update PGPD to new shapely versions
 #
-import pygeos
 import pytest
+import shapely
 
 import pgpd
 
 skips = {
-    'geometry': (
-        'IntEnum',
-        'SetPrecisionMode',
-    ),
+    '_geometry': ('SetPrecisionMode',),
     'creation': (
         'box',
         'collections_1d',
         'empty',
+        'from_wkt',
         'geometrycollections',
         'linearrings',
         'linestrings',
@@ -27,21 +25,20 @@ skips = {
         'simple_geometries_1d',
     ),
     'measurement': (),
-    'predicates': ('warnings',),
-    'set_operations': (
-        'box',
-        'UnsupportedGEOSOperation',
-    ),
+    'predicates': (),
+    'set_operations': (),
     'constructive': (
-        'BufferCapStyles',
-        'BufferJoinStyles',
-        'polygonize_full',
+        'BufferCapStyle',
+        'BufferJoinStyle',
     ),
-    'linear': ('warn',),
+    'linear': (),
     'coordinates': ('get_coordinates',),
     'strtree': (
+        'Any',
+        'BaseGeometry',
         'BinaryPredicate',
-        'VALID_PREDICATES',
+        'Iterable',
+        'Union',
     ),
 }
 
@@ -49,19 +46,21 @@ global_skips = (
     'Geometry',
     'GeometryType',
     'geos_version',
+    'IntEnum',
     'lib',
     'multithreading_enabled',
     'np',
     'ParamEnum',
     'requires_geos',
     'warnings',
+    'UnsupportedGEOSVersionError',
 )
 
 
 @pytest.mark.parametrize('module', skips.keys())
 def test_for_missing_methods(module):
     skip = skips[module]
-    mod = getattr(pygeos, module)
+    mod = getattr(shapely, module)
 
     for func in dir(mod):
         if func.startswith('_'):

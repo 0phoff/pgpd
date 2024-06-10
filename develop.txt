@@ -1,5 +1,6 @@
-# LINTING
+# TESTING
 ruff
+pytest
 
 # DEVELOP
 geopandas

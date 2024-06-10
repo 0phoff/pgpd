@@ -10,22 +10,6 @@ import shapely.geometry
 import pgpd  # noqa: F401
 
 
-def test_shapely():
-    data = pd.Series(
-        [
-            shapely.geometry.Point((10, 20)),
-            shapely.geometry.LineString([(0, 0), (15, 10)]),
-            shapely.geometry.Polygon([(-5, -5), (0, 0), (-5, 5), (-10, 0)]),
-            None,
-        ]
-    )
-
-    geos_data = data.geos.to_geos()
-    result = geos_data.geos.to_shapely()
-
-    pd.testing.assert_series_equal(data, result, check_names=False)
-
-
 def test_wkt():
     data = pd.Series(
         [

@@ -1,25 +1,20 @@
 #
-# PyGEOS ExtensionDType & ExtensionArray
+# Shapely ExtensionDType & ExtensionArray
 #
 import numbers
 from collections.abc import Iterable
 
 import numpy as np
 import pandas as pd
-import pygeos
+import shapely
 from pandas.api.extensions import ExtensionArray, ExtensionDtype, register_extension_dtype
-
-try:
-    from shapely.geometry.base import BaseGeometry as ShapelyGeometry
-except ImportError:
-    ShapelyGeometry = None
 
 __all__ = ['GeosDtype', 'GeosArray']
 
 
 @register_extension_dtype
 class GeosDtype(ExtensionDtype):
-    type = pygeos.lib.Geometry  #: Underlying type of the individual Array elements
+    type = shapely.lib.Geometry  #: Underlying type of the individual Array elements
     name = 'geos'  #: Dtype string name
     na_value = pd.NA  #: NA Value that is used on the user-facing side
 
@@ -61,10 +56,10 @@ class GeosArray(ExtensionArray):
     # -------------------------------------------------------------------------
     def __init__(self, data):
         """
-        Create a GeosArray from PyGeos data.
+        Create a GeosArray from Shapely data.
 
         Args:
-            data (Iterable): PyGeos data (see Note)
+            data (Iterable): Shapely data (see Note)
 
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.
@@ -77,9 +72,9 @@ class GeosArray(ExtensionArray):
 
             - *GeosArray* |br|
                 Shallow copy of the internal data.
-            - *None or pygeos.lib.Geometry* |br|
+            - *None or shapely.lib.Geometry* |br|
                 Wrap data in an array.
-            - *Iterable of pygeos.lib.Geometry* |br|
+            - *Iterable of shapely.lib.Geometry* |br|
                 use ``np.asarray(data)``.
         """
         if isinstance(data, self.__class__):
@@ -98,87 +93,62 @@ class GeosArray(ExtensionArray):
         self.data[pd.isna(self.data)] = None
 
     @classmethod
-    def from_shapely(cls, data, **kwargs):
-        """
-        Create a GeosArray from shapely data. |br|
-        This function is a simple wrapper around :func:`pygeos.io.from_shapely`.
-
-        Args:
-            data: Shapely data or list of shapely data.
-            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_shapely`.
-
-        Returns:
-            pgpd.GeosArray: Data wrapped in a GeosArray.
-        """
-        data = pygeos.io.from_shapely(data, **kwargs)
-        return cls(data)
-
-    @classmethod
     def from_wkb(cls, data, **kwargs):
         """
         Create a GeosArray from WKB data. |br|
-        This function is a simple wrapper around :func:`pygeos.io.from_wkb`.
+        This function is a simple wrapper around :func:`shapely.io.from_wkb`.
 
         Args:
             data: WKB data or list of WKB data.
-            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkb`.
+            kwargs: Keyword arguments passed to :func:`~shapely.io.from_wkb`.
 
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.
         """
-        data = pygeos.io.from_wkb(data, **kwargs)
+        data = shapely.io.from_wkb(data, **kwargs)
         return cls(data)
 
     @classmethod
     def from_wkt(cls, data, **kwargs):
         """
         Create a GeosArray from WKT data. |br|
-        This function is a simple wrapper around :func:`pygeos.io.from_wkt`.
+        This function is a simple wrapper around :func:`shapely.io.from_wkt`.
 
         Args:
             data: WKT data or list of WKT data.
-            kwargs: Keyword arguments passed to :func:`~pygeos.io.from_wkt`.
+            kwargs: Keyword arguments passed to :func:`~shapely.io.from_wkt`.
 
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.
         """
-        data = pygeos.io.from_wkt(data, **kwargs)
+        data = shapely.io.from_wkt(data, **kwargs)
         return cls(data)
-
-    def to_shapely(self, **kwargs):
-        """
-        Transform the GeosArray to a NumPy array of shapely objects.
-
-        Returns:
-            numpy.ndarray: Array with the shapely data.
-        """
-        return pygeos.io.to_shapely(self.data, **kwargs)
 
     def to_wkb(self, **kwargs):
         """
         Transform the GeosArray to a NumPy array of WKB bytes. |br|
-        This function is a simple wrapper around :func:`pygeos.io.to_wkb`.
+        This function is a simple wrapper around :func:`shapely.io.to_wkb`.
 
         Args:
-            kwargs: Keyword arguments passed to :func:`~pygeos.io.to_wkb`.
+            kwargs: Keyword arguments passed to :func:`~shapely.io.to_wkb`.
 
         Returns:
             numpy.ndarray: Array with the WKB data.
         """
-        return pygeos.io.to_wkb(self.data, **kwargs)
+        return shapely.io.to_wkb(self.data, **kwargs)
 
     def to_wkt(self, **kwargs):
         """
         Transform the GeosArray to a NumPy array of WKT strings. |br|
-        This function is a simple wrapper around :func:`pygeos.io.to_wkt`.
+        This function is a simple wrapper around :func:`shapely.io.to_wkt`.
 
         Args:
-            kwargs: Keyword arguments passed to :func:`~pygeos.io.to_wkt`.
+            kwargs: Keyword arguments passed to :func:`~shapely.io.to_wkt`.
 
         Returns:
             numpy.ndarray: Array with the WKT data.
         """
-        return pygeos.io.to_wkt(self.data, **kwargs)
+        return shapely.io.to_wkt(self.data, **kwargs)
 
     # -------------------------------------------------------------------------
     # ExtensionArray Specific
@@ -197,8 +167,6 @@ class GeosArray(ExtensionArray):
             return cls.from_wkt(values)
         if isinstance(val, bytes):
             return cls.from_wkb(values)
-        if ShapelyGeometry is not None and isinstance(val, ShapelyGeometry):
-            return cls.from_shapely(values)
         return cls(values)
 
     def _values_for_factorize(self):
@@ -230,11 +198,9 @@ class GeosArray(ExtensionArray):
             if pd.isna(value):
                 self.data[key] = None
             elif isinstance(value, str):
-                self.data[key] = pygeos.io.from_wkt(value)
+                self.data[key] = shapely.io.from_wkt(value)
             elif isinstance(value, bytes):
-                self.data[key] = pygeos.io.from_wkb(value)
-            elif ShapelyGeometry is not None and isinstance(value, ShapelyGeometry):
-                self.data[key] = pygeos.io.from_shapely(value)
+                self.data[key] = shapely.io.from_wkb(value)
             else:
                 self.data[key] = value
 
@@ -255,7 +221,7 @@ class GeosArray(ExtensionArray):
         return self.data.nbytes
 
     def isna(self):
-        return pygeos.is_missing(self.data)
+        return shapely.is_missing(self.data)
 
     def take(self, indices, allow_fill=False, fill_value=None):
         from pandas.core.algorithms import take
@@ -398,7 +364,7 @@ class GeosArray(ExtensionArray):
             points = np.c_[points, np.ones(points.shape[0])][..., None]
             return (matrix @ points)[:, :-1, 0]
 
-        return self.__class__(pygeos.coordinates.apply(self.data, _affine, zdim))
+        return self.__class__(shapely.coordinates.transform(self.data, _affine, zdim))
 
     def __add__(self, other):
         """
@@ -422,15 +388,15 @@ class GeosArray(ExtensionArray):
             This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
-            >>> import pygeos
+            >>> import shapely
             >>> import pgpd
-            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data = pgpd.GeosArray(shapely.box(range(4), 0, range(10,14), 10))
             >>> data
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
-             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
-             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <shapely.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <shapely.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
             Length: 4, dtype: geos
 
             Providing values for each coordinate:
@@ -458,20 +424,20 @@ class GeosArray(ExtensionArray):
                    [0, 1]])
             >>> data + other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 1, 12 13, 4 15, 6 7, 10 1))>,
-             <pygeos.Geometry POLYGON ((11 1, 13 13, 5 15, 7 7, 11 1))>,
-             <pygeos.Geometry POLYGON ((12 1, 14 13, 6 15, 8 7, 12 1))>,
-             <pygeos.Geometry POLYGON ((13 1, 15 13, 7 15, 9 7, 13 1))>]
+            [<shapely.Geometry POLYGON ((10 1, 12 13, 4 15, 6 7, 10 1))>,
+             <shapely.Geometry POLYGON ((11 1, 13 13, 5 15, 7 7, 11 1))>,
+             <shapely.Geometry POLYGON ((12 1, 14 13, 6 15, 8 7, 12 1))>,
+             <shapely.Geometry POLYGON ((13 1, 15 13, 7 15, 9 7, 13 1))>]
             Length: 4, dtype: geos
 
             Provide coordinates for each polygon:
             >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
             >>> data + other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 1, 10 11, 0 11, 0 1, 10 1))>,
-             <pygeos.Geometry POLYGON ((13 3, 13 13, 3 13, 3 3, 13 3))>,
-             <pygeos.Geometry POLYGON ((16 5, 16 15, 6 15, 6 5, 16 5))>,
-             <pygeos.Geometry POLYGON ((19 7, 19 17, 9 17, 9 7, 19 7))>]
+            [<shapely.Geometry POLYGON ((10 1, 10 11, 0 11, 0 1, 10 1))>,
+             <shapely.Geometry POLYGON ((13 3, 13 13, 3 13, 3 3, 13 3))>,
+             <shapely.Geometry POLYGON ((16 5, 16 15, 6 15, 6 5, 16 5))>,
+             <shapely.Geometry POLYGON ((19 7, 19 17, 9 17, 9 7, 19 7))>]
             Length: 4, dtype: geos
 
             NumPy broadcasting still works:
@@ -481,10 +447,10 @@ class GeosArray(ExtensionArray):
             (4, 1)
             >>> data + other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((11 1, 11 11, 1 11, 1 1, 11 1))>,
-             <pygeos.Geometry POLYGON ((13 2, 13 12, 3 12, 3 2, 13 2))>,
-             <pygeos.Geometry POLYGON ((15 3, 15 13, 5 13, 5 3, 15 3))>,
-             <pygeos.Geometry POLYGON ((17 4, 17 14, 7 14, 7 4, 17 4))>]
+            [<shapely.Geometry POLYGON ((11 1, 11 11, 1 11, 1 1, 11 1))>,
+             <shapely.Geometry POLYGON ((13 2, 13 12, 3 12, 3 2, 13 2))>,
+             <shapely.Geometry POLYGON ((15 3, 15 13, 5 13, 5 3, 15 3))>,
+             <shapely.Geometry POLYGON ((17 4, 17 14, 7 14, 7 4, 17 4))>]
             Length: 4, dtype: geos
             >>> # Broadcast coordinates
             >>> other = np.array([10,10])
@@ -492,10 +458,10 @@ class GeosArray(ExtensionArray):
             (2,)
             >>> data + other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))>,
-             <pygeos.Geometry POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))>,
-             <pygeos.Geometry POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))>,
-             <pygeos.Geometry POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))>]
+            [<shapely.Geometry POLYGON ((20 10, 20 20, 10 20, 10 10, 20 10))>,
+             <shapely.Geometry POLYGON ((21 10, 21 20, 11 20, 11 10, 21 10))>,
+             <shapely.Geometry POLYGON ((22 10, 22 20, 12 20, 12 10, 22 10))>,
+             <shapely.Geometry POLYGON ((23 10, 23 20, 13 20, 13 10, 23 10))>]
             Length: 4, dtype: geos
         """
         other = np.asarray(other)
@@ -509,15 +475,15 @@ class GeosArray(ExtensionArray):
         elif zshape == 3:
             zdim = True
         else:
-            zdim = pygeos.predicates.has_z(self.data).any()
+            zdim = shapely.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
         pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
-            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+            other = np.repeat(other, shapely.get_num_coordinates(self.data), 0)
 
         return self.__class__(
-            pygeos.coordinates.apply(
+            shapely.coordinates.transform(
                 self.data,
                 lambda pt: pt + other,
                 zdim,
@@ -546,15 +512,15 @@ class GeosArray(ExtensionArray):
             This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
-            >>> import pygeos
+            >>> import shapely
             >>> import pgpd
-            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data = pgpd.GeosArray(shapely.box(range(4), 0, range(10,14), 10))
             >>> data
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
-             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
-             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <shapely.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <shapely.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
             Length: 4, dtype: geos
 
             Providing values for each coordinate:
@@ -582,20 +548,20 @@ class GeosArray(ExtensionArray):
                    [0, 1]])
             >>> data - other
             <GeosArray>
-            [ <pygeos.Geometry POLYGON ((10 -1, 8 7, -4 5, -6 -7, 10 -1))>,
-              <pygeos.Geometry POLYGON ((11 -1, 9 7, -3 5, -5 -7, 11 -1))>,
-             <pygeos.Geometry POLYGON ((12 -1, 10 7, -2 5, -4 -7, 12 -1))>,
-             <pygeos.Geometry POLYGON ((13 -1, 11 7, -1 5, -3 -7, 13 -1))>]
+            [ <shapely.Geometry POLYGON ((10 -1, 8 7, -4 5, -6 -7, 10 -1))>,
+              <shapely.Geometry POLYGON ((11 -1, 9 7, -3 5, -5 -7, 11 -1))>,
+             <shapely.Geometry POLYGON ((12 -1, 10 7, -2 5, -4 -7, 12 -1))>,
+             <shapely.Geometry POLYGON ((13 -1, 11 7, -1 5, -3 -7, 13 -1))>]
             Length: 4, dtype: geos
 
             Provide coordinates for each polygon:
             >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
             >>> data - other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 -1, 10 9, 0 9, 0 -1, 10 -1))>,
-              <pygeos.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
-              <pygeos.Geometry POLYGON ((8 -5, 8 5, -2 5, -2 -5, 8 -5))>,
-              <pygeos.Geometry POLYGON ((7 -7, 7 3, -3 3, -3 -7, 7 -7))>]
+            [<shapely.Geometry POLYGON ((10 -1, 10 9, 0 9, 0 -1, 10 -1))>,
+              <shapely.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
+              <shapely.Geometry POLYGON ((8 -5, 8 5, -2 5, -2 -5, 8 -5))>,
+              <shapely.Geometry POLYGON ((7 -7, 7 3, -3 3, -3 -7, 7 -7))>]
             Length: 4, dtype: geos
 
             NumPy broadcasting still works:
@@ -605,10 +571,10 @@ class GeosArray(ExtensionArray):
             (4, 1)
             >>> data - other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((9 -1, 9 9, -1 9, -1 -1, 9 -1))>,
-             <pygeos.Geometry POLYGON ((9 -2, 9 8, -1 8, -1 -2, 9 -2))>,
-             <pygeos.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
-             <pygeos.Geometry POLYGON ((9 -4, 9 6, -1 6, -1 -4, 9 -4))>]
+            [<shapely.Geometry POLYGON ((9 -1, 9 9, -1 9, -1 -1, 9 -1))>,
+             <shapely.Geometry POLYGON ((9 -2, 9 8, -1 8, -1 -2, 9 -2))>,
+             <shapely.Geometry POLYGON ((9 -3, 9 7, -1 7, -1 -3, 9 -3))>,
+             <shapely.Geometry POLYGON ((9 -4, 9 6, -1 6, -1 -4, 9 -4))>]
             Length: 4, dtype: geos
             >>> # Broadcast coordinates
             >>> other = np.array([10,10])
@@ -616,10 +582,10 @@ class GeosArray(ExtensionArray):
             (2,)
             >>> data - other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((0 -10, 0 0, -10 0, -10 -10, 0 -10))>,
-               <pygeos.Geometry POLYGON ((1 -10, 1 0, -9 0, -9 -10, 1 -10))>,
-               <pygeos.Geometry POLYGON ((2 -10, 2 0, -8 0, -8 -10, 2 -10))>,
-               <pygeos.Geometry POLYGON ((3 -10, 3 0, -7 0, -7 -10, 3 -10))>]
+            [<shapely.Geometry POLYGON ((0 -10, 0 0, -10 0, -10 -10, 0 -10))>,
+             <shapely.Geometry POLYGON ((1 -10, 1 0, -9 0, -9 -10, 1 -10))>,
+             <shapely.Geometry POLYGON ((2 -10, 2 0, -8 0, -8 -10, 2 -10))>,
+             <shapely.Geometry POLYGON ((3 -10, 3 0, -7 0, -7 -10, 3 -10))>]
             Length: 4, dtype: geos
         """
         other = np.asarray(other)
@@ -633,15 +599,15 @@ class GeosArray(ExtensionArray):
         elif zshape == 3:
             zdim = True
         else:
-            zdim = pygeos.predicates.has_z(self.data).any()
+            zdim = shapely.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
         pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
-            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+            other = np.repeat(other, shapely.get_num_coordinates(self.data), 0)
 
         return self.__class__(
-            pygeos.coordinates.apply(
+            shapely.coordinates.transform(
                 self.data,
                 lambda pt: pt - other,
                 zdim,
@@ -670,15 +636,15 @@ class GeosArray(ExtensionArray):
             This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
-            >>> import pygeos
+            >>> import shapely
             >>> import pgpd
-            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data = pgpd.GeosArray(shapely.box(range(4), 0, range(10,14), 10))
             >>> data
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
-             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
-             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <shapely.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <shapely.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
             Length: 4, dtype: geos
 
             Providing values for each coordinate:
@@ -706,20 +672,20 @@ class GeosArray(ExtensionArray):
                    [0, 1]])
             >>> data * other
             <GeosArray>
-            [  <pygeos.Geometry POLYGON ((0 0, 20 30, 0 50, 0 0, 0 0))>,
-               <pygeos.Geometry POLYGON ((0 0, 22 30, 4 50, 6 0, 0 0))>,
-              <pygeos.Geometry POLYGON ((0 0, 24 30, 8 50, 12 0, 0 0))>,
-             <pygeos.Geometry POLYGON ((0 0, 26 30, 12 50, 18 0, 0 0))>]
+            [<shapely.Geometry POLYGON ((0 0, 20 30, 0 50, 0 0, 0 0))>,
+             <shapely.Geometry POLYGON ((0 0, 22 30, 4 50, 6 0, 0 0))>,
+             <shapely.Geometry POLYGON ((0 0, 24 30, 8 50, 12 0, 0 0))>,
+             <shapely.Geometry POLYGON ((0 0, 26 30, 12 50, 18 0, 0 0))>]
             Length: 4, dtype: geos
 
             Provide coordinates for each polygon:
             >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
             >>> data * other
             <GeosArray>
-            [     <pygeos.Geometry POLYGON ((0 0, 0 10, 0 10, 0 0, 0 0))>,
-               <pygeos.Geometry POLYGON ((22 0, 22 30, 2 30, 2 0, 22 0))>,
-               <pygeos.Geometry POLYGON ((48 0, 48 50, 8 50, 8 0, 48 0))>,
-             <pygeos.Geometry POLYGON ((78 0, 78 70, 18 70, 18 0, 78 0))>]
+            [<shapely.Geometry POLYGON ((0 0, 0 10, 0 10, 0 0, 0 0))>,
+             <shapely.Geometry POLYGON ((22 0, 22 30, 2 30, 2 0, 22 0))>,
+             <shapely.Geometry POLYGON ((48 0, 48 50, 8 50, 8 0, 48 0))>,
+             <shapely.Geometry POLYGON ((78 0, 78 70, 18 70, 18 0, 78 0))>]
             Length: 4, dtype: geos
 
             NumPy broadcasting still works:
@@ -729,10 +695,10 @@ class GeosArray(ExtensionArray):
             (4, 1)
             >>> data * other
             <GeosArray>
-            [  <pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-               <pygeos.Geometry POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))>,
-               <pygeos.Geometry POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))>,
-             <pygeos.Geometry POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))>,
+             <shapely.Geometry POLYGON ((36 0, 36 30, 6 30, 6 0, 36 0))>,
+             <shapely.Geometry POLYGON ((52 0, 52 40, 12 40, 12 0, 52 0))>]
             Length: 4, dtype: geos
             >>> # Broadcast coordinates
             >>> other = np.array([10,10])
@@ -740,10 +706,10 @@ class GeosArray(ExtensionArray):
             (2,)
             >>> data * other
             <GeosArray>
-            [  <pygeos.Geometry POLYGON ((100 0, 100 100, 0 100, 0 0, 100 0))>,
-             <pygeos.Geometry POLYGON ((110 0, 110 100, 10 100, 10 0, 110 0))>,
-             <pygeos.Geometry POLYGON ((120 0, 120 100, 20 100, 20 0, 120 0))>,
-             <pygeos.Geometry POLYGON ((130 0, 130 100, 30 100, 30 0, 130 0))>]
+            [<shapely.Geometry POLYGON ((100 0, 100 100, 0 100, 0 0, 100 0))>,
+             <shapely.Geometry POLYGON ((110 0, 110 100, 10 100, 10 0, 110 0))>,
+             <shapely.Geometry POLYGON ((120 0, 120 100, 20 100, 20 0, 120 0))>,
+             <shapely.Geometry POLYGON ((130 0, 130 100, 30 100, 30 0, 130 0))>]
             Length: 4, dtype: geos
         """
         other = np.asarray(other)
@@ -757,15 +723,15 @@ class GeosArray(ExtensionArray):
         elif zshape == 3:
             zdim = True
         else:
-            zdim = pygeos.predicates.has_z(self.data).any()
+            zdim = shapely.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
         pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
-            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+            other = np.repeat(other, shapely.get_num_coordinates(self.data), 0)
 
         return self.__class__(
-            pygeos.coordinates.apply(
+            shapely.coordinates.transform(
                 self.data,
                 lambda pt: pt * other,
                 zdim,
@@ -794,15 +760,15 @@ class GeosArray(ExtensionArray):
             This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
-            >>> import pygeos
+            >>> import shapely
             >>> import pgpd
-            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data = pgpd.GeosArray(shapely.box(range(4), 0, range(10,14), 10))
             >>> data
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
-             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
-             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <shapely.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <shapely.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
             Length: 4, dtype: geos
 
             Providing values for each coordinate:
@@ -830,20 +796,20 @@ class GeosArray(ExtensionArray):
                    [0, 1]])
             >>> data / other
             <GeosArray>
-            [         <pygeos.Geometry POLYGON ((inf 0, 5 3.33, 0 2, 0 0, inf 0))>,
-             <pygeos.Geometry POLYGON ((inf 0, 5.5 3.33, 0.25 2, 0.167 0, inf 0))>,
-                <pygeos.Geometry POLYGON ((inf 0, 6 3.33, 0.5 2, 0.333 0, inf 0))>,
-               <pygeos.Geometry POLYGON ((inf 0, 6.5 3.33, 0.75 2, 0.5 0, inf 0))>]
+            [<shapely.Geometry POLYGON ((inf 0, 5 3.33, 0 2, 0 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 5.5 3.33, 0.25 2, 0.167 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 6 3.33, 0.5 2, 0.333 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 6.5 3.33, 0.75 2, 0.5 0, inf 0))>]
             Length: 4, dtype: geos
 
             Provide coordinates for each polygon:
             >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
             >>> data / other
             <GeosArray>
-            [     <pygeos.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
-                <pygeos.Geometry POLYGON ((5.5 0, 5.5 3.33, 0.5 3.33, 0.5 0, 5.5 0))>,
-                            <pygeos.Geometry POLYGON ((3 0, 3 2, 0.5 2, 0.5 0, 3 0))>,
-             <pygeos.Geometry POLYGON ((2.17 0, 2.17 1.43, 0.5 1.43, 0.5 0, 2.17 0))>]
+            [<shapely.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
+             <shapely.Geometry POLYGON ((5.5 0, 5.5 3.33, 0.5 3.33, 0.5 0, 5.5 0))>,
+             <shapely.Geometry POLYGON ((3 0, 3 2, 0.5 2, 0.5 0, 3 0))>,
+             <shapely.Geometry POLYGON ((2.17 0, 2.17 1.43, 0.5 1.43, 0.5 0, 2.17 0))>]
             Length: 4, dtype: geos
 
             NumPy broadcasting still works:
@@ -853,10 +819,10 @@ class GeosArray(ExtensionArray):
             (4, 1)
             >>> data / other
             <GeosArray>
-            [              <pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-                      <pygeos.Geometry POLYGON ((5.5 0, 5.5 5, 0.5 5, 0.5 0, 5.5 0))>,
-                  <pygeos.Geometry POLYGON ((4 0, 4 3.33, 0.667 3.33, 0.667 0, 4 0))>,
-             <pygeos.Geometry POLYGON ((3.25 0, 3.25 2.5, 0.75 2.5, 0.75 0, 3.25 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((5.5 0, 5.5 5, 0.5 5, 0.5 0, 5.5 0))>,
+             <shapely.Geometry POLYGON ((4 0, 4 3.33, 0.667 3.33, 0.667 0, 4 0))>,
+             <shapely.Geometry POLYGON ((3.25 0, 3.25 2.5, 0.75 2.5, 0.75 0, 3.25 0))>]
             Length: 4, dtype: geos
             >>> # Broadcast coordinates
             >>> other = np.array([10,10])
@@ -864,10 +830,10 @@ class GeosArray(ExtensionArray):
             (2,)
             >>> data / other
             <GeosArray>
-            [          <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
-             <pygeos.Geometry POLYGON ((1.1 0, 1.1 1, 0.1 1, 0.1 0, 1.1 0))>,
-             <pygeos.Geometry POLYGON ((1.2 0, 1.2 1, 0.2 1, 0.2 0, 1.2 0))>,
-             <pygeos.Geometry POLYGON ((1.3 0, 1.3 1, 0.3 1, 0.3 0, 1.3 0))>]
+            [<shapely.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <shapely.Geometry POLYGON ((1.1 0, 1.1 1, 0.1 1, 0.1 0, 1.1 0))>,
+             <shapely.Geometry POLYGON ((1.2 0, 1.2 1, 0.2 1, 0.2 0, 1.2 0))>,
+             <shapely.Geometry POLYGON ((1.3 0, 1.3 1, 0.3 1, 0.3 0, 1.3 0))>]
             Length: 4, dtype: geos
         """
         other = np.asarray(other)
@@ -881,15 +847,15 @@ class GeosArray(ExtensionArray):
         elif zshape == 3:
             zdim = True
         else:
-            zdim = pygeos.predicates.has_z(self.data).any()
+            zdim = shapely.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
         pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
-            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+            other = np.repeat(other, shapely.get_num_coordinates(self.data), 0)
 
         return self.__class__(
-            pygeos.coordinates.apply(
+            shapely.coordinates.transform(
                 self.data,
                 lambda pt: pt / other,
                 zdim,
@@ -918,15 +884,15 @@ class GeosArray(ExtensionArray):
             This allows you to easily add different coordinate pairs to each polygon.
 
         Example:
-            >>> import pygeos
+            >>> import shapely
             >>> import pgpd
-            >>> data = pgpd.GeosArray(pygeos.box(range(4), 0, range(10,14), 10))
+            >>> data = pgpd.GeosArray(shapely.box(range(4), 0, range(10,14), 10))
             >>> data
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-             <pygeos.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
-             <pygeos.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
-             <pygeos.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))>,
+             <shapely.Geometry POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))>,
+             <shapely.Geometry POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))>]
             Length: 4, dtype: geos
 
             Providing values for each coordinate:
@@ -954,20 +920,20 @@ class GeosArray(ExtensionArray):
                    [0, 1]])
             >>> data // other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
-             <pygeos.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
-             <pygeos.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>,
-             <pygeos.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>]
+            [<shapely.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 5 3, 0 2, 0 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>,
+             <shapely.Geometry POLYGON ((inf 0, 6 3, 0 2, 0 0, inf 0))>]
             Length: 4, dtype: geos
 
             Provide coordinates for each polygon:
             >>> other = np.array([[0, 1], [2, 3], [4, 5], [6, 7]])
             >>> data // other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
-                           <pygeos.Geometry POLYGON ((5 0, 5 3, 0 3, 0 0, 5 0))>,
-                           <pygeos.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>,
-                           <pygeos.Geometry POLYGON ((2 0, 2 1, 0 1, 0 0, 2 0))>]
+            [<shapely.Geometry POLYGON ((inf 0, inf 10, -nan 10, -nan 0, inf 0))>,
+             <shapely.Geometry POLYGON ((5 0, 5 3, 0 3, 0 0, 5 0))>,
+             <shapely.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>,
+             <shapely.Geometry POLYGON ((2 0, 2 1, 0 1, 0 0, 2 0))>]
             Length: 4, dtype: geos
 
             NumPy broadcasting still works:
@@ -977,10 +943,10 @@ class GeosArray(ExtensionArray):
             (4, 1)
             >>> data // other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
-                  <pygeos.Geometry POLYGON ((5 0, 5 5, 0 5, 0 0, 5 0))>,
-                  <pygeos.Geometry POLYGON ((4 0, 4 3, 0 3, 0 0, 4 0))>,
-                  <pygeos.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>]
+            [<shapely.Geometry POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))>,
+             <shapely.Geometry POLYGON ((5 0, 5 5, 0 5, 0 0, 5 0))>,
+             <shapely.Geometry POLYGON ((4 0, 4 3, 0 3, 0 0, 4 0))>,
+             <shapely.Geometry POLYGON ((3 0, 3 2, 0 2, 0 0, 3 0))>]
             Length: 4, dtype: geos
             >>> # Broadcast coordinates
             >>> other = np.array([10,10])
@@ -988,10 +954,10 @@ class GeosArray(ExtensionArray):
             (2,)
             >>> data // other
             <GeosArray>
-            [<pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
-             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
-             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
-             <pygeos.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>]
+            [<shapely.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <shapely.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <shapely.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>,
+             <shapely.Geometry POLYGON ((1 0, 1 1, 0 1, 0 0, 1 0))>]
             Length: 4, dtype: geos
         """
         other = np.asarray(other)
@@ -1005,15 +971,15 @@ class GeosArray(ExtensionArray):
         elif zshape == 3:
             zdim = True
         else:
-            zdim = pygeos.predicates.has_z(self.data).any()
+            zdim = shapely.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
         pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
-            other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
+            other = np.repeat(other, shapely.get_num_coordinates(self.data), 0)
 
         return self.__class__(
-            pygeos.coordinates.apply(
+            shapely.coordinates.transform(
                 self.data,
                 lambda pt: pt // other,
                 zdim,

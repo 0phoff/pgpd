@@ -2,6 +2,7 @@
 # Geo Accessor for DataFrames
 #
 
+import numpy as np
 import pandas as pd
 
 from ._accessor_series import GeosSeriesAccessor
@@ -17,15 +18,15 @@ except ImportError:
 @pd.api.extensions.register_dataframe_accessor('geos')
 class GeosDataFrameAccessor:
     """
-    Access PyGEOS functionality through the "geos" dataframe accessor keyword.
+    Access Shapely functionality through the "geos" dataframe accessor keyword.
     The functions defined here simply call the appropriate functions from :class:`~pgpd.GeosSeriesAccessor`
     and group the results.
 
     Example:
         >>> df = pd.DataFrame({
         ...     'a': list('abcde'),
-        ...     'poly': pygeos.box(range(5), 0, range(10,15), 10),
-        ...     'pt': pygeos.points(range(5), range(10,15))
+        ...     'poly': shapely.box(range(5), 0, range(10,15), 10),
+        ...     'pt': shapely.points(range(5), range(10,15))
         ... })
         >>> df = df.astype({'poly':'geos', 'pt':'geos'})
         >>> df
@@ -48,7 +49,7 @@ class GeosDataFrameAccessor:
         if gpd is not None and isinstance(obj, gpd.GeoDataFrame):
             geometry = obj._geometry_column_name
             obj = pd.DataFrame(obj).copy()
-            obj[geometry] = GeosArray(obj[geometry].array.data)
+            obj[geometry] = GeosArray(np.asarray(obj[geometry].array))
         elif (obj.dtypes != 'geos').all():
             raise AttributeError('Must have at least one "geos" dtype column')
 
@@ -110,7 +111,7 @@ for name in dir(GeosSeriesAccessor):
     item = getattr(GeosSeriesAccessor, name)
 
     if item is None:
-        # Any accessor function that tries to access an non-existent pygeos function (eg. older version)
+        # Any accessor function that tries to access an non-existent shapely function (eg. older version)
         # is set to None and will thus be removed from the accessor here.
         delattr(GeosSeriesAccessor, name)
     elif callable(item) and hasattr(item, '__DataFrameExpand__'):

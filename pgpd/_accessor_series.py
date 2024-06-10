@@ -5,7 +5,7 @@ from math import cos, sin, tan
 
 import numpy as np
 import pandas as pd
-import pygeos
+import shapely
 
 from ._array import GeosArray
 from ._delegated_series import (
@@ -32,10 +32,10 @@ __all__ = ['GeosSeriesAccessor']
 @pd.api.extensions.register_series_accessor('geos')
 class GeosSeriesAccessor:
     """
-    Access PyGEOS functionality through the "geos" series accessor keyword.
+    Access shapely functionality through the "geos" series accessor keyword.
 
     Example:
-        >>> s = pd.Series(pygeos.points(range(15), 0), dtype='geos')
+        >>> s = pd.Series(shapely.points(range(15), 0), dtype='geos')
         >>> s
         0    POINT (0 0)
         1    POINT (1 0)
@@ -64,7 +64,7 @@ class GeosSeriesAccessor:
 
     def __init__(self, obj):
         if gpd is not None and pd.api.types.pandas_dtype('geometry') == obj.dtype:
-            obj = pd.Series(GeosArray(obj.array.data), name=obj.name, index=obj.index)
+            obj = pd.Series(GeosArray(np.asarray(obj.array)), name=obj.name, index=obj.index)
         elif pd.api.types.pandas_dtype('geos') != obj.dtype:
             try:
                 obj = pd.Series(GeosArray._from_sequence(obj.values), name=obj.name, index=obj.index)
@@ -78,7 +78,7 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     def to_geos(self, copy=False):
         """
-        Transform the series in a PyGEOS geos column.
+        Transform the series in a shapely geos column.
 
         Args:
             copy (bool, optional): Whether to copy the data or return a wrapper around the same data; Default **False**
@@ -123,11 +123,6 @@ class GeosSeriesAccessor:
         return s
 
     @enable_dataframe_expand
-    def to_shapely(self, **kwargs):
-        data = self._obj.array.to_shapely(**kwargs)
-        return pd.Series(data, name='shapely', index=self._obj.index)
-
-    @enable_dataframe_expand
     def to_wkt(self, **kwargs):
         data = self._obj.array.to_wkt(**kwargs)
         return pd.Series(data, name='wkt', index=self._obj.index)
@@ -138,39 +133,39 @@ class GeosSeriesAccessor:
         return pd.Series(data, name='wkb', index=self._obj.index)
 
     # -------------------------------------------------------------------------
-    # Geometry
+    # shapely/_geometry.py
     # -------------------------------------------------------------------------
-    get_coordinate_dimension = unary_series_indexed('geometry.get_coordinate_dimension')
-    get_dimensions = unary_series_indexed('geometry.get_dimensions')
-    get_exterior_ring = unary_series_indexed('geometry.get_exterior_ring', geos=True)
-    get_geometry = unary_series_indexed('geometry.get_geometry', geos=True)
-    get_interior_ring = unary_series_indexed('geometry.get_interior_ring', geos=True)
-    get_num_coordinates = unary_series_indexed('geometry.get_num_coordinates')
-    get_num_geometries = unary_series_indexed('geometry.get_num_geometries')
-    get_num_interior_rings = unary_series_indexed('geometry.get_num_interior_rings')
-    get_num_points = unary_series_indexed('geometry.get_num_points')
-    get_parts = unary_series_keyed('geometry.get_parts', geos=True, return_index=True)
-    get_point = unary_series_indexed('geometry.get_point', geos=True)
-    get_precision = unary_series_indexed('geometry.get_precision')
-    get_rings = unary_series_keyed('geometry.get_rings', geos=True, return_index=True)
-    get_srid = unary_series_indexed('geometry.get_srid')
-    get_type_id = unary_series_indexed('geometry.get_type_id')
-    get_x = unary_series_indexed('geometry.get_x')
-    get_y = unary_series_indexed('geometry.get_y')
-    get_z = unary_series_indexed('geometry.get_z')
-    force_2d = unary_series_indexed('geometry.force_2d', geos=True)
-    force_3d = unary_series_indexed('geometry.force_3d', geos=True)
-    set_precision = unary_none('geometry.set_precision')
-    set_srid = unary_none('geometry.set_srid')
+    get_coordinate_dimension = unary_series_indexed('_geometry.get_coordinate_dimension')
+    get_dimensions = unary_series_indexed('_geometry.get_dimensions')
+    get_exterior_ring = unary_series_indexed('_geometry.get_exterior_ring', geos=True)
+    get_geometry = unary_series_indexed('_geometry.get_geometry', geos=True)
+    get_interior_ring = unary_series_indexed('_geometry.get_interior_ring', geos=True)
+    get_num_coordinates = unary_series_indexed('_geometry.get_num_coordinates')
+    get_num_geometries = unary_series_indexed('_geometry.get_num_geometries')
+    get_num_interior_rings = unary_series_indexed('_geometry.get_num_interior_rings')
+    get_num_points = unary_series_indexed('_geometry.get_num_points')
+    get_parts = unary_series_keyed('_geometry.get_parts', geos=True, return_index=True)
+    get_point = unary_series_indexed('_geometry.get_point', geos=True)
+    get_precision = unary_series_indexed('_geometry.get_precision')
+    get_rings = unary_series_keyed('_geometry.get_rings', geos=True, return_index=True)
+    get_srid = unary_series_indexed('_geometry.get_srid')
+    get_type_id = unary_series_indexed('_geometry.get_type_id')
+    get_x = unary_series_indexed('_geometry.get_x')
+    get_y = unary_series_indexed('_geometry.get_y')
+    get_z = unary_series_indexed('_geometry.get_z')
+    force_2d = unary_series_indexed('_geometry.force_2d', geos=True)
+    force_3d = unary_series_indexed('_geometry.force_3d', geos=True)
+    set_precision = unary_none('_geometry.set_precision')
+    set_srid = unary_none('_geometry.set_srid')
 
     # -------------------------------------------------------------------------
-    # Geometry Creation
+    # shapely/creation.py
     # -------------------------------------------------------------------------
     destroy_prepared = unary_none('creation.destroy_prepared')
     prepare = unary_none('creation.prepare')
 
     # -------------------------------------------------------------------------
-    # Measurement
+    # shapely/measurement.py
     # -------------------------------------------------------------------------
     area = unary_series_indexed('measurement.area')
     bounds = unary_dataframe_indexed('measurement.bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
@@ -183,18 +178,22 @@ class GeosSeriesAccessor:
     total_bounds = unary_series('measurement.total_bounds', ['xmin', 'ymin', 'xmax', 'ymax'])
 
     # -------------------------------------------------------------------------
-    # Predicates
+    # shapely/predicates.py
     # -------------------------------------------------------------------------
     contains = binary('predicates.contains')
     contains_properly = binary('predicates.contains_properly')
+    contains_xy = unary_series_indexed('predicates.contains_xy')
     covered_by = binary('predicates.covered_by')
     covers = binary('predicates.covers')
     crosses = binary('predicates.crosses')
     disjoint = binary('predicates.disjoint')
+    dwithin = binary('predicates.within')
     equals = binary('predicates.equals')
     equals_exact = binary('predicates.equals_exact')
     has_z = unary_series_indexed('predicates.has_z')
+    has_m = unary_series_indexed('predicates.has_m')
     intersects = binary('predicates.intersects')
+    intersects_xy = unary_series_indexed('predicates.intersects_xy')
     is_ccw = unary_series_indexed('predicates.is_ccw')
     is_closed = unary_series_indexed('predicates.is_closed')
     is_empty = unary_series_indexed('predicates.is_empty')
@@ -213,7 +212,7 @@ class GeosSeriesAccessor:
     within = binary('predicates.within')
 
     # -------------------------------------------------------------------------
-    # Set operations
+    # shapely/set_operations.py
     # -------------------------------------------------------------------------
     coverage_union = binary('set_operations.coverage_union', geos=True)
     coverage_union_all = unary_return('set_operations.coverage_union_all')
@@ -222,17 +221,19 @@ class GeosSeriesAccessor:
     intersection_all = unary_return('set_operations.intersection_all')
     symmetric_difference = binary('set_operations.symmetric_difference', geos=True)
     symmetric_difference_all = unary_return('set_operations.symmetric_difference_all')
+    unary_union = unary_return('set_operations.unary_union')
     union = binary('set_operations.union', geos=True)
     union_all = unary_return('set_operations.union_all')
 
     # -------------------------------------------------------------------------
-    # Constructive operations
+    # shapely/constructive.py
     # -------------------------------------------------------------------------
     boundary = unary_series_indexed('constructive.boundary', geos=True)
     buffer = unary_series_indexed('constructive.buffer', geos=True)
     build_area = unary_return('constructive.build_area')
     centroid = unary_series_indexed('constructive.centroid', geos=True)
     clip_by_rect = unary_series_indexed('constructive.clip_by_rect', geos=True)
+    concave_hull = unary_series_indexed('constructive.concave_hull', geos=True)
     convex_hull = unary_series_indexed('constructive.convex_hull', geos=True)
     delaunay_triangles = unary_series_indexed('constructive.delaunay_triangles', geos=True)
     envelope = unary_series_indexed('constructive.envelope', geos=True)
@@ -240,11 +241,14 @@ class GeosSeriesAccessor:
     make_valid = unary_series_indexed('constructive.make_valid', geos=True)
     minimum_bounding_circle = unary_series_indexed('constructive.minimum_bounding_circle', geos=True)
     minimum_rotated_rectangle = unary_series_indexed('constructive.minimum_rotated_rectangle', geos=True)
+    node = unary_series_indexed('constructive.node', geos=True)
     normalize = unary_series_indexed('constructive.normalize', geos=True)
     offset_curve = unary_series_indexed('constructive.offset_curve', geos=True)
     oriented_envelope = unary_series_indexed('constructive.oriented_envelope', geos=True)
     point_on_surface = unary_series_indexed('constructive.point_on_surface', geos=True)
     polygonize = unary_return('constructive.polygonize')
+    polygonize_full = unary_return('constructive.polygonize_full')
+    remove_repeated_points = unary_series_indexed('constructive.remove_repeated_points', geos=True)
     reverse = unary_series_indexed('constructive.reverse', geos=True)
     segmentize = unary_return('constructive.segmentize')
     simplify = unary_series_indexed('constructive.simplify', geos=True)
@@ -252,7 +256,7 @@ class GeosSeriesAccessor:
     voronoi_polygons = unary_series_indexed('constructive.voronoi_polygons', geos=True)
 
     # -------------------------------------------------------------------------
-    # Linestring operations
+    # shapely/linear.py
     # -------------------------------------------------------------------------
     line_interpolate_point = unary_series_indexed('linear.line_interpolate_point', geos=True)
     line_locate_point = unary_series_indexed('linear.line_locate_point', geos=True)
@@ -261,16 +265,16 @@ class GeosSeriesAccessor:
     shortest_line = binary('linear.shortest_line', geos=True)
 
     # -------------------------------------------------------------------------
-    # Coordinate operations
+    # shapely/coordinates.py
     # -------------------------------------------------------------------------
-    apply = unary_series_indexed('coordinates.apply', geos=True)
+    transform = unary_series_indexed('coordinates.transform', geos=True)
     count_coordinates = unary_series_indexed('coordinates.count_coordinates')
     get_coordinates_2d = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y'], include_z=False, return_index=True)
     get_coordinates_3d = unary_dataframe_keyed('coordinates.get_coordinates', ['x', 'y', 'z'], include_z=True, return_index=True)
     set_coordinates = unary_series_indexed('coordinates.set_coordinates', geos=True)
 
     # -------------------------------------------------------------------------
-    # STRTree
+    # shapely/strtree.py
     # -------------------------------------------------------------------------
     STRtree = unary_return('strtree.STRtree')
 
@@ -392,17 +396,17 @@ class GeosSeriesAccessor:
 
         Args:
             angles (float): 2D rotation angle or X,Y,Z 3D rotation angles in radians.
-            origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
+            origin (shapely.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
             pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
-        elif isinstance(origin, pygeos.lib.Geometry):
-            if pygeos.get_type_id(origin) != 0:
+        elif isinstance(origin, shapely.lib.Geometry):
+            if shapely.get_type_id(origin) != 0:
                 raise TypeError('Origin should be a single point geometry')
-            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+            origin = np.nan_to_num(shapely.get_coordinates(origin, True)).squeeze()
 
         if len(angles) == 1:
             x0, y0 = origin[:2]
@@ -501,17 +505,17 @@ class GeosSeriesAccessor:
             x (float): Scaling value in the X direction.
             y (float): Scaling value in the Y direction.
             z (float, optional): Scaling value in the Z direction; Default **None**.
-            origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
+            origin (shapely.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
             pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
-        elif isinstance(origin, pygeos.lib.Geometry):
-            if pygeos.get_type_id(origin) != 0:
+        elif isinstance(origin, shapely.lib.Geometry):
+            if shapely.get_type_id(origin) != 0:
                 raise TypeError('Origin should be a single point geometry')
-            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+            origin = np.nan_to_num(shapely.get_coordinates(origin, True)).squeeze()
 
         if z is None:
             x0, y0 = origin[:2]
@@ -593,17 +597,17 @@ class GeosSeriesAccessor:
 
         Args:
             angles (float): skewing angles (2D: ``[x, y]`` ; 3D: ``[xy, xz, yx, yz, zx, zy]``)
-            origin (pygeos.lib.Geometry or list-like): Origin point for the transformation.
+            origin (shapely.lib.Geometry or list-like): Origin point for the transformation.
 
         Returns:
             pandas.Series: Transformed geometries.
         """
         if origin is None:
             origin = (0, 0, 0)
-        elif isinstance(origin, pygeos.lib.Geometry):
-            if pygeos.get_type_id(origin) != 0:
+        elif isinstance(origin, shapely.lib.Geometry):
+            if shapely.get_type_id(origin) != 0:
                 raise TypeError('Origin should be a single point geometry')
-            origin = np.nan_to_num(pygeos.get_coordinates(origin, True)).squeeze()
+            origin = np.nan_to_num(shapely.get_coordinates(origin, True)).squeeze()
 
         if len(angles) == 2:
             x0, y0 = origin[:2]
@@ -690,27 +694,3 @@ class GeosSeriesAccessor:
         """
         result = self._obj.array.affine((1, 0, 0, 1, x, y)) if z is None else self._obj.array.affine((1, 0, 0, 0, 1, 0, 0, 0, 1, x, y, z))
         return pd.Series(result, index=self._obj.index, name='translate')
-
-    @enable_dataframe_expand
-    def apply_shapely(self, func):
-        """
-        Applies a function to each geometry as a shapely object.
-
-        Args:
-            func (callable): Function that gets a shapely geometry and should return a shapely geometry or None
-
-        Returns:
-            pandas.Series: Transformed geometries.
-
-        Note:
-            This function is supposed to be used when some functionality from is missing from PyGEOS,
-            but is available in shapely.
-            However, do note that it is very inneficient.
-
-            1. Transform array to shapely.
-            2. Loop over list and apply function.
-            3. Transform list of shapely to GeosArray.
-            4. Return Series.
-        """
-        result = GeosArray.from_shapely([func(geom) for geom in self._obj.array.to_shapely()])
-        return pd.Series(result, index=self._obj.index, name='shapely')

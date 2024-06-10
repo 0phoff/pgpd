@@ -26,4 +26,4 @@ format:
 unittest: file := ./test/
 unittest:
 	[ -s .venv/bin/activate ] && source .venv/bin/activate
-	BB_LOGLVL=warning python -m pytest ${file}
+	python -m pytest ${file}
