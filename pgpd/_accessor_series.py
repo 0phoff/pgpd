@@ -1,22 +1,23 @@
 #
 # Geos Accessor for Series
 #
-from math import sin, cos, tan
-import warnings
+from math import cos, sin, tan
+
 import numpy as np
 import pandas as pd
 import pygeos
+
 from ._array import GeosArray
 from ._delegated_series import (
+    binary,
+    enable_dataframe_expand,
+    unary_dataframe_indexed,
+    unary_dataframe_keyed,
+    unary_none,
+    unary_return,
     unary_series,
     unary_series_indexed,
     unary_series_keyed,
-    unary_dataframe_indexed,
-    unary_dataframe_keyed,
-    unary_return,
-    unary_none,
-    binary,
-    enable_dataframe_expand,
 )
 
 try:
@@ -60,10 +61,11 @@ class GeosSeriesAccessor:
         9    False
         Name: has_z, dtype: bool
     """
+
     def __init__(self, obj):
         if gpd is not None and pd.api.types.pandas_dtype('geometry') == obj.dtype:
             obj = pd.Series(GeosArray(obj.array.data), name=obj.name, index=obj.index)
-        elif (pd.api.types.pandas_dtype('geos') != obj.dtype):
+        elif pd.api.types.pandas_dtype('geos') != obj.dtype:
             try:
                 obj = pd.Series(GeosArray._from_sequence(obj.values), name=obj.name, index=obj.index)
             except BaseException as err:
@@ -74,11 +76,6 @@ class GeosSeriesAccessor:
     # -------------------------------------------------------------------------
     # Serialization
     # -------------------------------------------------------------------------
-    def from_geopandas(self, copy=False):
-        """ DEPRECATED: Use :meth:`~pgpd.GeosSeriesAccessor.to_geos` instead. """
-        warnings.warn('from_geopandas() is deprecated; use to_geos().', DeprecationWarning)
-        return self.to_geos(copy)
-
     def to_geos(self, copy=False):
         """
         Transform the series in a PyGEOS geos column.
@@ -99,8 +96,7 @@ class GeosSeriesAccessor:
         """
         if copy:
             return self._obj.copy()
-        else:
-            return self._obj
+        return self._obj
 
     def to_geopandas(self, crs=None, copy=False):
         """
@@ -120,15 +116,11 @@ class GeosSeriesAccessor:
         if gpd is None:
             raise ImportError('Geopandas is required for this function')
 
-        if isinstance(self._obj, gpd.GeoSeries):
-            s = self._obj
-        else:
-            s = gpd.GeoSeries(self._obj.astype(object), crs=crs)
+        s = self._obj if isinstance(self._obj, gpd.GeoSeries) else gpd.GeoSeries(self._obj.astype(object), crs=crs)
 
         if copy:
             return s.copy()
-        else:
-            return s
+        return s
 
     @enable_dataframe_expand
     def to_shapely(self, **kwargs):
@@ -416,33 +408,45 @@ class GeosSeriesAccessor:
             x0, y0 = origin[:2]
             ca = cos(angles[0])
             sa = sin(angles[0])
-            result = self._obj.array.affine((
-                ca, -sa,
-                sa, ca,
-                x0 - x0*ca + y0*sa,
-                y0 - x0*sa - y0*ca,
-            ))
+            result = self._obj.array.affine(
+                (
+                    ca,
+                    -sa,
+                    sa,
+                    ca,
+                    x0 - x0 * ca + y0 * sa,
+                    y0 - x0 * sa - y0 * ca,
+                )
+            )
         elif len(angles) == 3:
             x0, y0, z0 = origin[:3]
             cx, cy, cz = (cos(a) for a in angles)
             sx, sy, sz = (sin(a) for a in angles)
-            a = cz*cy
-            b = cz*sy*sx - sz*cx
-            c = cz*sy*cx + sz*sx
-            d = sz*cy
-            e = sz*sy*sx + cz*cx
-            f = sz*sy*cx - cz*sx
+            a = cz * cy
+            b = cz * sy * sx - sz * cx
+            c = cz * sy * cx + sz * sx
+            d = sz * cy
+            e = sz * sy * sx + cz * cx
+            f = sz * sy * cx - cz * sx
             g = -sy
-            h = cy*sx
-            i = cy*cx
-            result = self._obj.array.affine((
-                a, b, c,
-                d, e, f,
-                g, h, i,
-                x0 - a*x0 - b*y0 - c*z0,
-                y0 - d*x0 - e*y0 - f*z0,
-                z0 - g*x0 - h*y0 - i*z0,
-            ))
+            h = cy * sx
+            i = cy * cx
+            result = self._obj.array.affine(
+                (
+                    a,
+                    b,
+                    c,
+                    d,
+                    e,
+                    f,
+                    g,
+                    h,
+                    i,
+                    x0 - a * x0 - b * y0 - c * z0,
+                    y0 - d * x0 - e * y0 - f * z0,
+                    z0 - g * x0 - h * y0 - i * z0,
+                )
+            )
         else:
             raise ValueError('The rotate transformation requires 1 or 3 angles')
 
@@ -511,22 +515,34 @@ class GeosSeriesAccessor:
 
         if z is None:
             x0, y0 = origin[:2]
-            result = self._obj.array.affine((
-                x, 0,
-                0, y,
-                x0 - x * x0,
-                y0 - y * y0,
-            ))
+            result = self._obj.array.affine(
+                (
+                    x,
+                    0,
+                    0,
+                    y,
+                    x0 - x * x0,
+                    y0 - y * y0,
+                )
+            )
         else:
             x0, y0, z0 = origin[:3]
-            result = self._obj.array.affine((
-                x, 0, 0,
-                0, y, 0,
-                0, 0, z,
-                x0 - x * x0,
-                y0 - y * y0,
-                z0 - z * z0,
-            ))
+            result = self._obj.array.affine(
+                (
+                    x,
+                    0,
+                    0,
+                    0,
+                    y,
+                    0,
+                    0,
+                    0,
+                    z,
+                    x0 - x * x0,
+                    y0 - y * y0,
+                    z0 - z * z0,
+                )
+            )
 
         return pd.Series(result, index=self._obj.index, name='scale')
 
@@ -592,23 +608,35 @@ class GeosSeriesAccessor:
         if len(angles) == 2:
             x0, y0 = origin[:2]
             x, y = (tan(a) for a in angles)
-            result = self._obj.array.affine((
-                1, x,
-                y, 1,
-                -(y0*x),
-                -(x0*y),
-            ))
+            result = self._obj.array.affine(
+                (
+                    1,
+                    x,
+                    y,
+                    1,
+                    -(y0 * x),
+                    -(x0 * y),
+                )
+            )
         elif len(angles) == 6:
             x0, y0, z0 = origin[:3]
             xy, xz, yx, yz, zx, zy = (tan(a) for a in angles)
-            result = self._obj.array.affine((
-                1, xy, xz,
-                yx, 1, yz,
-                zx, zy, 1,
-                -(y0*xy + z0*xz),
-                -(x0*yx + z0*yz),
-                -(x0*zx + y0*zy),
-            ))
+            result = self._obj.array.affine(
+                (
+                    1,
+                    xy,
+                    xz,
+                    yx,
+                    1,
+                    yz,
+                    zx,
+                    zy,
+                    1,
+                    -(y0 * xy + z0 * xz),
+                    -(x0 * yx + z0 * yz),
+                    -(x0 * zx + y0 * zy),
+                )
+            )
         else:
             raise ValueError('The skew transformation requires 2 or 6 angles')
 
@@ -660,11 +688,7 @@ class GeosSeriesAccessor:
         Returns:
             pandas.Series: Transformed geometries.
         """
-        if z is None:
-            result = self._obj.array.affine((1, 0, 0, 1, x, y))
-        else:
-            result = self._obj.array.affine((1, 0, 0, 0, 1, 0, 0, 0, 1, x, y, z))
-
+        result = self._obj.array.affine((1, 0, 0, 1, x, y)) if z is None else self._obj.array.affine((1, 0, 0, 0, 1, 0, 0, 0, 1, x, y, z))
         return pd.Series(result, index=self._obj.index, name='translate')
 
     @enable_dataframe_expand

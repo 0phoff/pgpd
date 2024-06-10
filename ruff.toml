@@ -1,0 +1,20 @@
+target-version = "py37"
+line-length = 150
+extend-exclude = [
+    "versioneer.py",
+    "_version.py",
+]
+
+[lint]
+select = ["C", "E", "F", "W", "B", "G", "I", "SIM", "B9", "C4", "RET5"]
+
+[lint.per-file-ignores]
+"setup.py" = ["SIM115"]
+"__init__.py" = ["F401", "F403", "F405"]
+"test/**/*.py" = ["F401"]
+
+[lint.mccabe]
+max-complexity = 10
+
+[format]
+quote-style = "single"

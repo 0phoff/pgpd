@@ -2,8 +2,9 @@
 # Delegated Accessor Attributes for DataFrames
 #
 import pandas as pd
-from ._util import rgetattr, get_summary
+
 from ._accessor_series import GeosSeriesAccessor
+from ._util import get_summary, rgetattr
 
 __all__ = ['unary_dataframe_expanded']
 
@@ -45,9 +46,11 @@ def unary_dataframe_expanded(name, expansion):
 
         if not inplace:
             return pd.DataFrame.from_dict({**{col: self._obj[col].copy() for col in remainder}, **result})
-        else:
-            for column, values in result.items():
-                self._obj[column] = values
+
+        for column, values in result.items():
+            self._obj[column] = values
+
+        return None
 
     def delegated2(self, *args, **kwargs):
         """
@@ -74,6 +77,6 @@ def unary_dataframe_expanded(name, expansion):
     if expansion == 1:
         delegated1.__doc__ = delegated1.__doc__.format(func=name, summary=func_summary)
         return delegated1
-    else:
-        delegated2.__doc__ = delegated2.__doc__.format(func=name, summary=func_summary)
-        return delegated2
+
+    delegated2.__doc__ = delegated2.__doc__.format(func=name, summary=func_summary)
+    return delegated2

@@ -1,9 +1,10 @@
 import setuptools as setup
+
 import versioneer
 
 
 def find_packages():
-    return ['pgpd'] + ['pgpd.'+p for p in setup.find_packages('pgpd')]
+    return ['pgpd'] + ['pgpd.' + p for p in setup.find_packages('pgpd')]
 
 
 requirements = [

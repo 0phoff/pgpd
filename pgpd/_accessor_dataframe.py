@@ -1,11 +1,12 @@
 #
 # Geo Accessor for DataFrames
 #
-import warnings
+
 import pandas as pd
+
+from ._accessor_series import GeosSeriesAccessor
 from ._array import GeosArray
 from ._delegated_dataframe import unary_dataframe_expanded
-from ._accessor_series import GeosSeriesAccessor
 
 try:
     import geopandas as gpd
@@ -42,6 +43,7 @@ class GeosDataFrameAccessor:
         3  False  False
         4  False  False
     """
+
     def __init__(self, obj):
         if gpd is not None and isinstance(obj, gpd.GeoDataFrame):
             geometry = obj._geometry_column_name
@@ -51,11 +53,6 @@ class GeosDataFrameAccessor:
             raise AttributeError('Must have at least one "geos" dtype column')
 
         self._obj = obj
-
-    def from_geopandas(self):
-        """ DEPRECATED: Use :meth:`~pgpd.GeosDataFrameAccessor.to_geos` instead. """
-        warnings.warn('from_geopandas() is deprecated; use to_geos().', DeprecationWarning)
-        return self.to_geos()
 
     def to_geos(self):
         """
@@ -97,7 +94,7 @@ class GeosDataFrameAccessor:
         geos_columns = self._obj.dtypes[self._obj.dtypes == 'geos'].index
         if geometry is not None and geometry not in geos_columns:
             raise TypeError(f'Column "{geometry}" should be of "geos" type')
-        elif geometry is None:
+        if geometry is None:
             if len(geos_columns) != 1:
                 raise ValueError('There are multiple columns of "geos", please specify which one to use as geometry')
             geometry = geos_columns[0]

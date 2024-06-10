@@ -2,8 +2,9 @@
 #   Test if all pygeos methods are implemented
 #   This makes it easier to update PGPD to new PyGEOS versions
 #
-import pytest
 import pygeos
+import pytest
+
 import pgpd
 
 skips = {
@@ -26,9 +27,7 @@ skips = {
         'simple_geometries_1d',
     ),
     'measurement': (),
-    'predicates': (
-        'warnings',
-    ),
+    'predicates': ('warnings',),
     'set_operations': (
         'box',
         'UnsupportedGEOSOperation',
@@ -38,12 +37,8 @@ skips = {
         'BufferJoinStyles',
         'polygonize_full',
     ),
-    'linear': (
-        'warn',
-    ),
-    'coordinates': (
-        'get_coordinates',
-    ),
+    'linear': ('warn',),
+    'coordinates': ('get_coordinates',),
     'strtree': (
         'BinaryPredicate',
         'VALID_PREDICATES',

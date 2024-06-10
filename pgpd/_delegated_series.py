@@ -1,14 +1,16 @@
 #
 # Delegated Accessor Attributes for Series
 #
+import warnings
 from collections.abc import Iterable
 from inspect import signature
-from warnings import warn
+
 import numpy as np
 import pandas as pd
 import pygeos
-from ._util import rgetattr, get_summary
+
 from ._array import GeosArray
+from ._util import get_summary, rgetattr
 
 __all__ = [
     'unary_return',
@@ -163,7 +165,8 @@ def unary_series_indexed(name, geos=False, **defaults):
 def unary_series_keyed(name, geos=False, **defaults):
     """
     Create a method that returns a Series with values, where each object in the original data can return a different number of values.
-    The difference with :func:`unary_series` is that the pygeos method should return the index of the original data, so we can setup the index as a foreign key.
+    The difference with :func:`unary_series` is that the pygeos method should return the index of the original data,
+    so we can setup the index as a foreign key.
 
     Args:
         name (str): Name of the method within the ``pygeos`` module.
@@ -272,7 +275,7 @@ def unary_dataframe_keyed(name, columns, geos=False, **defaults):
     return delegated
 
 
-def binary(name, geos=False, **defaults):     # noqa: C901
+def binary(name, geos=False, **defaults):  # noqa: C901
     """
     Create a binary method that runs a PyGEOS function on the original data and some other.
 
@@ -285,7 +288,7 @@ def binary(name, geos=False, **defaults):     # noqa: C901
     except AttributeError:
         return None
 
-    def delegated(self, other=None, manner=None, **kwargs):
+    def delegated(self, other=None, manner=None, **kwargs):  # noqa: C901
         """
         {summary}
 
@@ -315,7 +318,8 @@ def binary(name, geos=False, **defaults):     # noqa: C901
                 This returns a Series where the index is the same as the ``self`` data.
             - **expand**:
                 Expand the data with a new index, before running the function.
-                This means that the result will be an array of dimensions ``<len(a), len(b)>`` containing the result of all possible combinations of geometries.
+                This means that the result will be an array of dimensions ``<len(a), len(b)>``
+                containing the result of all possible combinations of geometries.
 
             Of course, not every method is applicable for each type of ``other`` input.
             Here are the allowed manners for each type of input, as well as the default value:
@@ -331,7 +335,7 @@ def binary(name, geos=False, **defaults):     # noqa: C901
 
         if other is None:
             if manner is not None and manner != 'e':
-                warn('When no other is given, we always "expand" to an array')
+                warnings.warn('When no other is given, we always "expand" to an array', stacklevel=1)
             data = self._obj.array.data[:, np.newaxis]
             other = self._obj.array.data[np.newaxis, :]
         elif isinstance(other, pd.Series):
@@ -344,7 +348,7 @@ def binary(name, geos=False, **defaults):     # noqa: C901
             else:
                 this = self._obj
                 if (manner is None or manner == 'a') and not this.index.equals(other.index):
-                    warn('The indices of the two Series are different, so we align them.')
+                    warnings.warn('The indices of the two Series are different, so we align them.', stacklevel=1)
                     this, other = this.align(other)
 
                 data = this.array.data
@@ -356,18 +360,18 @@ def binary(name, geos=False, **defaults):     # noqa: C901
                     data = self._obj.array.data[:, np.newaxis]
                     other = other[np.newaxis, :]
                 elif manner == 'a':
-                    warn('Cannot align a NumPy Array.')
+                    warnings.warn('Cannot align a NumPy Array.', stacklevel=1)
             else:
                 if manner == 'e':
-                    warn('Cannot expand a multi-dimensional NumPy Array')
+                    warnings.warn('Cannot expand a multi-dimensional NumPy Array', stacklevel=1)
                 elif manner == 'a':
-                    warn('Cannot align a NumPy Array.')
+                    warnings.warn('Cannot align a NumPy Array.', stacklevel=1)
 
                 data = self._obj.array.data
         elif isinstance(other, pygeos.lib.Geometry):
             data = self._obj.array.data
             if manner is not None and manner != 'k':
-                warn('Cannot align or expand a single Geometry')
+                warnings.warn('Cannot align or expand a single Geometry', stacklevel=1)
         else:
             raise ValueError('"other" should be a geos Series or PyGEOS NumPy array')
 
@@ -381,8 +385,8 @@ def binary(name, geos=False, **defaults):     # noqa: C901
             if geos:
                 result = GeosArray(result)
             return pd.Series(result, index=self._obj.index, name=func.__name__)
-        else:
-            return result
+
+        return result
 
     delegated.__doc__ = setup_docstring(delegated.__doc__, defaults, func=name, summary=func_summary)
     return delegated
@@ -397,8 +401,7 @@ def enable_dataframe_expand(expansion=1):
     if callable(expansion):
         expansion.__DataFrameExpand__ = 1
         return expansion
-    else:
-        return decorator
+    return decorator
 
 
 def get_func_info(name, defaults=None):

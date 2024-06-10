@@ -3,6 +3,7 @@
 #
 import numbers
 from collections.abc import Iterable
+
 import numpy as np
 import pandas as pd
 import pygeos
@@ -18,9 +19,9 @@ __all__ = ['GeosDtype', 'GeosArray']
 
 @register_extension_dtype
 class GeosDtype(ExtensionDtype):
-    type = pygeos.lib.Geometry      #: Underlying type of the individual Array elements
-    name = 'geos'                   #: Dtype string name
-    na_value = pd.NA                #: NA Value that is used on the user-facing side
+    type = pygeos.lib.Geometry  #: Underlying type of the individual Array elements
+    name = 'geos'  #: Dtype string name
+    na_value = pd.NA  #: NA Value that is used on the user-facing side
 
     @classmethod
     def construct_from_string(cls, string):
@@ -38,8 +39,7 @@ class GeosDtype(ExtensionDtype):
         """
         if string == cls.name:
             return cls()
-        else:
-            raise TypeError(f'Cannot construct a "{cls.__name__}" from "{string}"')
+        raise TypeError(f'Cannot construct a "{cls.__name__}" from "{string}"')
 
     @classmethod
     def construct_array_type(cls):
@@ -53,8 +53,8 @@ class GeosDtype(ExtensionDtype):
 
 
 class GeosArray(ExtensionArray):
-    dtype = GeosDtype()     #: Dtype for this ExtensionArray
-    ndim = 1                #: Number of dimensions of this ExtensionArray
+    dtype = GeosDtype()  #: Dtype for this ExtensionArray
+    ndim = 1  #: Number of dimensions of this ExtensionArray
 
     # -------------------------------------------------------------------------
     # (De-)Serialization
@@ -195,11 +195,10 @@ class GeosArray(ExtensionArray):
 
         if isinstance(val, str):
             return cls.from_wkt(values)
-        elif isinstance(val, bytes):
+        if isinstance(val, bytes):
             return cls.from_wkb(values)
-        elif ShapelyGeometry is not None and isinstance(val, ShapelyGeometry):
+        if ShapelyGeometry is not None and isinstance(val, ShapelyGeometry):
             return cls.from_shapely(values)
-
         return cls(values)
 
     def _values_for_factorize(self):
@@ -216,18 +215,13 @@ class GeosArray(ExtensionArray):
         key = pd.api.indexers.check_array_indexer(self, key)
         if isinstance(key, (Iterable, slice)):
             return GeosArray(self.data[key])
-        else:
-            raise TypeError('Index type not supported', key)
+        raise TypeError('Index type not supported', key)
 
     def __setitem__(self, key, value):
         key = pd.api.indexers.check_array_indexer(self, key)
 
         if isinstance(key, (slice, list, np.ndarray)):
-            if isinstance(value, self.__class__):
-                value = value.data
-            else:
-                value = self._from_sequence(value)
-
+            value = value.data if isinstance(value, self.__class__) else self._from_sequence(value)
             self.data[key] = value
         else:
             if isinstance(value, Iterable):
@@ -308,7 +302,7 @@ class GeosArray(ExtensionArray):
         return self.data.shape
 
     def __array__(self, dtype=None):
-        """ Return internal NumPy array. """
+        """Return internal NumPy array."""
         return self.data
 
     # -------------------------------------------------------------------------
@@ -379,19 +373,23 @@ class GeosArray(ExtensionArray):
                 matrix = np.append(matrix, [[0, 0, 0, 1]], axis=0)
         elif len(matrix) == 6:
             zdim = False
-            matrix = np.array([
-                [matrix[0], matrix[1], matrix[4]],
-                [matrix[2], matrix[3], matrix[5]],
-                [0,         0,         1],
-            ])
+            matrix = np.array(
+                [
+                    [matrix[0], matrix[1], matrix[4]],
+                    [matrix[2], matrix[3], matrix[5]],
+                    [0, 0, 1],
+                ]
+            )
         elif len(matrix) == 12:
             zdim = True
-            matrix = np.array([
-                [matrix[0], matrix[1], matrix[2], matrix[9]],
-                [matrix[3], matrix[4], matrix[5], matrix[10]],
-                [matrix[6], matrix[7], matrix[8], matrix[11]],
-                [0,         0,         0,         1],
-            ])
+            matrix = np.array(
+                [
+                    [matrix[0], matrix[1], matrix[2], matrix[9]],
+                    [matrix[3], matrix[4], matrix[5], matrix[10]],
+                    [matrix[6], matrix[7], matrix[8], matrix[11]],
+                    [0, 0, 0, 1],
+                ]
+            )
 
         matrix = matrix[None, ...]
 
@@ -518,11 +516,13 @@ class GeosArray(ExtensionArray):
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
-        return self.__class__(pygeos.coordinates.apply(
-            self.data,
-            lambda pt: pt + other,
-            zdim,
-        ))
+        return self.__class__(
+            pygeos.coordinates.apply(
+                self.data,
+                lambda pt: pt + other,
+                zdim,
+            )
+        )
 
     def __sub__(self, other):
         """
@@ -640,11 +640,13 @@ class GeosArray(ExtensionArray):
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
-        return self.__class__(pygeos.coordinates.apply(
-            self.data,
-            lambda pt: pt - other,
-            zdim,
-        ))
+        return self.__class__(
+            pygeos.coordinates.apply(
+                self.data,
+                lambda pt: pt - other,
+                zdim,
+            )
+        )
 
     def __mul__(self, other):
         """
@@ -762,11 +764,13 @@ class GeosArray(ExtensionArray):
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
-        return self.__class__(pygeos.coordinates.apply(
-            self.data,
-            lambda pt: pt * other,
-            zdim,
-        ))
+        return self.__class__(
+            pygeos.coordinates.apply(
+                self.data,
+                lambda pt: pt * other,
+                zdim,
+            )
+        )
 
     def __truediv__(self, other):
         """
@@ -880,15 +884,17 @@ class GeosArray(ExtensionArray):
             zdim = pygeos.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
-        pshape = (other.ndim >= 1 and other.shape[0])
+        pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
-        return self.__class__(pygeos.coordinates.apply(
-            self.data,
-            lambda pt: pt / other,
-            zdim,
-        ))
+        return self.__class__(
+            pygeos.coordinates.apply(
+                self.data,
+                lambda pt: pt / other,
+                zdim,
+            )
+        )
 
     def __floordiv__(self, other):
         """
@@ -1002,12 +1008,14 @@ class GeosArray(ExtensionArray):
             zdim = pygeos.predicates.has_z(self.data).any()
 
         # Expand other to number of coords per shape
-        pshape = (other.ndim >= 1 and other.shape[0])
+        pshape = other.ndim >= 1 and other.shape[0]
         if pshape == self.data.shape[0]:
             other = np.repeat(other, pygeos.get_num_coordinates(self.data), 0)
 
-        return self.__class__(pygeos.coordinates.apply(
-            self.data,
-            lambda pt: pt // other,
-            zdim,
-        ))
+        return self.__class__(
+            pygeos.coordinates.apply(
+                self.data,
+                lambda pt: pt // other,
+                zdim,
+            )
+        )
