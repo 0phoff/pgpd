@@ -1654,10 +1654,14 @@ def modify_version_build(func):
                 print('Cleaning up version for PyPI build')
 
             distance = int(version['version'].split('+')[1].split('.')[0])
-            if not bool(os.getenv('PYPITEST', False)) and distance > 0:
-                raise EnvironmentError(f'Distance from latest tag cannot be greater than zero for PYPIBUILD! [{distance}]')
+            subversion = ''
+            if distance > 0:
+                if bool(os.getenv('PYPITEST', False)):
+                    subversion = f'.post1.dev{distance}'
+                else:
+                    raise EnvironmentError(f'Distance from latest tag cannot be greater than zero for PYPIBUILD! [{distance}]')
 
-            version['version'] = version['version'].split('+')[0]
+            version['version'] = version['version'].split('+')[0] + subversion
             version['dirty'] = False
 
         return version
