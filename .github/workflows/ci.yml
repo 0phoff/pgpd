@@ -76,14 +76,14 @@ jobs:
         id-token: write
 
       steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-python@v2
+        - uses: actions/checkout@v4
+        - uses: actions/setup-python@v5
           with:
             python-version: '3.8'  
         - name: Upgrade pip
           run: python3 -m pip install --upgrade pip
         - name: Cache dependencies
-          uses: actions/cache@v2
+          uses: actions/cache@v4
           with:
             path: ${{ steps.pip-cache.outputs.dir }}
             key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -101,7 +101,7 @@ jobs:
           run: python -m build
 
         - name: Upload PyPI
-          uses: pypa/gh-action-pypi-publish@v1.5.0
+          uses: pypa/gh-action-pypi-publish@release/v1
           with:
             repository_url: https://test.pypi.org/legacy/
             skip_existing: true
