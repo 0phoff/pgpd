@@ -13,34 +13,34 @@ Install as follows:
 
 Example
 -------
-Let's get started by first creating a dataframe with PyGEOS data.  
-Note that we need to explicitly set the type of the PyGEOS columns to **"geos"**!
+Let's get started by first creating a dataframe with Shapely data.  
+Note that we need to explicitly set the type of the Shapely columns to **"geos"**!
 
 .. code-block:: python
 
    >>> import pandas as pd
-   >>> import pygeos
+   >>> import shapely
    >>> import pgpd
    
    >>> # Create a DataFrame
    >>> df = pd.DataFrame({
    ...   'a': list('abcde'),
-   ...   'poly': pygeos.box(range(5), 0, range(10,15), 10),
-   ...   'pt': pygeos.points(range(5), range(10,15))
+   ...   'poly': shapely.box(range(5), 0, range(10,15), 10),
+   ...   'pt': shapely.points(range(5), range(10,15))
    ... })
    >>> df = df.astype({'poly':'geos', 'pt':'geos'})
    >>> df
-      a                                     poly            pt
-   0  a  POLYGON ((0 0, 0 10, 10 10, 10 0, 0 0))  POINT (0 10)
-   1  b  POLYGON ((1 0, 1 10, 11 10, 11 0, 1 0))  POINT (1 11)
-   2  c  POLYGON ((2 0, 2 10, 12 10, 12 0, 2 0))  POINT (2 12)
-   3  d  POLYGON ((3 0, 3 10, 13 10, 13 0, 3 0))  POINT (3 13)
-   4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)
+      a                                      poly            pt
+   0  a  POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))  POINT (0 10)
+   1  b  POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))  POINT (1 11)
+   2  c  POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))  POINT (2 12)
+   3  d  POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))  POINT (3 13)
+   4  e  POLYGON ((14 0, 14 10, 4 10, 4 0, 14 0))  POINT (4 14)
 
 
-PyGEOS
-~~~~~~
-We can access pygeos functionality through the "geos" accessor namespace.  
+Shapely
+~~~~~~~
+We can access shapely functionality through the "geos" accessor namespace.  
 
 .. code-block:: python
 
@@ -71,7 +71,7 @@ Some functions return more values per row, so we convert them to DataFrames:
 
 .. code-block:: python
 
-   >>> df.poly.bounds()
+   >>> df.poly.geos.bounds()
       xmin  ymin  xmax  ymax
    0   0.0   0.0  10.0  10.0
    1   1.0   0.0  11.0  10.0
@@ -85,7 +85,7 @@ For these functions, the index of the returned Series/DataFrame will point to th
 .. code-block:: python
 
    >>> points = pd.Series(
-   ...   pygeos.multipoints(
+   ...   shapely.multipoints(
    ...     [[0,0], [1,1], [2,2], [0,1],[2,3], [10,20],[30,40],[40,50],[50,60]],
    ...     indices=[0,0,0,1,1,2,2,2,2],
    ...   ),
@@ -109,7 +109,7 @@ For these functions, the index of the returned Series/DataFrame will point to th
    2    POINT (50 60)
    Name: get_parts, dtype: geos
    
-   >>> points.geos.get_coordinates()
+   >>> points.geos.get_coordinates_2d()
          x     y   z
    0   0.0   0.0 NaN
    0   1.0   1.0 NaN
@@ -121,7 +121,7 @@ For these functions, the index of the returned Series/DataFrame will point to th
    2  40.0  50.0 NaN
    2  50.0  60.0 NaN
 
-Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.  
+Finally, Shapely also has some binary functions, which work on 2 different sets of geometries.  
 These functions are also made available on Series, but work slightly differently.
 We added a `manner` argument, which can be one of 3 different values: *keep*, *align*, *expand*.
 This argument dictates how the 2 sets of geometries are transformed before running the binary function:
@@ -133,7 +133,7 @@ This argument dictates how the 2 sets of geometries are transformed before runni
 .. code-block:: python
 
    >>> # KEEP: Just runs the `contains` function on the "poly" column data and the given Point
-   >>> df.poly.geos.contains(pygeos.Geometry("Point (11 5)"), manner='keep')
+   >>> df.poly.geos.contains(shapely.from_wkt("Point (11 5)"), manner='keep')
    0    False
    1    False
    2     True
@@ -165,7 +165,7 @@ The method will then automatically choose the *expand* mode and use the `self` d
 .. code-block:: python
 
    >>> # Compute all possible intersection areas of the geometries in the "poly" column
-   >>> pygeos.area(df.poly.geos.intersection())
+   >>> shapely.area(df.poly.geos.intersection())
    array([[100.,  90.,  80.,  70.,  60.],
           [ 90., 100.,  90.,  80.,  70.],
           [ 80.,  90., 100.,  90.,  80.],
@@ -175,9 +175,10 @@ The method will then automatically choose the *expand* mode and use the `self` d
 
 Custom
 ~~~~~~
-Additionally to the PyGEOS functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.
+Additionally to the Shapely functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.
 
-The :func:`~pgpd.GeosSeriesAccessor.affine`, :func:`~pgpd.GeosSeriesAccessor.rotate`, :func:`~pgpd.GeosSeriesAccessor.scale`, :func:`~pgpd.GeosSeriesAccessor.skew` and :func:`~pgpd.GeosSeriesAccessor.translate` functions allow to perform a single affine transformation to all the coordinates of your geometries.
+The :func:`~pgpd.GeosSeriesAccessor.affine`, :func:`~pgpd.GeosSeriesAccessor.rotate`, :func:`~pgpd.GeosSeriesAccessor.scale`, :func:`~pgpd.GeosSeriesAccessor.skew` and :func:`~pgpd.GeosSeriesAccessor.translate`
+functions allow to perform a single affine transformation to all the coordinates of your geometries.
 
 .. code-block:: python
 
@@ -221,8 +222,9 @@ However, we perform some checks and potentially modify your input before executi
 
 DataFrame
 ~~~~~~~~~
-While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.  
-The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.
+While all Shapely functions are available on Series, some are made available on the DataFrame as well.  
+The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column),
+or those that have a fixed number of outputs for the entire geos column.
 
 .. code-block:: python
 
@@ -234,16 +236,16 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
    xmax  14.0   4.0
    ymax  10.0  14.0
    
-   >>> # For every PyGEOS function that has a 1-to-1 relation,
+   >>> # For every Shapely function that has a 1-to-1 relation,
    >>> # the DataFrame variant allows inplace modification
-   >>> df.geos.apply(lambda coord: coord*2, inplace=True)
+   >>> df.geos.transform(lambda coord: coord*2, inplace=True)
    >>> df
-      a                                     poly            pt
-   0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)
-   1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)
-   2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)
-   3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)
-   4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)
+      a                                      poly            pt
+   0  a  POLYGON ((20 0, 20 20, 0 20, 0 0, 20 0))  POINT (0 20)
+   1  b  POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))  POINT (2 22)
+   2  c  POLYGON ((24 0, 24 20, 4 20, 4 0, 24 0))  POINT (4 24)
+   3  d  POLYGON ((26 0, 26 20, 6 20, 6 0, 26 0))  POINT (6 26)
+   4  e  POLYGON ((28 0, 28 20, 8 20, 8 0, 28 0))  POINT (8 28)
 
 
 GeoPandas
@@ -278,17 +280,18 @@ Series
 
 DataFrame
 ~~~~~~~~~
+GeoPandas only allows for one `geometry` column, so any other column is left as our own `geos`dtype.
 
 .. code-block:: python
 
    >>> gdf = df.geos.to_geopandas(geometry='poly', crs='WGS84')
    >>> gdf
       a                                               poly            pt
-   0  a  POLYGON ((0.00000 0.00000, 0.00000 20.00000, 2...  POINT (0 20)
-   1  b  POLYGON ((2.00000 0.00000, 2.00000 20.00000, 2...  POINT (2 22)
-   2  c  POLYGON ((4.00000 0.00000, 4.00000 20.00000, 2...  POINT (4 24)
-   3  d  POLYGON ((6.00000 0.00000, 6.00000 20.00000, 2...  POINT (6 26)
-   4  e  POLYGON ((8.00000 0.00000, 8.00000 20.00000, 2...  POINT (8 28)
+   0  a  POLYGON ((20.00000 0.00000, 20.00000 20.00000,...  POINT (0 20)
+   1  b  POLYGON ((22.00000 0.00000, 22.00000 20.00000,...  POINT (2 22)
+   2  c  POLYGON ((24.00000 0.00000, 24.00000 20.00000,...  POINT (4 24)
+   3  d  POLYGON ((26.00000 0.00000, 26.00000 20.00000,...  POINT (6 26)
+   4  e  POLYGON ((28.00000 0.00000, 28.00000 20.00000,...  POINT (8 28)
    >>> gdf.dtypes
    a         object
    poly    geometry
@@ -297,12 +300,12 @@ DataFrame
    
    >>> df2 = gdf.geos.from_geopandas()
    >>> df2
-      a                                     poly            pt
-   0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)
-   1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)
-   2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)
-   3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)
-   4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)
+      a                                      poly            pt
+   0  a  POLYGON ((20 0, 20 20, 0 20, 0 0, 20 0))  POINT (0 20)
+   1  b  POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))  POINT (2 22)
+   2  c  POLYGON ((24 0, 24 20, 4 20, 4 0, 24 0))  POINT (4 24)
+   3  d  POLYGON ((26 0, 26 20, 6 20, 6 0, 26 0))  POINT (6 26)
+   4  e  POLYGON ((28 0, 28 20, 8 20, 8 0, 28 0))  POINT (8 28)
    >>> df2.dtypes
    a       object
    poly      geos

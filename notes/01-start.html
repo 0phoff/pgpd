@@ -1,262 +1,421 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Getting Started &#8212; pgpd  documentation</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/toggleprompt.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notes/01-start';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Documentation" href="../api/index.html" />
     <link rel="prev" title="GeoPandas" href="../index.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
 
-  <div id="navbar-start">
-    
-    
-
-<a class="navbar-brand" href="../index.html">
-  <img src="../_static/logo.svg" class="logo" alt="logo">
-</a>
-
-
-    
-  </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
   </button>
 
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
-    <div id="navbar-center" class="mr-auto">
-      
-      <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../index.html">
-  Home
- </a>
-</li>
-
-<li class="toctree-l1 current active nav-item">
- <a class="current reference internal nav-link" href="#">
-  Getting Started
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../api/index.html">
-  Documentation
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="02-benchmark.html">
-  Benchmark
- </a>
-</li>
-
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
-</ul>
-      </div>
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="pgpd  documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="pgpd  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Home
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        Documentation
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
       
     </div>
-
-    <div id="navbar-end">
+    
+    
+    <div class="navbar-header-items__end">
       
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/0phoff/pygeos-pd" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
-      </ul>
-      </div>
+</ul></div>
       
     </div>
+    
   </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
+
     </nav>
-    
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
 
-    <div class="container-xl">
-      <div class="row">
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Home
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        Documentation
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/0phoff/pygeos-pd" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
     
   </div>
-</nav>
-            </div>
-            
-          
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
               
-              <div class="toc-item">
-                
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Getting Started</li>
+  </ul>
+</nav>
 </div>
-
-<nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#installation">
-   Installation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example">
-   Example
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pygeos">
-     PyGEOS
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#custom">
-     Custom
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dataframe">
-     DataFrame
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#geopandas">
-   GeoPandas
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#series">
-     Series
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     DataFrame
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-</nav>
-              </div>
+      
+    </div>
+  
+  
+</div>
+</div>
               
-              <div class="toc-item">
+              
+              
                 
-              </div>
-              
-            
-          </div>
-          
-
-          
-          
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
 <p>pygeospandas is available as a python wheel on the Python Package Index (PyPi).
 Install as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pgpd
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pgpd
 </pre></div>
 </div>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>Let’s get started by first creating a dataframe with PyGEOS data.
-Note that we need to explicitly set the type of the PyGEOS columns to <strong>“geos”</strong>!</p>
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h2>
+<p>Let’s get started by first creating a dataframe with Shapely data.
+Note that we need to explicitly set the type of the Shapely columns to <strong>“geos”</strong>!</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pygeos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">shapely</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pgpd</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create a DataFrame</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
 <span class="gp">... </span>  <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">),</span>
-<span class="gp">... </span>  <span class="s1">&#39;poly&#39;</span><span class="p">:</span> <span class="n">pygeos</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="mi">10</span><span class="p">),</span>
-<span class="gp">... </span>  <span class="s1">&#39;pt&#39;</span><span class="p">:</span> <span class="n">pygeos</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="gp">... </span>  <span class="s1">&#39;poly&#39;</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span>  <span class="s1">&#39;pt&#39;</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
 <span class="gp">... </span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;poly&#39;</span><span class="p">:</span><span class="s1">&#39;geos&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">:</span><span class="s1">&#39;geos&#39;</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
-<span class="go">   a                                     poly            pt</span>
-<span class="go">0  a  POLYGON ((0 0, 0 10, 10 10, 10 0, 0 0))  POINT (0 10)</span>
-<span class="go">1  b  POLYGON ((1 0, 1 10, 11 10, 11 0, 1 0))  POINT (1 11)</span>
-<span class="go">2  c  POLYGON ((2 0, 2 10, 12 10, 12 0, 2 0))  POINT (2 12)</span>
-<span class="go">3  d  POLYGON ((3 0, 3 10, 13 10, 13 0, 3 0))  POINT (3 13)</span>
-<span class="go">4  e  POLYGON ((4 0, 4 10, 14 10, 14 0, 4 0))  POINT (4 14)</span>
+<span class="go">   a                                      poly            pt</span>
+<span class="go">0  a  POLYGON ((10 0, 10 10, 0 10, 0 0, 10 0))  POINT (0 10)</span>
+<span class="go">1  b  POLYGON ((11 0, 11 10, 1 10, 1 0, 11 0))  POINT (1 11)</span>
+<span class="go">2  c  POLYGON ((12 0, 12 10, 2 10, 2 0, 12 0))  POINT (2 12)</span>
+<span class="go">3  d  POLYGON ((13 0, 13 10, 3 10, 3 0, 13 0))  POINT (3 13)</span>
+<span class="go">4  e  POLYGON ((14 0, 14 10, 4 10, 4 0, 14 0))  POINT (4 14)</span>
 </pre></div>
 </div>
-<section id="pygeos">
-<h3>PyGEOS<a class="headerlink" href="#pygeos" title="Permalink to this headline">¶</a></h3>
-<p>We can access pygeos functionality through the “geos” accessor namespace.</p>
+<section id="shapely">
+<h3>Shapely<a class="headerlink" href="#shapely" title="Permalink to this heading">#</a></h3>
+<p>We can access shapely functionality through the “geos” accessor namespace.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
 <span class="go">0    40.0</span>
 <span class="go">1    40.0</span>
@@ -282,7 +441,7 @@ Note that we need to explicitly set the type of the PyGEOS columns to <strong>�
 </pre></div>
 </div>
 <p>Some functions return more values per row, so we convert them to DataFrames:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
 <span class="go">   xmin  ymin  xmax  ymax</span>
 <span class="go">0   0.0   0.0  10.0  10.0</span>
 <span class="go">1   1.0   0.0  11.0  10.0</span>
@@ -294,7 +453,7 @@ Note that we need to explicitly set the type of the PyGEOS columns to <strong>�
 <p>There are some functions that return a variable number of items per original object.
 For these functions, the index of the returned Series/DataFrame will point to the original object index.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-<span class="gp">... </span>  <span class="n">pygeos</span><span class="o">.</span><span class="n">multipoints</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">shapely</span><span class="o">.</span><span class="n">multipoints</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">]],</span>
 <span class="gp">... </span>    <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
 <span class="gp">... </span>  <span class="p">),</span>
@@ -318,7 +477,7 @@ For these functions, the index of the returned Series/DataFrame will point to th
 <span class="go">2    POINT (50 60)</span>
 <span class="go">Name: get_parts, dtype: geos</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">get_coordinates_2d</span><span class="p">()</span>
 <span class="go">      x     y   z</span>
 <span class="go">0   0.0   0.0 NaN</span>
 <span class="go">0   1.0   1.0 NaN</span>
@@ -331,7 +490,7 @@ For these functions, the index of the returned Series/DataFrame will point to th
 <span class="go">2  50.0  60.0 NaN</span>
 </pre></div>
 </div>
-<p>Finally, PyGEOS also has some binary functions, which work on 2 different sets of geometries.
+<p>Finally, Shapely also has some binary functions, which work on 2 different sets of geometries.
 These functions are also made available on Series, but work slightly differently.
 We added a <cite>manner</cite> argument, which can be one of 3 different values: <em>keep</em>, <em>align</em>, <em>expand</em>.
 This argument dictates how the 2 sets of geometries are transformed before running the binary function:</p>
@@ -341,7 +500,7 @@ This argument dictates how the 2 sets of geometries are transformed before runni
 <li><p><em>expand</em>: Expand both sets to a 2D array and compare each geometry of set A with each geometry of set B (returns a 2D array of dimension <em>&lt;len(A), len(B)&gt;</em>).</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># KEEP: Just runs the `contains` function on the &quot;poly&quot; column data and the given Point</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">pygeos</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="s2">&quot;Point (11 5)&quot;</span><span class="p">),</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;keep&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="s2">&quot;Point (11 5)&quot;</span><span class="p">),</span> <span class="n">manner</span><span class="o">=</span><span class="s1">&#39;keep&#39;</span><span class="p">)</span>
 <span class="go">0    False</span>
 <span class="go">1    False</span>
 <span class="go">2     True</span>
@@ -370,7 +529,7 @@ This argument dictates how the 2 sets of geometries are transformed before runni
 <p>One last difference is that you can omit the <cite>other</cite> set of geometries.
 The method will then automatically choose the <em>expand</em> mode and use the <cite>self</cite> data twice.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute all possible intersection areas of the geometries in the &quot;poly&quot; column</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pygeos</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">intersection</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shapely</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">poly</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">intersection</span><span class="p">())</span>
 <span class="go">array([[100.,  90.,  80.,  70.,  60.],</span>
 <span class="go">       [ 90., 100.,  90.,  80.,  70.],</span>
 <span class="go">       [ 80.,  90., 100.,  90.,  80.],</span>
@@ -380,9 +539,10 @@ The method will then automatically choose the <em>expand</em> mode and use the <
 </div>
 </section>
 <section id="custom">
-<h3>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h3>
-<p>Additionally to the PyGEOS functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.</p>
-<p>The <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.affine.html#pgpd.GeosSeriesAccessor.affine" title="pgpd.GeosSeriesAccessor.affine"><code class="xref py py-func docutils literal notranslate"><span class="pre">affine()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.rotate.html#pgpd.GeosSeriesAccessor.rotate" title="pgpd.GeosSeriesAccessor.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.scale.html#pgpd.GeosSeriesAccessor.scale" title="pgpd.GeosSeriesAccessor.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.skew.html#pgpd.GeosSeriesAccessor.skew" title="pgpd.GeosSeriesAccessor.skew"><code class="xref py py-func docutils literal notranslate"><span class="pre">skew()</span></code></a> and <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.translate.html#pgpd.GeosSeriesAccessor.translate" title="pgpd.GeosSeriesAccessor.translate"><code class="xref py py-func docutils literal notranslate"><span class="pre">translate()</span></code></a> functions allow to perform a single affine transformation to all the coordinates of your geometries.</p>
+<h3>Custom<a class="headerlink" href="#custom" title="Permalink to this heading">#</a></h3>
+<p>Additionally to the Shapely functionality, we added some extra methods to be able to transform the coordinates of the geometries more easilly.</p>
+<p>The <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.affine.html#pgpd.GeosSeriesAccessor.affine" title="pgpd.GeosSeriesAccessor.affine"><code class="xref py py-func docutils literal notranslate"><span class="pre">affine()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.rotate.html#pgpd.GeosSeriesAccessor.rotate" title="pgpd.GeosSeriesAccessor.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.scale.html#pgpd.GeosSeriesAccessor.scale" title="pgpd.GeosSeriesAccessor.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.skew.html#pgpd.GeosSeriesAccessor.skew" title="pgpd.GeosSeriesAccessor.skew"><code class="xref py py-func docutils literal notranslate"><span class="pre">skew()</span></code></a> and <a class="reference internal" href="../api/generated/pgpd.GeosSeriesAccessor.translate.html#pgpd.GeosSeriesAccessor.translate" title="pgpd.GeosSeriesAccessor.translate"><code class="xref py py-func docutils literal notranslate"><span class="pre">translate()</span></code></a>
+functions allow to perform a single affine transformation to all the coordinates of your geometries.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Rotate all geometries 90 degrees (1.571 rad) around the (0, 0) origin.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mf">1.571</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="go">0    POINT (-10 0)</span>
@@ -422,9 +582,10 @@ However, we perform some checks and potentially modify your input before executi
 </div>
 </section>
 <section id="dataframe">
-<h3>DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h3>
-<p>While all PyGEOS functions are available on Series, some are made available on the DataFrame as well.
-The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column), or those that have a fixed number of outputs for the entire geos column.</p>
+<h3>DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this heading">#</a></h3>
+<p>While all Shapely functions are available on Series, some are made available on the DataFrame as well.
+The functions that are available on DataFrames are those that have a 1-to-1 mapping (create one output for each geometry in the column),
+or those that have a fixed number of outputs for the entire geos column.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fixed number of outputs (ic. xmin,ymin,xmax,ymax)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">()</span>
 <span class="go">      poly    pt</span>
@@ -433,26 +594,26 @@ The functions that are available on DataFrames are those that have a 1-to-1 mapp
 <span class="go">xmax  14.0   4.0</span>
 <span class="go">ymax  10.0  14.0</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For every PyGEOS function that has a 1-to-1 relation,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For every Shapely function that has a 1-to-1 relation,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># the DataFrame variant allows inplace modification</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">coord</span><span class="p">:</span> <span class="n">coord</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">coord</span><span class="p">:</span> <span class="n">coord</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
-<span class="go">   a                                     poly            pt</span>
-<span class="go">0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)</span>
-<span class="go">1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)</span>
-<span class="go">2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)</span>
-<span class="go">3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)</span>
-<span class="go">4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)</span>
+<span class="go">   a                                      poly            pt</span>
+<span class="go">0  a  POLYGON ((20 0, 20 20, 0 20, 0 0, 20 0))  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((24 0, 24 20, 4 20, 4 0, 24 0))  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((26 0, 26 20, 6 20, 6 0, 26 0))  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((28 0, 28 20, 8 20, 8 0, 28 0))  POINT (8 28)</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="geopandas">
-<h2>GeoPandas<a class="headerlink" href="#geopandas" title="Permalink to this headline">¶</a></h2>
+<h2>GeoPandas<a class="headerlink" href="#geopandas" title="Permalink to this heading">#</a></h2>
 <p>The main use case for this library is not to depend on GeoPandas and all of its dependencies.
 However -if you need to- this library provides methods to convert from and to GeoPandas.</p>
 <section id="series">
-<h3>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h3>
+<h3>Series<a class="headerlink" href="#series" title="Permalink to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gs</span>
 <span class="go">0    POINT (0.00000 20.00000)</span>
@@ -474,15 +635,16 @@ However -if you need to- this library provides methods to convert from and to Ge
 </div>
 </section>
 <section id="id1">
-<h3>DataFrame<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>DataFrame<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>GeoPandas only allows for one <cite>geometry</cite> column, so any other column is left as our own <a href="#id2"><span class="problematic" id="id3">`</span></a>geos`dtype.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">to_geopandas</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span>
 <span class="go">   a                                               poly            pt</span>
-<span class="go">0  a  POLYGON ((0.00000 0.00000, 0.00000 20.00000, 2...  POINT (0 20)</span>
-<span class="go">1  b  POLYGON ((2.00000 0.00000, 2.00000 20.00000, 2...  POINT (2 22)</span>
-<span class="go">2  c  POLYGON ((4.00000 0.00000, 4.00000 20.00000, 2...  POINT (4 24)</span>
-<span class="go">3  d  POLYGON ((6.00000 0.00000, 6.00000 20.00000, 2...  POINT (6 26)</span>
-<span class="go">4  e  POLYGON ((8.00000 0.00000, 8.00000 20.00000, 2...  POINT (8 28)</span>
+<span class="go">0  a  POLYGON ((20.00000 0.00000, 20.00000 20.00000,...  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((22.00000 0.00000, 22.00000 20.00000,...  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((24.00000 0.00000, 24.00000 20.00000,...  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((26.00000 0.00000, 26.00000 20.00000,...  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((28.00000 0.00000, 28.00000 20.00000,...  POINT (8 28)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gdf</span><span class="o">.</span><span class="n">dtypes</span>
 <span class="go">a         object</span>
 <span class="go">poly    geometry</span>
@@ -491,12 +653,12 @@ However -if you need to- this library provides methods to convert from and to Ge
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">geos</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span>
-<span class="go">   a                                     poly            pt</span>
-<span class="go">0  a  POLYGON ((0 0, 0 20, 20 20, 20 0, 0 0))  POINT (0 20)</span>
-<span class="go">1  b  POLYGON ((2 0, 2 20, 22 20, 22 0, 2 0))  POINT (2 22)</span>
-<span class="go">2  c  POLYGON ((4 0, 4 20, 24 20, 24 0, 4 0))  POINT (4 24)</span>
-<span class="go">3  d  POLYGON ((6 0, 6 20, 26 20, 26 0, 6 0))  POINT (6 26)</span>
-<span class="go">4  e  POLYGON ((8 0, 8 20, 28 20, 28 0, 8 0))  POINT (8 28)</span>
+<span class="go">   a                                      poly            pt</span>
+<span class="go">0  a  POLYGON ((20 0, 20 20, 0 20, 0 0, 20 0))  POINT (0 20)</span>
+<span class="go">1  b  POLYGON ((22 0, 22 20, 2 20, 2 0, 22 0))  POINT (2 22)</span>
+<span class="go">2  c  POLYGON ((24 0, 24 20, 4 20, 4 0, 24 0))  POINT (4 24)</span>
+<span class="go">3  d  POLYGON ((26 0, 26 20, 6 20, 6 0, 26 0))  POINT (6 26)</span>
+<span class="go">4  e  POLYGON ((28 0, 28 20, 8 20, 8 0, 28 0))  POINT (8 28)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span><span class="o">.</span><span class="n">dtypes</span>
 <span class="go">a       object</span>
 <span class="go">poly      geos</span>
@@ -509,50 +671,127 @@ However -if you need to- this library provides methods to convert from and to Ge
 </section>
 
 
-              </div>
+                </article>
               
               
-              <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">GeoPandas</p>
-        </div>
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">GeoPandas</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="../api/index.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="../api/index.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Documentation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
+                </footer>
               
-          </main>
-          
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-      </div>
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shapely">Shapely</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom">Custom</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe">DataFrame</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geopandas">GeoPandas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#series">Series</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">DataFrame</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/notes/01-start.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2021, 0phoff.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    <br/>
+  </p>
+</div>
+      
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2021, 0phoff.<br>
-</p>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
     </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
-</p>
-    </div>
-    
-  </div>
-</footer>
+  
+</div>
+
+  </footer>
   </body>
 </html>

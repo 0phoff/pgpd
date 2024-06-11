@@ -1,606 +1,500 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>force_2d &#8212; pgpd  documentation</title>
-    
-  <link href="../../_static/css/theme.css" rel="stylesheet">
-  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-    
-  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/toggleprompt.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/pgpd.GeosDataFrameAccessor.force_2d';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="force_3d" href="pgpd.GeosDataFrameAccessor.force_3d.html" />
     <link rel="prev" title="get_z" href="pgpd.GeosDataFrameAccessor.get_z.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
 
-  <div id="navbar-start">
-    
-    
-
-<a class="navbar-brand" href="../../index.html">
-  <img src="../../_static/logo.svg" class="logo" alt="logo">
-</a>
-
-
-    
-  </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
   </button>
 
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
-    <div id="navbar-center" class="mr-auto">
-      
-      <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../index.html">
-  Home
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../notes/01-start.html">
-  Getting Started
- </a>
-</li>
-
-<li class="toctree-l1 current active nav-item">
- <a class="reference internal nav-link" href="../index.html">
-  Documentation
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../notes/02-benchmark.html">
-  Benchmark
- </a>
-</li>
-
-    
-</ul>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/0phoff/pygeos-pd" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
-        </li>
-      </ul>
-      </div>
-      
-    </div>
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
-</div>
-    </nav>
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
-    <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Documentation
- </span>
-</p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../array.html">
-   GeosArray
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../dtype.html">
-   GeosDtype
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../series.html">
-   Series Accessor
-  </a>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../dataframe.html">
-   DataFrame Accessor
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.to_geos.html">
-     to_geos
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.to_geopandas.html">
-     to_geopandas
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosSeriesAccessor.to_shapely.html">
-     to_shapely
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosSeriesAccessor.to_wkt.html">
-     to_wkt
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosSeriesAccessor.to_wkb.html">
-     to_wkb
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_coordinate_dimension.html">
-     get_coordinate_dimension
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_dimensions.html">
-     get_dimensions
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_exterior_ring.html">
-     get_exterior_ring
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">
-     get_geometry
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_interior_ring.html">
-     get_interior_ring
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_coordinates.html">
-     get_num_coordinates
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_geometries.html">
-     get_num_geometries
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_interior_rings.html">
-     get_num_interior_rings
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_points.html">
-     get_num_points
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_point.html">
-     get_point
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_precision.html">
-     get_precision
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_srid.html">
-     get_srid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_type_id.html">
-     get_type_id
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_x.html">
-     get_x
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_y.html">
-     get_y
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_z.html">
-     get_z
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     force_2d
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.force_3d.html">
-     force_3d
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_precision.html">
-     set_precision
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_srid.html">
-     set_srid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.destroy_prepared.html">
-     destroy_prepared
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.prepare.html">
-     prepare
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.area.html">
-     area
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.length.html">
-     length
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_bounding_radius.html">
-     minimum_bounding_radius
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_clearance.html">
-     minimum_clearance
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.total_bounds.html">
-     total_bounds
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.has_z.html">
-     has_z
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_ccw.html">
-     is_ccw
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_closed.html">
-     is_closed
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_empty.html">
-     is_empty
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_geometry.html">
-     is_geometry
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_missing.html">
-     is_missing
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_prepared.html">
-     is_prepared
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_ring.html">
-     is_ring
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_simple.html">
-     is_simple
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid.html">
-     is_valid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid_input.html">
-     is_valid_input
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid_reason.html">
-     is_valid_reason
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.boundary.html">
-     boundary
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.buffer.html">
-     buffer
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.centroid.html">
-     centroid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.clip_by_rect.html">
-     clip_by_rect
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.convex_hull.html">
-     convex_hull
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.delaunay_triangles.html">
-     delaunay_triangles
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.envelope.html">
-     envelope
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.extract_unique_points.html">
-     extract_unique_points
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.make_valid.html">
-     make_valid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html">
-     minimum_bounding_circle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">
-     minimum_rotated_rectangle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.normalize.html">
-     normalize
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.offset_curve.html">
-     offset_curve
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.oriented_envelope.html">
-     oriented_envelope
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.point_on_surface.html">
-     point_on_surface
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.reverse.html">
-     reverse
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.simplify.html">
-     simplify
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.snap.html">
-     snap
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.voronoi_polygons.html">
-     voronoi_polygons
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_interpolate_point.html">
-     line_interpolate_point
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_locate_point.html">
-     line_locate_point
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_merge.html">
-     line_merge
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.apply.html">
-     apply
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.count_coordinates.html">
-     count_coordinates
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_coordinates.html">
-     set_coordinates
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.affine.html">
-     affine
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.rotate.html">
-     rotate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.scale.html">
-     scale
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.skew.html">
-     skew
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.translate.html">
-     translate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pgpd.GeosDataFrameAccessor.apply_shapely.html">
-     apply_shapely
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-  </div>
-</nav>
-            </div>
-            
-          
-
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
-
-<nav id="bd-toc-nav">
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
-</nav>
-              </div>
-              
-              <div class="toc-item">
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="pgpd  documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="pgpd  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Home
+                      </a>
+                    </li>
                 
-              </div>
-              
-            
-          </div>
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../notes/01-start.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Documentation
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
           
 
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
           
           
-            
           
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
+          
+          
+          
+          
+          
+          <a href="https://github.com/0phoff/pygeos-pd" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Home
+                      </a>
+                    </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../notes/01-start.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Documentation
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/0phoff/pygeos-pd" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links" aria-label="Section Navigation">
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../array.html">GeosArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dtype.html">GeosDtype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../series.html">Series Accessor</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../dataframe.html">DataFrame Accessor</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.to_geos.html">to_geos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.to_geopandas.html">to_geopandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosSeriesAccessor.to_wkt.html">to_wkt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosSeriesAccessor.to_wkb.html">to_wkb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_coordinate_dimension.html">get_coordinate_dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_dimensions.html">get_dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_exterior_ring.html">get_exterior_ring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_geometry.html">get_geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_interior_ring.html">get_interior_ring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_coordinates.html">get_num_coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_geometries.html">get_num_geometries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_interior_rings.html">get_num_interior_rings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_num_points.html">get_num_points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_point.html">get_point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_precision.html">get_precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_srid.html">get_srid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_type_id.html">get_type_id</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_x.html">get_x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_y.html">get_y</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.get_z.html">get_z</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">force_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.force_3d.html">force_3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_precision.html">set_precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_srid.html">set_srid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.destroy_prepared.html">destroy_prepared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.prepare.html">prepare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.area.html">area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.length.html">length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_bounding_radius.html">minimum_bounding_radius</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_clearance.html">minimum_clearance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.total_bounds.html">total_bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.has_z.html">has_z</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_ccw.html">is_ccw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_closed.html">is_closed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_empty.html">is_empty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_geometry.html">is_geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_missing.html">is_missing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_prepared.html">is_prepared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_ring.html">is_ring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_simple.html">is_simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid.html">is_valid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid_input.html">is_valid_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.is_valid_reason.html">is_valid_reason</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.boundary.html">boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.buffer.html">buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.centroid.html">centroid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.clip_by_rect.html">clip_by_rect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.convex_hull.html">convex_hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.delaunay_triangles.html">delaunay_triangles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.envelope.html">envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.extract_unique_points.html">extract_unique_points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.make_valid.html">make_valid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_bounding_circle.html">minimum_bounding_circle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.minimum_rotated_rectangle.html">minimum_rotated_rectangle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.normalize.html">normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.offset_curve.html">offset_curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.oriented_envelope.html">oriented_envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.point_on_surface.html">point_on_surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.reverse.html">reverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.simplify.html">simplify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.snap.html">snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.voronoi_polygons.html">voronoi_polygons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_interpolate_point.html">line_interpolate_point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_locate_point.html">line_locate_point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.line_merge.html">line_merge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.transform.html">transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.count_coordinates.html">count_coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.set_coordinates.html">set_coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.affine.html">affine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.rotate.html">rotate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.scale.html">scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.skew.html">skew</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgpd.GeosDataFrameAccessor.translate.html">translate</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Documentation</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../dataframe.html" class="nav-link">Geos DataFrame Accessor</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">force_2d</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="force-2d">
-<h1>force_2d<a class="headerlink" href="#force-2d" title="Permalink to this headline">¶</a></h1>
+<h1>force_2d<a class="headerlink" href="#force-2d" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pgpd.GeosDataFrameAccessor.force_2d">
-<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">force_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.force_2d" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GeosDataFrameAccessor.</span></span><span class="sig-name descname"><span class="pre">force_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pgpd.GeosDataFrameAccessor.force_2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Forces the dimensionality of a geometry to 2D.</p>
 <p>Applies <a class="reference internal" href="pgpd.GeosSeriesAccessor.force_2d.html#pgpd.GeosSeriesAccessor.force_2d" title="pgpd.GeosSeriesAccessor.force_2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">pgpd.GeosSeriesAccessor.force_2d()</span></code></a> to each column of “geos” dtype
 and aggregates the results in a DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>args</strong> – Arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.force_2d.html#pgpd.GeosSeriesAccessor.force_2d" title="pgpd.GeosSeriesAccessor.force_2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">force_2d()</span></code></a> after the first argument.</p></li>
 <li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to perform the modifications inplace; Default <strong>False</strong>.</p></li>
 <li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="pgpd.GeosSeriesAccessor.force_2d.html#pgpd.GeosSeriesAccessor.force_2d" title="pgpd.GeosSeriesAccessor.force_2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">force_2d()</span></code></a>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DataFrame where each “geos” column from the original is transformed or None if <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)">pandas.DataFrame</a> or <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.2)">pandas.DataFrame</a> or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -608,50 +502,116 @@ and aggregates the results in a DataFrame.</p>
 </section>
 
 
-              </div>
+                </article>
               
               
-              <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="pgpd.GeosDataFrameAccessor.get_z.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">get_z</p>
-        </div>
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pgpd.GeosDataFrameAccessor.get_z.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">get_z</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="pgpd.GeosDataFrameAccessor.force_3d.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="pgpd.GeosDataFrameAccessor.force_3d.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">force_3d</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
+                </footer>
               
-          </main>
-          
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-      </div>
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pgpd.GeosDataFrameAccessor.force_2d"><code class="docutils literal notranslate"><span class="pre">GeosDataFrameAccessor.force_2d()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/api/generated/pgpd.GeosDataFrameAccessor.force_2d.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2021, 0phoff.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    <br/>
+  </p>
+</div>
+      
     </div>
   
-  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2021, 0phoff.<br>
-</p>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
     </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
-</p>
-    </div>
-    
-  </div>
-</footer>
+  
+</div>
+
+  </footer>
   </body>
 </html>

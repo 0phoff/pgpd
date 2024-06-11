@@ -17,10 +17,8 @@ Serialization & Deserialization functionality.
    :template: base.rst
 
    GeosArray.__init__
-   GeosArray.from_shapely
    GeosArray.from_wkb
    GeosArray.from_wkt
-   GeosArray.to_shapely
    GeosArray.to_wkb
    GeosArray.to_wkt
 
