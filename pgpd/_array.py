@@ -105,6 +105,8 @@ class GeosArray(ExtensionArray):
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.
         """
+        data = data.copy()
+        data[pd.isna(data)] = None
         data = shapely.io.from_wkb(data, **kwargs)
         return cls(data)
 
@@ -121,6 +123,8 @@ class GeosArray(ExtensionArray):
         Returns:
             pgpd.GeosArray: Data wrapped in a GeosArray.
         """
+        data = data.copy()
+        data[pd.isna(data)] = None
         data = shapely.io.from_wkt(data, **kwargs)
         return cls(data)
 
@@ -161,7 +165,7 @@ class GeosArray(ExtensionArray):
         values = np.array(scalars)
         if copy:
             values = values.copy()
-        val = next((v for v in values if v is not None), None)
+        val = next((v for v in values if not pd.isna(v)), None)
 
         if isinstance(val, str):
             return cls.from_wkt(values)
