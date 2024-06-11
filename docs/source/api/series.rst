@@ -17,7 +17,6 @@ Serialization & Deserialization functionality.
 
    GeosSeriesAccessor.to_geos
    GeosSeriesAccessor.to_geopandas
-   GeosSeriesAccessor.to_shapely
    GeosSeriesAccessor.to_wkt
    GeosSeriesAccessor.to_wkb
 
@@ -202,9 +201,10 @@ Methods from :doc:`Shapely Coordinate Operations <shapely:coordinates>`.
    :nosignatures:
    :template: base.rst
 
-    GeosSeriesAccessor.apply
+    GeosSeriesAccessor.transform
     GeosSeriesAccessor.count_coordinates
-    GeosSeriesAccessor.get_coordinates
+    GeosSeriesAccessor.get_coordinates_2d
+    GeosSeriesAccessor.get_coordinates_3d
     GeosSeriesAccessor.set_coordinates
 
 

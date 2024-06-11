@@ -20,7 +20,7 @@ It contains the following pieces:
 
    :doc:`Getting Started <notes/01-start>`
    :doc:`Documentation <api/index>`
-   :doc:`Benchmark <notes/02-benchmark>`
+..  :doc:`Benchmark <notes/02-benchmark>`
 
 
 GeoPandas
@@ -42,7 +42,7 @@ but only Shapely supported operations are implemented on the Series and DataFram
    Home <self>
    Getting Started <notes/01-start>
    Documentation <api/index>
-   Benchmark <notes/02-benchmark>
+..  Benchmark <notes/02-benchmark>
 
 
 Indices and tables

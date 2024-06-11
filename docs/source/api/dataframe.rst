@@ -17,7 +17,6 @@ Serialization & Deserialization functionality.
 
    GeosDataFrameAccessor.to_geos
    GeosDataFrameAccessor.to_geopandas
-   GeosSeriesAccessor.to_shapely
    GeosSeriesAccessor.to_wkt
    GeosSeriesAccessor.to_wkb
 

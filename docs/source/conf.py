@@ -68,7 +68,6 @@ html_logo = '_static/logo.svg'
 html_favicon = '_static/favicon.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
-    'search_bar_position': 'sidebar',
     'github_url': 'https://github.com/0phoff/pygeos-pd',
 }
 

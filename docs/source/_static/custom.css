@@ -96,3 +96,39 @@ img.logo {
   max-width: 650px;
   min-width: 100px;
 }
+
+
+html[data-theme=light] {
+  --pst-color-table-row-hover-bg: inherit;
+  --pst-color-table-row-zebra-low-bg: inherit;
+}
+
+html[data-theme=dark] {
+  --pst-color-table-row-hover-bg: inherit;
+  --pst-color-table-row-zebra-low-bg: inherit;
+}
+
+.autosummary.table {
+  border: 0px;
+}
+
+.autosummary.table td {
+  border-bottom: 0px;
+}
+
+.autosummary.table tr~tr {
+  border-top: 1px solid var(--pst-color-table-outer-border);
+}
+
+.autosummary.table td~td {
+  border-left: 0px;
+}
+
+.autosummary.table td a:hover>code, .autosummary.table td a:active>code {
+  color: inherit;
+}
+
+.autosummary.table td a>code {
+  background-color: transparent;
+  border: none;
+}
