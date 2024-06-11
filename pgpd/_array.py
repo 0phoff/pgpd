@@ -82,7 +82,7 @@ class GeosArray(ExtensionArray):
         elif data is None or isinstance(data, self.dtype.type):
             self.data = np.array((data,))
         elif isinstance(data, Iterable):
-            val = next((d for d in data if d is not None), None)
+            val = next((d for d in data if not pd.isna(d)), None)
             if val is None or isinstance(val, self.dtype.type):
                 self.data = np.asarray(data)
             else:
