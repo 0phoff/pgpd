@@ -184,12 +184,17 @@ class GeosArray(ExtensionArray):
         if isinstance(key, numbers.Integral):
             return self.data[key]
 
+        if isinstance(key, tuple) and len(key) == 1:
+            key = key[0]
         key = pd.api.indexers.check_array_indexer(self, key)
+
         if isinstance(key, (Iterable, slice)):
             return GeosArray(self.data[key])
         raise TypeError('Index type not supported', key)
 
     def __setitem__(self, key, value):
+        if isinstance(key, tuple) and len(key) == 1:
+            key = key[0]
         key = pd.api.indexers.check_array_indexer(self, key)
 
         if isinstance(key, (slice, list, np.ndarray)):
