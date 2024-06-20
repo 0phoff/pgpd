@@ -216,7 +216,7 @@ class GeosArray(ExtensionArray):
             return NotImplemented
 
         if isinstance(other, self.__class__):
-            return self.data == other.data
+            return shapely.equals(self.data, other.data)
 
         return self.data == other
 
